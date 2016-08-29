@@ -1,0 +1,12 @@
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\LRCHelper.exe.config
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\LRCHelper.exe
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\LRCHelper.pdb
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.Form1.resources
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.Properties.Resources.resources
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.csproj.GenerateResource.Cache
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.exe
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.pdb
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.dll
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.pdb
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.xml
+G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.csprojResolveAssemblyReference.cache
