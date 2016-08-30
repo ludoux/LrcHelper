@@ -97,3 +97,6 @@
 获取外文歌词的代码基于ituff的[163lyric项目](https://github.com/ituff/163lyric)的实现，进行了修改。(但是ituff并没有指定那个项目的开源协议)
 
 感谢Monnlib.com的所有人Moon在这个博客上发表了[自己整理的API](http://moonlib.com/606.html)。
+## 更新信息(最近在上)
+* 2016.8.30 Log文件内容实现对齐，AUTO实现执行线程与UI线程分离，可实时看进度与错误数
+* 2016.8.29 初版
