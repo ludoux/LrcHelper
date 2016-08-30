@@ -9,4 +9,3 @@ G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.pdb
 G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.dll
 G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.pdb
 G:\VS项目\C-sharp\LRCHelper\LRCHelper\bin\Debug\Newtonsoft.Json.xml
-G:\VS项目\C-sharp\LRCHelper\LRCHelper\obj\Debug\LRCHelper.csprojResolveAssemblyReference.cache

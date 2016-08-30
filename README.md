@@ -86,7 +86,14 @@
 6. **最重要:编译要Json90r1的支持(引用了Newtonsoft.Json),dll是Net45版本。运行要.NET Framework4.5.2的支持**
 ## TO DO:
 (很难lan实现的功能)
+
 1. 更改UI
 2. 代码重构：让代码结构更加严谨，希望就一个歌单操作下再分名称和所含音乐ID，音乐操作下再分名称和歌词，歌词再分歌词和翻译。
 3. 多线程同时下载但好像实现意义不大
 4. 正则再优化下，肯定很多诡异的情况下触发的Bug
+## License:
+在[MIT 协议](https://mit-license.org/)下发布.
+## 参考&感谢:
+获取外文歌词的代码基于ituff的[163lyric项目](https://github.com/ituff/163lyric)的实现，进行了修改。(但是ituff并没有指定那个项目的开源协议)
+
+感谢Monnlib.com的所有人Moon在这个博客上发表了[自己整理的API](http://moonlib.com/606.html)。

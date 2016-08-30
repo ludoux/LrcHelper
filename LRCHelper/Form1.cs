@@ -96,7 +96,7 @@ namespace LRCHelper
                     MessageBox.Show("Read Log About Error(s)");
             }
             if (radioButton2.Checked)//歌单ID
-            {
+            {// TODO: 使用更加先进的子线程多线程处理
                 string ReturnText = AutoAction(Convert.ToInt32(textBox3.Text), false);
                 if (ReturnText == "")
                     MessageBox.Show("Done Successfully");
@@ -138,7 +138,7 @@ namespace LRCHelper
                         LyricWithTranslation LWT = new LyricWithTranslation();
                         FinalText = LWT.ConnectTranslationToLyricOnlineVer(OLyric, OTranslation);
                         FinalText = LWT.ArrangeLyricAndTranslation(FinalText);
-                        File.WriteAllText(".\\" + @"\" + OL.GetSongNameFrom163(ID) + ".lrc", FinalText, Encoding.UTF8);
+                        File.WriteAllText(".\\" + @"\" + FileNameFormat.CleanInvalidFileName(OL.GetSongNameFrom163(ID)) + ".lrc", FinalText, Encoding.UTF8);
                     }
                     catch (Exception ex)
                     {
@@ -151,17 +151,21 @@ namespace LRCHelper
             else if (IsSongID == false)//获取歌单内所有歌曲ID>对个个歌曲配歌词>保存文件   会写出log
             {
                 string PlaylistName = OL.GetPlaylistNameFrom163(ID);
-                List<int> ll = OL.GetSongIDInPlaylistFrom163(ID);
-                if (!Directory.Exists(".\\" + PlaylistName)) //创建以歌单命名的文件夹
-                    Directory.CreateDirectory(".\\" + PlaylistName);
-                File.AppendAllText(".\\" + PlaylistName + @"\" + "Log.txt", "PlaylistID:" + ID + "\r\n说明:0为无人上传歌词,1为有词,2为纯音乐,-1错误\r\n", Encoding.UTF8);
+                string CleanedPlayListName = FileNameFormat.CleanInvalidFileName(PlaylistName);//无非法字符的文件夹名
+                string CleanedSongName = "";//无非法字符的文件名
+                List <int> ll = OL.GetSongIDInPlaylistFrom163(ID);
+                if (!Directory.Exists(".\\" + CleanedPlayListName)) //创建以歌单命名的文件夹
+                    Directory.CreateDirectory(".\\" + CleanedPlayListName);
+                File.AppendAllText(".\\" + CleanedPlayListName + @"\" + "Log.txt", "PlaylistID:" + ID + "PlayListName:" + PlaylistName + "SongCount:" + ll.Count + "\r\n说明:0为无人上传歌词,1为有词,2为纯音乐,-1错误\r\n======================\r\n" + string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum","SongID","SongName","LrcSts"), Encoding.UTF8);
                 for (int i = 0; i < ll.Count; i++) //ll[i]为操作的歌曲ID
                 {
                     try
                     {
                         int LyricStatus = OL.GetLyricStatusFrom163(ll[i]);//歌词状态
                         string SongName = OL.GetSongNameFrom163(ll[i]);//歌曲名
-                        File.AppendAllText(".\\" + PlaylistName + @"\" + "Log.txt", "Song[" + i + "] " + ll[i].ToString() + " " + SongName + " " + LyricStatus + "\r\n", Encoding.UTF8);
+                        CleanedSongName = FileNameFormat.CleanInvalidFileName(SongName);
+                        File.AppendAllText(".\\" + CleanedPlayListName + @"\" + "Log.txt", "\r\n" + string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}", i, ll[i].ToString(), SongName, LyricStatus), Encoding.UTF8);
+                        //File.AppendAllText(".\\" + PlaylistName + @"\" + "Log.txt", "Song[" + i + "] " + ll[i].ToString() + " " + SongName + " " + LyricStatus + "\r\n", Encoding.UTF8);
                         if (LyricStatus == 1)//有歌词存在
                         {
                             string OLyric = OL.GetOnlineLyricFrom163(ll[i]);
@@ -173,13 +177,13 @@ namespace LRCHelper
                             LyricWithTranslation LWT = new LyricWithTranslation();
                             FinalText = LWT.ConnectTranslationToLyricOnlineVer(OLyric, OTranslation);
                             FinalText = LWT.ArrangeLyricAndTranslation(FinalText);
-                            File.WriteAllText(".\\" + PlaylistName + @"\" + SongName + ".lrc", FinalText, Encoding.UTF8);
+                            File.WriteAllText(".\\" + CleanedPlayListName + @"\" + CleanedSongName + ".lrc", FinalText, Encoding.UTF8);
                         }
                     }
                     catch (Exception ex)
                     {
                         IsError = true;
-                        File.AppendAllText(".\\" + PlaylistName + @"\" + "Log.txt", "[ERROR]SongID:" + ll[i] +" ErrMsg:"+ ex.Message + "<Please Use SemiAuto>\r\n", Encoding.UTF8);
+                        File.AppendAllText(".\\" + CleanedPlayListName + @"\" + "Log.txt", "[ERROR]"+ ex.Message + "<Please Use SemiAuto>", Encoding.UTF8);
                     }
                     
                 }

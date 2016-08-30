@@ -81,7 +81,7 @@ namespace LRCHelper
             string[] OnlineTranslationRow = OnlineTranslation.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             string FinalText = "";
             if ((Convert.ToInt32(OnlineLyricRow.Count())) != OnlineTranslationRow.Count()&& OnlineTranslationRow.Count()!=0)//有翻译且出现了错误
-                throw new FormatException("OnlineTranslationRow.Count != OnlineLyricRow.Count");
+                throw new FormatException("带时间轴的歌词与翻译行数不同，软件无法执行");
             for (int i = 0; i < OnlineLyricRow.Count(); i++)
                 if(OnlineTranslationRow.Count() != 0)//如果有翻译就加，没有就不动，到分割时根据有没有#来判断有没有翻译
                     OnlineLyricRow[i] += "#" + Regex.Replace(OnlineTranslationRow[i], @"^\[.*\]", "");

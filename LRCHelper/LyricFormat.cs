@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LRCHelper
 {
-    
+
     class LyricFormat
     {
 
@@ -18,8 +18,8 @@ namespace LRCHelper
         /// <returns>操作结束的字符串</returns>
         internal string NewlineFormat(string text)
         {
-            text = text.Replace("\r",  "");
-            text = text.Replace("\n",  "\r\n");
+            text = text.Replace("\r", "");
+            text = text.Replace("\n", "\r\n");
             return text;
         }
         /// <summary>
@@ -30,25 +30,25 @@ namespace LRCHelper
         internal string LyricTimeFormat(string text)
         {
             if (Regex.IsMatch(text, @"\[\d\:") == true)//为*[0:*
-            { 
-                MatchCollection mc = new  Regex(@"\[\d\:").Matches(text);
-                for(int i=0;i<mc.Count;i++)
+            {
+                MatchCollection mc = new Regex(@"\[\d\:").Matches(text);
+                for (int i = 0; i < mc.Count; i++)
                     text = text.Replace(mc[i].Value, mc[i].Value.Replace("[", "[0"));
             }
-            if (Regex.IsMatch (text, @"\:\d\.") == true)//为*:0.*
+            if (Regex.IsMatch(text, @"\:\d\.") == true)//为*:0.*
             {
                 MatchCollection mc = new Regex(@"\:\d\.").Matches(text);
                 for (int i = 0; i < mc.Count; i++)
-                    text = text.Replace(mc[i].Value, mc[i].Value.Replace(":",  ":0"));
+                    text = text.Replace(mc[i].Value, mc[i].Value.Replace(":", ":0"));
             }
-            if (Regex.IsMatch (text, @"(?<=\.)\d\]") == true)       //为*.0]*
+            if (Regex.IsMatch(text, @"(?<=\.)\d\]") == true)       //为*.0]*
             {
                 MatchCollection mc = new Regex(@"(?<=\.)\d\]").Matches(text);
                 for (int i = 0; i < mc.Count; i++)
-                    text = text.Replace(mc[i].Value, mc[i].Value.Replace("]",  "0]"));
+                    text = text.Replace(mc[i].Value, mc[i].Value.Replace("]", "0]"));
             }
-          //if (Regex.IsMatch(text, @"(?<=\.)\d\d\]") == true)  //为*.00]*
-              //;
+            //if (Regex.IsMatch(text, @"(?<=\.)\d\d\]") == true)  //为*.00]*
+            //;
             if (Regex.IsMatch(text, @"(?<=\.)\d\d\d\]") == true)//为*.000]*
             {
                 MatchCollection mc = new Regex(@"(?<=\.)\d\d\d\]").Matches(text);
@@ -63,16 +63,16 @@ namespace LRCHelper
         /// <param name="text">待操作的字符串, 时间轴和换行符应(默认)格式化[00:00.00]\r\n</param>
         /// <param name="FormatNewLineAndTimeFirst">默认True先格式化时间轴和换行符 NF LTF</param>
         /// <returns></returns>
-        internal string BlankLyricFormat(string text, bool FormatNewLineAndTimeFirst=true)
+        internal string BlankLyricFormat(string text, bool FormatNewLineAndTimeFirst = true)
         {
-            if(FormatNewLineAndTimeFirst==true)
+            if (FormatNewLineAndTimeFirst == true)
             {
                 text = NewlineFormat(text);
                 text = LyricTimeFormat(text);
             }
             text = Regex.Replace(text, @"\[.*?\]\s*\r\n", "");
             text = Regex.Replace(text, @"\[.*?\]\s*$", "");
-            text = Regex.Replace(text, @"\s*\r\n",  "\r\n");
+            text = Regex.Replace(text, @"\s*\r\n", "\r\n");
             text = Regex.Replace(text, @"^\r\n", "");
             text = Regex.Replace(text, @"\r\n$", "");
             return text;
@@ -81,7 +81,7 @@ namespace LRCHelper
         {
             string[] TextRow = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             MatchCollection mc = new Regex(@"\[.*\]").Matches(text);
-            string FinalText="";
+            string FinalText = "";
             string[] FinalTextRow = new string[mc.Count];
             for (int i = 0; i < mc.Count; i++)
             {
@@ -113,4 +113,29 @@ namespace LRCHelper
             return FinalText;
         }
     }
+    class FileNameFormat
+    {
+        //非法字符列表
+        private static readonly char[] InvalidFileNameChars = new[]
+        {
+            '"','<','>','|','\0','\u0001','\u0002','\u0003','\u0004','\u0005','\u0006','\a','\b','\t','\n','\v','\f',
+            '\r','\u000e','\u000f','\u0010','\u0011','\u0012','\u0013','\u0014','\u0015','\u0016','\u0017',
+            '\u0018','\u0019','\u001a','\u001b','\u001c','\u001d','\u001e','\u001f',':','*','?','\\','/'
+        };
+
+        //过滤方法
+
+        public static string CleanInvalidFileName(string fileName)
+
+        {
+            fileName = fileName + "";
+            fileName = InvalidFileNameChars.Aggregate(fileName, (current, c) => current.Replace(c + "", ""));
+            if (fileName.Length > 1)
+                if (fileName[0] == '.')
+                    fileName = "dot" + fileName.TrimStart('.');
+            return fileName;
+        }
+    }
+    
+
 }
