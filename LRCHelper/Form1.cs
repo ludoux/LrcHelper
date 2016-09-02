@@ -83,6 +83,8 @@ namespace LRCHelper
 
         private void button10_Click(object sender, EventArgs e)
         {
+            SongCount = 0;
+            ErrorCount = 0;
             button10.Enabled = false;
             if (radioButton1.Checked == true)//音乐ID
             {
@@ -175,7 +177,7 @@ namespace LRCHelper
         public event EventHandler<EventArgs> Finished;//歌单完成时
         internal string AutoAction(int ID, bool IsSongID, bool SemiAuto = false)
         {
-
+            
             string FinalText = "";
             bool IsError = false;
             OnlineLyric OL = new OnlineLyric();
