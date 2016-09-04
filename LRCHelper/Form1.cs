@@ -83,6 +83,8 @@ namespace LRCHelper
 
         private void button10_Click(object sender, EventArgs e)
         {
+            label2.Text = "WorkedNum/SongCount";
+            label3.Text = "ErrorCount:";
             SongCount = 0;
             ErrorCount = 0;
             button10.Enabled = false;
