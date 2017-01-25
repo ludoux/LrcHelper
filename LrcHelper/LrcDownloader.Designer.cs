@@ -34,6 +34,7 @@
             this.MusicradioButton = new System.Windows.Forms.RadioButton();
             this.PlaylistradioButton = new System.Windows.Forms.RadioButton();
             this.GETbutton = new System.Windows.Forms.Button();
+            this.Infolabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // IDtextBox
@@ -93,11 +94,21 @@
             this.GETbutton.UseVisualStyleBackColor = true;
             this.GETbutton.Click += new System.EventHandler(this.GETbutton_Click);
             // 
+            // Infolabel
+            // 
+            this.Infolabel.AutoSize = true;
+            this.Infolabel.Location = new System.Drawing.Point(12, 69);
+            this.Infolabel.Name = "Infolabel";
+            this.Infolabel.Size = new System.Drawing.Size(185, 24);
+            this.Infolabel.TabIndex = 6;
+            this.Infolabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LRCHelper";
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(231, 119);
+            this.Controls.Add(this.Infolabel);
             this.Controls.Add(this.GETbutton);
             this.Controls.Add(this.PlaylistradioButton);
             this.Controls.Add(this.MusicradioButton);
@@ -122,5 +133,6 @@
         private System.Windows.Forms.RadioButton MusicradioButton;
         private System.Windows.Forms.RadioButton PlaylistradioButton;
         private System.Windows.Forms.Button GETbutton;
+        private System.Windows.Forms.Label Infolabel;
     }
 }
