@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Ludoux.LrcHelper.OneSixThreeCloudMusic;
-
+using Ludoux.LrcHelper.NeteaseMusic;
 
 namespace LrcHelper
 {
@@ -38,7 +37,6 @@ namespace LrcHelper
                 
                 for (int i = 0; i < iDList.Count; i++)
                 {
-                    
                     Music m = new Music(iDList[i]);
                     int status;
                     string ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName +@"\"+ m.GetFileName() + ".lrc",out status);

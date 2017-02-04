@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
+namespace Ludoux.LrcHelper.NeteaseMusic
 {
     class HttpRequest
     {
@@ -116,11 +116,11 @@ namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
                 tempOriLyric = null;
                 tempTransLyric = null;
             }
-            catch(System.ArgumentNullException ex)
+            catch(System.ArgumentNullException)
             {
                 ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
             }
-            catch(System.NullReferenceException ex)
+            catch(System.NullReferenceException)
             {
                 ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
             }
@@ -170,12 +170,12 @@ namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
                 returnString = new StringBuilder(Lyrics.formatTineline(returnString.ToString(), true));
                 return returnString.ToString();
             }
-            catch (System.ArgumentNullException ex)
+            catch (System.ArgumentNullException)
             {
                 ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
                 return "";
             }
-            catch (System.NullReferenceException ex)
+            catch (System.NullReferenceException)
             {
                 ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
                 return "";

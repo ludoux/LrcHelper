@@ -83,7 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="163CloudMusic.cs" />
+    <Compile Include="NeteaseMusic.cs" />
     <Compile Include="LrcDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
