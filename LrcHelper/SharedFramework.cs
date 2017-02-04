@@ -7,10 +7,57 @@ namespace Ludoux.LrcHelper.SharedFramework
 {
      public class LyricsLine
     {
-        string Tineline;//含[]
-        string OriLyrics;
-        string Break;// 用是否为空来判断是否有翻译
-        string TransLyrics;
+        string _tineline;//含[]
+        internal string Timeline
+        {
+            get
+            {
+                MatchCollection mc = new Regex(@"(?<=\[).+?(?=\])").Matches(_tineline);//不含 [ ]
+                if (mc.Count != 1)//有误
+                    return null;
+                return mc[0].Value;
+            }
+            set
+            {
+                _tineline = "[" + value + "]";
+            }
+        }
+        string _oriLyrics;
+        internal string OriLyrics
+        {
+            get
+            {
+                return _oriLyrics;
+            }
+            set
+            {
+                _oriLyrics = value;
+            }
+        }
+        string _break;// 用是否为空来判断是否有翻译
+        internal string Break
+        {
+            get
+            {
+                return _break;
+            }
+            private set
+            {
+                _break = value;
+            }
+        }
+        string _transLyrics;
+        internal string TransLyrics
+        {
+            get
+            {
+                return _transLyrics;
+            }
+            private set
+            {
+                _transLyrics = value;
+            }
+        }
         public override string ToString()
         {
             if(TransLyrics==null)
@@ -23,14 +70,6 @@ namespace Ludoux.LrcHelper.SharedFramework
                 return OriLyrics + Break+TransLyrics;
             }
         }
-        internal void SetTineline(string TinelineText)//不含[ ]
-        {
-            Tineline="["+TinelineText+"]";
-        }
-        internal void SetOriLyrics(string OriLyricsText)
-        {
-            OriLyrics=OriLyricsText;
-        }
         internal void SetTransLyrics(string BreakText,string TransLyricsText,bool ClaerIt=false)//ClearIt清除
         {
             if(ClaerIt)
@@ -41,25 +80,6 @@ namespace Ludoux.LrcHelper.SharedFramework
             }
             Break=BreakText;
             TransLyrics=TransLyricsText;
-        }
-        internal string GetTineline()
-        {
-            MatchCollection mc = new Regex(@"(?<=\[).+?(?=\])").Matches(Tineline);//不含 [ ]
-                if(mc.Count!=1)//有误
-                    return null;
-                return mc[0].Value;
-        }
-        internal string GetOriLyrics()
-        {
-            return OriLyrics;
-        }
-        internal string GetBreak()
-        {
-            return Break;
-        }        
-        internal string GetTransLyrics()
-        {
-            return TransLyrics;
         }
         internal void FixTimeline()//用来处理timeline数字错误，例如毫秒数超99
         {//注意的是 lrc 中第三位若为99即代表999毫秒，为1即代表10毫秒。以下的mSec均按100进制来算
@@ -91,7 +111,7 @@ namespace Ludoux.LrcHelper.SharedFramework
              finalSec=sec+upSec;
          }
          finalMin=min+upMin;
-         SetTineline(string.Format("{0:D2}",finalMin)+":"+string.Format("{0:D2}",finalSec)+"."+string.Format("{0:D2}",finalMSec));
+            Timeline = string.Format("{0:D2}", finalMin) + ":" + string.Format("{0:D2}", finalSec) + "." + string.Format("{0:D2}", finalMSec);
         }
     }
      public class Lyrics
@@ -278,19 +298,19 @@ namespace Ludoux.LrcHelper.SharedFramework
             for(int i=0;i<totalCount;i++)
             {
                 LyricsLineText.Add(new LyricsLine());
-                LyricsLineText[i].SetTineline(Regex.Match(textList[i],@"(?<=\[).+?(?=\])").Value);
+                LyricsLineText[i].Timeline = Regex.Match(textList[i], @"(?<=\[).+?(?=\])").Value;
                 if(Break!=null)//有翻译
                 {
-                    LyricsLineText[i].SetOriLyrics(Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].GetTineline() + @"\]).+?(?=" + Break + @")").Value);
+                    LyricsLineText[i].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].Timeline + @"\]).+?(?=" + Break + @")").Value;
                     LyricsLineText[i].SetTransLyrics(Break,Regex.Match(textList[i],@"(?<=" + Break + @").+?$").Value);
                 }
                 else
-                    LyricsLineText[i].SetOriLyrics(Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].GetTineline() + @"\]).+?$").Value);
+                    LyricsLineText[i].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].Timeline + @"\]).+?$").Value;
             }
         }
         public bool HasTransLyrics(int Line=0)
         {
-            if(LyricsLineText[Line].GetBreak()!=null)
+            if(LyricsLineText[Line].Break!=null)
                 return true;
             else
             return false;

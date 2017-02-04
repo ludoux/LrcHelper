@@ -99,9 +99,9 @@ namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
                     int count = tempTransLyric.Count;
                     for (int i = 0; i < count; i++)
                     {
-                        if (tempOriLyric[i].GetTineline() != tempTransLyric[i].GetTineline())
+                        if (tempOriLyric[i].Timeline != tempTransLyric[i].Timeline)
                             return;
-                        MixedLyric[i].SetTransLyrics("#", tempTransLyric[i].GetOriLyrics());
+                        MixedLyric[i].SetTransLyrics("#", tempTransLyric[i].OriLyrics);
                     }
                 }
                 else
@@ -139,12 +139,12 @@ namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
                 {
                     for (int i = 0; i < MixedLyric.Count; i++)
                     {
-                        string tl = MixedLyric[i].GetTineline();
+                        string tl = MixedLyric[i].Timeline;
                         tl = tl.Replace(Regex.Match(tl, @"(?<=\.)\d\d$").Value, (Convert.ToInt32(Regex.Match(tl, @"(?<=\.)\d\d$").Value) + DelayMsec).ToString());
                         if (returnString.ToString() != "")
-                            returnString.Append("\r\n[" + MixedLyric[i].GetTineline() + "]" + MixedLyric[i].GetOriLyrics() + "\r\n[" + tl + "]" + MixedLyric[i].GetTransLyrics());
+                            returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].OriLyrics + "\r\n[" + tl + "]" + MixedLyric[i].TransLyrics);
                         else
-                            returnString.Append("["+MixedLyric[i].GetTineline()+"]"+MixedLyric[i].GetOriLyrics() + "\r\n[" + tl+"]"+MixedLyric[i].GetTransLyrics());
+                            returnString.Append("["+MixedLyric[i].Timeline + "]"+MixedLyric[i].OriLyrics + "\r\n[" + tl+"]"+MixedLyric[i].TransLyrics);
                     }
                 }
                 else if (MixedLyric.Count == 0)
@@ -157,9 +157,9 @@ namespace Ludoux.LrcHelper.OneSixThreeCloudMusic
                     for (int i = 0; i < MixedLyric.Count; i++)
                     {
                         if (returnString.ToString() != "")
-                            returnString.Append("\r\n[" + MixedLyric[i].GetTineline() + "]" + MixedLyric[i].ToString());
+                            returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
                         else
-                            returnString.Append("[" + MixedLyric[i].GetTineline() + "]" + MixedLyric[i].ToString());
+                            returnString.Append("[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
                     }
                 }
                 else
