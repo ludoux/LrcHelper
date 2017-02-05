@@ -34,7 +34,15 @@
             this.MusicradioButton = new System.Windows.Forms.RadioButton();
             this.PlaylistradioButton = new System.Windows.Forms.RadioButton();
             this.GETbutton = new System.Windows.Forms.Button();
-            this.Infolabel = new System.Windows.Forms.Label();
+            this.Copyrightlabel = new System.Windows.Forms.Label();
+            this.Cancelbutton = new System.Windows.Forms.Button();
+            this.StatusgroupBox = new System.Windows.Forms.GroupBox();
+            this.StatusInfolabel = new System.Windows.Forms.Label();
+            this.StatusPDTotallabel = new System.Windows.Forms.Label();
+            this.StatusPDFinishedlabel = new System.Windows.Forms.Label();
+            this.StatusPDFinishedCountlabel = new System.Windows.Forms.Label();
+            this.StatusPDTotalCountlabel = new System.Windows.Forms.Label();
+            this.StatusgroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // IDtextBox
@@ -94,21 +102,92 @@
             this.GETbutton.UseVisualStyleBackColor = true;
             this.GETbutton.Click += new System.EventHandler(this.GETbutton_Click);
             // 
-            // Infolabel
+            // Copyrightlabel
             // 
-            this.Infolabel.AutoSize = true;
-            this.Infolabel.Location = new System.Drawing.Point(12, 69);
-            this.Infolabel.Name = "Infolabel";
-            this.Infolabel.Size = new System.Drawing.Size(185, 24);
-            this.Infolabel.TabIndex = 6;
-            this.Infolabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LRCHelper";
+            this.Copyrightlabel.AutoSize = true;
+            this.Copyrightlabel.Location = new System.Drawing.Point(12, 86);
+            this.Copyrightlabel.Name = "Copyrightlabel";
+            this.Copyrightlabel.Size = new System.Drawing.Size(185, 24);
+            this.Copyrightlabel.TabIndex = 6;
+            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LRCHelper";
+            // 
+            // Cancelbutton
+            // 
+            this.Cancelbutton.Enabled = false;
+            this.Cancelbutton.Location = new System.Drawing.Point(226, 4);
+            this.Cancelbutton.Name = "Cancelbutton";
+            this.Cancelbutton.Size = new System.Drawing.Size(75, 23);
+            this.Cancelbutton.TabIndex = 7;
+            this.Cancelbutton.Text = "Cancel";
+            this.Cancelbutton.UseVisualStyleBackColor = true;
+            this.Cancelbutton.Click += new System.EventHandler(this.Cancelbutton_Click);
+            // 
+            // StatusgroupBox
+            // 
+            this.StatusgroupBox.Controls.Add(this.StatusPDTotalCountlabel);
+            this.StatusgroupBox.Controls.Add(this.StatusPDFinishedCountlabel);
+            this.StatusgroupBox.Controls.Add(this.StatusPDFinishedlabel);
+            this.StatusgroupBox.Controls.Add(this.StatusPDTotallabel);
+            this.StatusgroupBox.Controls.Add(this.StatusInfolabel);
+            this.StatusgroupBox.Location = new System.Drawing.Point(219, 50);
+            this.StatusgroupBox.Name = "StatusgroupBox";
+            this.StatusgroupBox.Size = new System.Drawing.Size(200, 100);
+            this.StatusgroupBox.TabIndex = 8;
+            this.StatusgroupBox.TabStop = false;
+            this.StatusgroupBox.Text = "Status";
+            // 
+            // StatusInfolabel
+            // 
+            this.StatusInfolabel.Location = new System.Drawing.Point(6, 17);
+            this.StatusInfolabel.Name = "StatusInfolabel";
+            this.StatusInfolabel.Size = new System.Drawing.Size(188, 31);
+            this.StatusInfolabel.TabIndex = 0;
+            this.StatusInfolabel.Text = "StatusInfo";
+            // 
+            // StatusPDTotallabel
+            // 
+            this.StatusPDTotallabel.AutoSize = true;
+            this.StatusPDTotallabel.Location = new System.Drawing.Point(41, 48);
+            this.StatusPDTotallabel.Name = "StatusPDTotallabel";
+            this.StatusPDTotallabel.Size = new System.Drawing.Size(41, 12);
+            this.StatusPDTotallabel.TabIndex = 1;
+            this.StatusPDTotallabel.Text = "Total:";
+            // 
+            // StatusPDFinishedlabel
+            // 
+            this.StatusPDFinishedlabel.AutoSize = true;
+            this.StatusPDFinishedlabel.Location = new System.Drawing.Point(23, 60);
+            this.StatusPDFinishedlabel.Name = "StatusPDFinishedlabel";
+            this.StatusPDFinishedlabel.Size = new System.Drawing.Size(59, 12);
+            this.StatusPDFinishedlabel.TabIndex = 2;
+            this.StatusPDFinishedlabel.Text = "Finished:";
+            // 
+            // StatusPDFinishedCountlabel
+            // 
+            this.StatusPDFinishedCountlabel.AutoSize = true;
+            this.StatusPDFinishedCountlabel.Location = new System.Drawing.Point(88, 60);
+            this.StatusPDFinishedCountlabel.Name = "StatusPDFinishedCountlabel";
+            this.StatusPDFinishedCountlabel.Size = new System.Drawing.Size(11, 12);
+            this.StatusPDFinishedCountlabel.TabIndex = 3;
+            this.StatusPDFinishedCountlabel.Text = "0";
+            // 
+            // StatusPDTotalCountlabel
+            // 
+            this.StatusPDTotalCountlabel.AutoSize = true;
+            this.StatusPDTotalCountlabel.Location = new System.Drawing.Point(88, 48);
+            this.StatusPDTotalCountlabel.Name = "StatusPDTotalCountlabel";
+            this.StatusPDTotalCountlabel.Size = new System.Drawing.Size(11, 12);
+            this.StatusPDTotalCountlabel.TabIndex = 4;
+            this.StatusPDTotalCountlabel.Text = "0";
             // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(231, 119);
-            this.Controls.Add(this.Infolabel);
+            this.ClientSize = new System.Drawing.Size(464, 201);
+            this.Controls.Add(this.StatusgroupBox);
+            this.Controls.Add(this.Cancelbutton);
+            this.Controls.Add(this.Copyrightlabel);
             this.Controls.Add(this.GETbutton);
             this.Controls.Add(this.PlaylistradioButton);
             this.Controls.Add(this.MusicradioButton);
@@ -120,6 +199,8 @@
             this.Name = "LrcDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LrcDownloader";
+            this.StatusgroupBox.ResumeLayout(false);
+            this.StatusgroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,6 +214,13 @@
         private System.Windows.Forms.RadioButton MusicradioButton;
         private System.Windows.Forms.RadioButton PlaylistradioButton;
         private System.Windows.Forms.Button GETbutton;
-        private System.Windows.Forms.Label Infolabel;
+        private System.Windows.Forms.Label Copyrightlabel;
+        private System.Windows.Forms.Button Cancelbutton;
+        private System.Windows.Forms.GroupBox StatusgroupBox;
+        private System.Windows.Forms.Label StatusPDTotalCountlabel;
+        private System.Windows.Forms.Label StatusPDFinishedCountlabel;
+        private System.Windows.Forms.Label StatusPDFinishedlabel;
+        private System.Windows.Forms.Label StatusPDTotallabel;
+        private System.Windows.Forms.Label StatusInfolabel;
     }
 }

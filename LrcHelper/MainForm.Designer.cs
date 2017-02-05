@@ -28,11 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.Copyrightlabel = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // Copyrightlabel
+            // 
+            this.Copyrightlabel.AutoSize = true;
+            this.Copyrightlabel.Location = new System.Drawing.Point(50, 118);
+            this.Copyrightlabel.Name = "Copyrightlabel";
+            this.Copyrightlabel.Size = new System.Drawing.Size(185, 24);
+            this.Copyrightlabel.TabIndex = 7;
+            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LRCHelper";
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.Copyrightlabel);
+            this.Name = "MainForm";
             this.Text = "MainForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label Copyrightlabel;
     }
 }
