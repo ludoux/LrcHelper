@@ -131,5 +131,26 @@ namespace LrcHelper
         {
             cancelToken.Cancel();//停止所有工作者进程
         }
+
+        private void LrcDownloader_Activated(object sender, EventArgs e)
+        {
+            if(AutoSetcheckBox.Checked && IDtextBox.Text == "")
+            {
+                string cbt = Clipboard.GetText();
+                if(System.Text.RegularExpressions.Regex.IsMatch(cbt, @"song\?id\="))//为songID
+                {
+                    string iD = System.Text.RegularExpressions.Regex.Match(cbt, @"(?<=song\?id\=)\d+(?=\D*)").Value;
+                    MusicradioButton.Checked = true;
+                    IDtextBox.Text = iD;
+                }
+                else if(System.Text.RegularExpressions.Regex.IsMatch(cbt, @"playlist\?id\="))
+                {
+                    string iD = System.Text.RegularExpressions.Regex.Match(cbt, @"(?<=playlist\?id\=)\d+(?=\D*)").Value;
+                    PlaylistradioButton.Checked = true;
+                    IDtextBox.Text = iD;
+                }
+            }
+        }
+        
     }
 }

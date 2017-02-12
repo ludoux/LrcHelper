@@ -37,11 +37,12 @@
             this.Copyrightlabel = new System.Windows.Forms.Label();
             this.Cancelbutton = new System.Windows.Forms.Button();
             this.StatusgroupBox = new System.Windows.Forms.GroupBox();
-            this.StatusInfolabel = new System.Windows.Forms.Label();
-            this.StatusPDTotallabel = new System.Windows.Forms.Label();
-            this.StatusPDFinishedlabel = new System.Windows.Forms.Label();
-            this.StatusPDFinishedCountlabel = new System.Windows.Forms.Label();
             this.StatusPDTotalCountlabel = new System.Windows.Forms.Label();
+            this.StatusPDFinishedCountlabel = new System.Windows.Forms.Label();
+            this.StatusPDFinishedlabel = new System.Windows.Forms.Label();
+            this.StatusPDTotallabel = new System.Windows.Forms.Label();
+            this.StatusInfolabel = new System.Windows.Forms.Label();
+            this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.StatusgroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -136,31 +137,14 @@
             this.StatusgroupBox.TabStop = false;
             this.StatusgroupBox.Text = "Status";
             // 
-            // StatusInfolabel
+            // StatusPDTotalCountlabel
             // 
-            this.StatusInfolabel.Location = new System.Drawing.Point(6, 17);
-            this.StatusInfolabel.Name = "StatusInfolabel";
-            this.StatusInfolabel.Size = new System.Drawing.Size(188, 31);
-            this.StatusInfolabel.TabIndex = 0;
-            this.StatusInfolabel.Text = "StatusInfo";
-            // 
-            // StatusPDTotallabel
-            // 
-            this.StatusPDTotallabel.AutoSize = true;
-            this.StatusPDTotallabel.Location = new System.Drawing.Point(41, 48);
-            this.StatusPDTotallabel.Name = "StatusPDTotallabel";
-            this.StatusPDTotallabel.Size = new System.Drawing.Size(41, 12);
-            this.StatusPDTotallabel.TabIndex = 1;
-            this.StatusPDTotallabel.Text = "Total:";
-            // 
-            // StatusPDFinishedlabel
-            // 
-            this.StatusPDFinishedlabel.AutoSize = true;
-            this.StatusPDFinishedlabel.Location = new System.Drawing.Point(23, 60);
-            this.StatusPDFinishedlabel.Name = "StatusPDFinishedlabel";
-            this.StatusPDFinishedlabel.Size = new System.Drawing.Size(59, 12);
-            this.StatusPDFinishedlabel.TabIndex = 2;
-            this.StatusPDFinishedlabel.Text = "Finished:";
+            this.StatusPDTotalCountlabel.AutoSize = true;
+            this.StatusPDTotalCountlabel.Location = new System.Drawing.Point(88, 48);
+            this.StatusPDTotalCountlabel.Name = "StatusPDTotalCountlabel";
+            this.StatusPDTotalCountlabel.Size = new System.Drawing.Size(11, 12);
+            this.StatusPDTotalCountlabel.TabIndex = 4;
+            this.StatusPDTotalCountlabel.Text = "0";
             // 
             // StatusPDFinishedCountlabel
             // 
@@ -171,20 +155,50 @@
             this.StatusPDFinishedCountlabel.TabIndex = 3;
             this.StatusPDFinishedCountlabel.Text = "0";
             // 
-            // StatusPDTotalCountlabel
+            // StatusPDFinishedlabel
             // 
-            this.StatusPDTotalCountlabel.AutoSize = true;
-            this.StatusPDTotalCountlabel.Location = new System.Drawing.Point(88, 48);
-            this.StatusPDTotalCountlabel.Name = "StatusPDTotalCountlabel";
-            this.StatusPDTotalCountlabel.Size = new System.Drawing.Size(11, 12);
-            this.StatusPDTotalCountlabel.TabIndex = 4;
-            this.StatusPDTotalCountlabel.Text = "0";
+            this.StatusPDFinishedlabel.AutoSize = true;
+            this.StatusPDFinishedlabel.Location = new System.Drawing.Point(23, 60);
+            this.StatusPDFinishedlabel.Name = "StatusPDFinishedlabel";
+            this.StatusPDFinishedlabel.Size = new System.Drawing.Size(59, 12);
+            this.StatusPDFinishedlabel.TabIndex = 2;
+            this.StatusPDFinishedlabel.Text = "Finished:";
+            // 
+            // StatusPDTotallabel
+            // 
+            this.StatusPDTotallabel.AutoSize = true;
+            this.StatusPDTotallabel.Location = new System.Drawing.Point(41, 48);
+            this.StatusPDTotallabel.Name = "StatusPDTotallabel";
+            this.StatusPDTotallabel.Size = new System.Drawing.Size(41, 12);
+            this.StatusPDTotallabel.TabIndex = 1;
+            this.StatusPDTotallabel.Text = "Total:";
+            // 
+            // StatusInfolabel
+            // 
+            this.StatusInfolabel.Location = new System.Drawing.Point(6, 17);
+            this.StatusInfolabel.Name = "StatusInfolabel";
+            this.StatusInfolabel.Size = new System.Drawing.Size(188, 31);
+            this.StatusInfolabel.TabIndex = 0;
+            this.StatusInfolabel.Text = "StatusInfo";
+            // 
+            // AutoSetcheckBox
+            // 
+            this.AutoSetcheckBox.AutoSize = true;
+            this.AutoSetcheckBox.Checked = true;
+            this.AutoSetcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AutoSetcheckBox.Location = new System.Drawing.Point(14, 54);
+            this.AutoSetcheckBox.Name = "AutoSetcheckBox";
+            this.AutoSetcheckBox.Size = new System.Drawing.Size(72, 16);
+            this.AutoSetcheckBox.TabIndex = 9;
+            this.AutoSetcheckBox.Text = "Auto-Set";
+            this.AutoSetcheckBox.UseVisualStyleBackColor = true;
             // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 201);
+            this.Controls.Add(this.AutoSetcheckBox);
             this.Controls.Add(this.StatusgroupBox);
             this.Controls.Add(this.Cancelbutton);
             this.Controls.Add(this.Copyrightlabel);
@@ -199,6 +213,7 @@
             this.Name = "LrcDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LrcDownloader";
+            this.Activated += new System.EventHandler(this.LrcDownloader_Activated);
             this.StatusgroupBox.ResumeLayout(false);
             this.StatusgroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -222,5 +237,6 @@
         private System.Windows.Forms.Label StatusPDFinishedlabel;
         private System.Windows.Forms.Label StatusPDTotallabel;
         private System.Windows.Forms.Label StatusInfolabel;
+        private System.Windows.Forms.CheckBox AutoSetcheckBox;
     }
 }
