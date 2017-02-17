@@ -81,42 +81,56 @@ namespace Ludoux.LrcHelper.SharedFramework
             Break=BreakText;
             TransLyrics=TransLyricsText;
         }
-        internal void FixTimeline()//用来处理timeline数字错误，例如毫秒数超99
-        {//注意的是 lrc 中第三位若为99即代表999毫秒，为1即代表10毫秒。以下的mSec均按100进制来算
-         //而实际生活中1000ms=1s
-         //最后都规范成00:00.00的样子
-         string handingTimeline=Console.ReadLine();
-         int mSec=Convert.ToInt32(Regex.Match(handingTimeline, @"(?<=\.).+?$").Value);
-         int sec=Convert.ToInt32(Regex.Match(handingTimeline, @"(?<=:).+?(?=\.)").Value);
-         int min=Convert.ToInt32(Regex.Match(handingTimeline, @"^.+?(?=:)").Value);//以上三个为对handingTimeline取三个元素的结果
-         handingTimeline=null;
-         int upSec=0,upMin=0;//需要增加的Sec数,由于MSec超99;需要增加的Min数，由于Sec超59
-         int finalMSec=0,finalSec,finalMin;//最终的MSec,Sec,Min
-         if(mSec>99)//命中则不规范
-         {
-             finalMSec=Convert.ToInt32(Regex.Match(mSec.ToString(),@"\d\d$").Value);
-             upSec=(mSec-finalMSec)/100;
-         }
-         else
-         {
-             finalMSec=mSec;
-         }
-         if((sec+upSec)>59)//命中则不规范
-         {
-             finalSec=(sec+upSec)%60;
-             upMin=(sec+upSec)/60;
-         }
-         else
-         {
-             finalSec=sec+upSec;
-         }
-         finalMin=min+upMin;
-            Timeline = string.Format("{0:D2}", finalMin) + ":" + string.Format("{0:D2}", finalSec) + "." + string.Format("{0:D2}", finalMSec);
-        }
+        
     }
      public class Lyrics
     {
         List<LyricsLine> LyricsLineText=new List<LyricsLine>();
+        string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
+        string TagAr
+        {
+            get
+            {
+                return _tagAr;
+            }
+            set
+            {
+                _tagAr = value;
+            }
+        }
+        string TagTi
+        {
+            get
+            {
+                return _tagTi;
+            }
+            set
+            {
+                _tagTi = value;
+            }
+        }
+        string TagAl
+        {
+            get
+            {
+                return _tagAl;
+            }
+            set
+            {
+                _tagAl = value;
+            }
+        }
+        string TagBy
+        {
+            get
+            {
+                return _tagBy;
+            }
+            set
+            {
+                _tagBy = value;
+            }
+        }
         public int Count
         {
             get
