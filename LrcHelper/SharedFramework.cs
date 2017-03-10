@@ -5,14 +5,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 namespace Ludoux.LrcHelper.SharedFramework
 {
+    
      public class LyricsLine
     {
         string _tineline;//含[]
-        internal string Timeline
+        internal string Timeline//返回不带[]
         {
             get
             {
-                MatchCollection mc = new Regex(@"(?<=\[).+?(?=\])").Matches(_tineline);//不含 [ ]
+                MatchCollection mc = new Regex(@"(?<=\[).+(?=\])").Matches(_tineline);//不含 [ ]
                 if (mc.Count != 1)//有误
                     return null;
                 return mc[0].Value;
@@ -60,7 +61,7 @@ namespace Ludoux.LrcHelper.SharedFramework
         }
         public override string ToString()
         {
-            if(TransLyrics==null)
+            if(Break==null)
             {
                 return OriLyrics;
             }
@@ -131,6 +132,19 @@ namespace Ludoux.LrcHelper.SharedFramework
                 _tagBy = value;
             }
         }
+        public string GetAllTags()
+        {
+            string allTags = "";
+            if(TagAr != null && TagAl != "")
+               allTags = "[Al:" + TagAr + "]";
+            if(TagTi != null && TagTi != "")
+               allTags += "\r\n[Ti:" + TagTi +"]";
+            if(TagAl != null && TagAl != "")
+               allTags += "\r\n[Al:" + TagAl + "]";
+            if(TagBy != null && TagBy != "")
+               allTags += "\r\n[By:" + TagBy + "]";
+            return allTags;
+        }
         public int Count
         {
             get
@@ -146,10 +160,11 @@ namespace Ludoux.LrcHelper.SharedFramework
                 if (ReturnString == null)
                     ReturnString = ll.ToString();
                 else
-                    ReturnString = ReturnString + "\r\n" + ll.ToString();
+                    ReturnString += "\r\n" + ll.ToString();
             }
             return ReturnString;
         }
+
         public LyricsLine this[int index]
         {
             get
@@ -162,13 +177,12 @@ namespace Ludoux.LrcHelper.SharedFramework
             LyricsLineText=Lyrics;
             
         }
+        public Lyrics()
+        {
+        }
         public Lyrics(string Text, string Break = null)
         {
             ArrangeLyrics(Text, Break);
-        }
-        public Lyrics()
-        {
-
         }
         public static string formatNewLine(string RowText)
         {
@@ -186,7 +200,6 @@ namespace Ludoux.LrcHelper.SharedFramework
                 tmp.Remove(mc[i].Index+i, 1);//删除插入会影响sb的index
                 tmp.Insert(mc[i].Index+i,"\r\n");
                 }
-                    
             }
             
             if (Regex.IsMatch(tmp.ToString(), @"(?<!\r)\n"))//存在\n单独存在的情况
@@ -215,33 +228,31 @@ namespace Ludoux.LrcHelper.SharedFramework
             StringBuilder tmp=new StringBuilder(RowText);
             while (Regex.IsMatch(tmp.ToString(), @"\r\n\r\n")) 
                 tmp.Replace("\r\n\r\n","\r\n");
-            while (Regex.IsMatch(tmp.ToString(), @"^\[.+?\]\s*\r\n"))
-                tmp.Replace(Regex.Match(tmp.ToString(), @"^\[.+?\]\s*\r\n").Value, "");
-            while (Regex.IsMatch(tmp.ToString(), @"\r\n\[.+?\]\s*$"))
-                tmp.Replace(Regex.Match(tmp.ToString(), @"\r\n\[.+?\]\s*$").Value, "");
+            while (Regex.IsMatch(tmp.ToString(), @"^\[.+\]\s*\r\n"))
+                tmp.Replace(Regex.Match(tmp.ToString(), @"^\[.+\]\s*\r\n").Value, "");
+            while (Regex.IsMatch(tmp.ToString(), @"\r\n\[.+\]\s*$"))
+                tmp.Replace(Regex.Match(tmp.ToString(), @"\r\n\[.+\]\s*$").Value, "");
             while (Regex.IsMatch(tmp.ToString(), @"\r\n\s+?\r\n")) 
             {
                 MatchCollection mc = new Regex(@"\r\n\s+?\r\n").Matches(tmp.ToString());                
                 for (int i = 0; i<mc.Count; i++)
                     tmp.Replace(mc[i].Value, "\r\n");
             }
-            while (Regex.IsMatch(tmp.ToString(), @"\r\n\[.+?\]\s*\r\n")) 
+            while (Regex.IsMatch(tmp.ToString(), @"\r\n\[[^a-zA-Z]+\]\s*\r\n")) 
             {
-                MatchCollection mc = new Regex(@"\r\n\[.+?\]\s*\r\n").Matches(tmp.ToString());
+                MatchCollection mc = new Regex(@"\r\n\[[^a-zA-Z]+\]\s*\r\n").Matches(tmp.ToString());
                 for (int i = 0; i<mc.Count; i++)
                     tmp.Replace(mc[i].Value, "\r\n");
             }
-            
-
             return tmp.ToString();
         }
         public static string formatTineline(string RowText,bool OnlyToFixDelay=false)
         {//TODO: 完善！！
             StringBuilder tmp = new StringBuilder(RowText);
             StringBuilder changedText;
-            if (Regex.IsMatch(tmp.ToString(), @"\[.+?\]") == false)
+            if (Regex.IsMatch(tmp.ToString(), @"\[.+\]") == false)
                 return "";
-            MatchCollection mc = new Regex(@"\[.+?\]").Matches(tmp.ToString());//出来的是时间轴含[]
+            MatchCollection mc = new Regex(@"\[[^a-zA-Z]+\]").Matches(tmp.ToString());//出来的是时间轴含[]，已经除去了tags
             if (OnlyToFixDelay == false)
             {
                 for (int i = 0; i < mc.Count; i++)
@@ -280,7 +291,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                 for(int i=0;i<mc.Count;i++)
                 {
                     changedText = new StringBuilder(mc[i].Value);
-                    int mSec = Convert.ToInt32(Regex.Match(mc[i].Value, @"(?<=\.).+?(?=\])").Value);
+                    int mSec = Convert.ToInt32(Regex.Match(mc[i].Value, @"(?<=\.).+(?=\])").Value);
                     if (mSec > 99)
                     {
                         changedText = new StringBuilder("[" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=^\[).*?(?=:)").Value)) +
@@ -292,9 +303,9 @@ namespace Ludoux.LrcHelper.SharedFramework
                     int sec = Convert.ToInt32(Regex.Match(mc[i].Value, @"(?<=:).+(?=\.)").Value);
                     if (sec > 59)
                     {
-                        changedText = new StringBuilder("[" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=^\[).+?(?=:)").Value) + 1) +
-                                      ":" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=:).+?(?=\.)").Value) - 60) +
-                                      "." + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=\.).+?(?=\])").Value)) +
+                        changedText = new StringBuilder("[" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=^\[).+(?=:)").Value) + 1) +
+                                      ":" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=:).+(?=\.)").Value) - 60) +
+                                      "." + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=\.).+(?=\])").Value)) +
                                       "]");
                     }
                     tmp.Replace(mc[i].Value, changedText.ToString());
@@ -306,23 +317,49 @@ namespace Ludoux.LrcHelper.SharedFramework
         {
             Text = formatNewLine(Text);
             Text = formatTineline(Text);
-            Text = formatBlankLine(Text);            
+            Text = formatBlankLine(Text);
             string[] textList = Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             int totalCount=textList.Count();//总行数
+            int n = -1;//n只在歌词行时跳
             for(int i=0;i<totalCount;i++)
             {
+                if(Regex.IsMatch(textList[i], @"^\[Ar:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
+                {
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Ar:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    TagAr = tagText;
+                    continue;
+                }
+                if(Regex.IsMatch(textList[i], @"^\[Ti:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ti
+                {
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Ti:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    TagTi = tagText;
+                    continue;
+                }
+                if(Regex.IsMatch(textList[i], @"^\[Al:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Al
+                {
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Al:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    TagAl = tagText;
+                    continue;
+                }
+                if(Regex.IsMatch(textList[i], @"^\[By:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags By
+                {
+                    string tagText = Regex.Match(textList[i], @"(?<=\[By:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    TagBy = tagText;
+                    continue;
+                }
+                n++;
                 LyricsLineText.Add(new LyricsLine());
-                LyricsLineText[i].Timeline = Regex.Match(textList[i], @"(?<=\[).+?(?=\])").Value;
+                LyricsLineText[n].Timeline = Regex.Match(textList[i], @"(?<=\[).+(?=\])").Value;
                 if(Break!=null)//有翻译
                 {
-                    LyricsLineText[i].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].Timeline + @"\]).+?(?=" + Break + @")").Value;
-                    LyricsLineText[i].SetTransLyrics(Break,Regex.Match(textList[i],@"(?<=" + Break + @").+?$").Value);
+                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[n].Timeline + @"\]).+(?=" + Break + @")").Value;
+                    LyricsLineText[n].SetTransLyrics(Break,Regex.Match(textList[i],@"(?<=" + Break + @").+$").Value);
                 }
                 else
-                    LyricsLineText[i].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[i].Timeline + @"\]).+?$").Value;
+                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[n].Timeline + @"\]).+$").Value;
             }
         }
-        public bool HasTransLyrics(int Line=0)
+        public bool HasTransLyrics(int Line=3)
         {
             if(LyricsLineText[Line].Break!=null)
                 return true;

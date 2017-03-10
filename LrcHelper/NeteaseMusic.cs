@@ -80,7 +80,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 sLRC = o["lyric"].ToString();
                 tempOriLyric.ArrangeLyrics(sLRC);
                 HasOriLyric = true;
-                MixedLyric.ArrangeLyrics(sLRC);//此处当作为tempOriLyric的深拷贝
+                MixedLyric.ArrangeLyrics(sLRC);
                 //===========
                 sContent = hr.getContent("http://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
                 if (sContent.Substring(0, 4).Equals("ERR!"))
