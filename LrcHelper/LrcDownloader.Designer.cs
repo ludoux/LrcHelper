@@ -110,11 +110,10 @@
             this.Copyrightlabel.Name = "Copyrightlabel";
             this.Copyrightlabel.Size = new System.Drawing.Size(185, 24);
             this.Copyrightlabel.TabIndex = 6;
-            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LRCHelper";
+            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LrcHelper";
             // 
             // Cancelbutton
             // 
-            this.Cancelbutton.Enabled = false;
             this.Cancelbutton.Location = new System.Drawing.Point(226, 4);
             this.Cancelbutton.Name = "Cancelbutton";
             this.Cancelbutton.Size = new System.Drawing.Size(75, 23);

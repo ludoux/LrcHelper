@@ -18,6 +18,7 @@ namespace LrcHelper
         private CancellationTokenSource cancelToken = new CancellationTokenSource();
         private void GETbutton_Click(object sender, EventArgs e)
         {
+            GETbutton.Enabled = false;
             StatusInfolabel.Text = "StatusInfo";
             StatusPDFinishedCountlabel.Text = "0";
             StatusPDTotalCountlabel.Text = "0";
@@ -31,9 +32,10 @@ namespace LrcHelper
                 string Log = DownloadLrc(ID, 100, ".\\" + m.GetFileName() + ".lrc",out status);
                 sw.Stop();
                 if (Log == "")
-                    StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + sw.Elapsed.TotalSeconds +"sec";
+                    StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
                 else
-                    StatusInfolabel.Text = Log + " Status:" + status + "\r\nUsed Time:" + sw.Elapsed.TotalSeconds + "sec";
+                    StatusInfolabel.Text = Log + " Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
+                GETbutton.Enabled = true;
             }
             else if(PlaylistradioButton.Checked)
             {
@@ -84,11 +86,11 @@ namespace LrcHelper
                     }
                     finally
                     {
-                        cancelToken.Dispose();
+                        //cancelToken.Dispose();
                         this.Invoke((Action)delegate
                         {
                             Cancelbutton.Enabled = false;
-                            GETbutton.Enabled = false;
+                            GETbutton.Enabled = true;
                         });
                     }
 
@@ -98,7 +100,7 @@ namespace LrcHelper
                     OutLog.Append(string.Format("\r\n{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
                     for (int i = 0; i < Log.Count; i++)
                         OutLog.Append("\r\n" + Log[i]);
-                    OutLog.Append("\r\n\r\n" + DateTime.Now.ToString() + "  Used Time:" + sw.Elapsed.TotalSeconds + "sec\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]\r\nEnjoy music with lyrics now!(*^_^*)");
+                    OutLog.Append("\r\n\r\n" + DateTime.Now.ToString() + "  Used Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]\r\nEnjoy music with lyrics now!(*^_^*)");
                     System.IO.File.WriteAllText(".\\" + folderName + @"\Log.txt", OutLog.ToString(), Encoding.UTF8);
                     this.Invoke((Action)delegate
                     {

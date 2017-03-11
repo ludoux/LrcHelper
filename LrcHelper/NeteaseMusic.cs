@@ -81,7 +81,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 tempOriLyric.ArrangeLyrics(sLRC);
                 HasOriLyric = true;
                 MixedLyric.ArrangeLyrics(sLRC);
-                //===========
+                //===========翻译
                 sContent = hr.getContent("http://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
@@ -94,14 +94,17 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 o = (JObject)JsonConvert.DeserializeObject(sLRC);
                 sLRC = o["lyric"].ToString();
                 tempTransLyric.ArrangeLyrics(sLRC);
-                if (tempOriLyric.Count == tempTransLyric.Count)//之下是检验count是否一样，timeline是否一样，否则错误
+                if (tempOriLyric.Count >= tempTransLyric.Count && tempTransLyric.Count != 0)//翻译可能比外文歌词少，下面会对时间轴来判断配对
                 {
                     int count = tempTransLyric.Count;
-                    for (int i = 0; i < count; i++)
+                    int j = 0;//j为外文歌词的index
+                    for (int i = 0; i < count; j++)
                     {
-                        if (tempOriLyric[i].Timeline != tempTransLyric[i].Timeline)
-                            return;
-                        MixedLyric[i].SetTransLyrics("#", tempTransLyric[i].OriLyrics);
+                        if (tempOriLyric[j].Timeline != tempTransLyric[i].Timeline)
+                            continue;
+                        if(tempTransLyric[i].OriLyrics != null && tempTransLyric[i].OriLyrics != "")
+                            MixedLyric[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
+                        i++;
                     }
                 }
                 else
@@ -135,39 +138,36 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             try
             {
                 StringBuilder returnString = new StringBuilder("");
-                if (MixedLyric.Count != 0 && MixedLyric.HasTransLyrics())//有原文有翻译
+                for (int i = 0; i < MixedLyric.Count; i++)
                 {
-                    for (int i = 0; i < MixedLyric.Count; i++)
+                    if(MixedLyric.Count == 0)
                     {
+                        ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
+                        return "";
+                    }
+                    else if(MixedLyric[i].HasTrans())
+                    {//如果有翻译
                         string tl = MixedLyric[i].Timeline;
-                        tl = tl.Replace(Regex.Match(tl, @"(?<=\.)\d\d$").Value, (Convert.ToInt32(Regex.Match(tl, @"(?<=\.)\d\d$").Value) + DelayMsec).ToString());
+                        tl = tl.Replace(Regex.Match(tl, @"\.\d\d$").Value, "." + (Convert.ToInt32(Regex.Match(tl, @"(?<=\.)\d\d$").Value) + DelayMsec).ToString());//直接修改毫秒，后面会调用方法修正
                         if (returnString.ToString() != "")
                             returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].OriLyrics + "\r\n[" + tl + "]" + MixedLyric[i].TransLyrics);
                         else
-                            returnString.Append("["+MixedLyric[i].Timeline + "]"+MixedLyric[i].OriLyrics + "\r\n[" + tl+"]"+MixedLyric[i].TransLyrics);
+                            returnString.Append("[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].OriLyrics + "\r\n[" + tl + "]" + MixedLyric[i].TransLyrics);
                     }
-                }
-                else if (MixedLyric.Count == 0)
-                {
-                    ErrorLog = ErrorLog + "<OriLyric TransLyric COUNT ERROR>";
-                    return "";
-                }
-                else if (MixedLyric.Count != 0 && MixedLyric.HasTransLyrics()==false)//无翻译
-                {
-                    for (int i = 0; i < MixedLyric.Count; i++)
+                    else if(MixedLyric[i].HasTrans() == false)
                     {
                         if (returnString.ToString() != "")
                             returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
                         else
                             returnString.Append("[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
                     }
+                    else
+                    {
+                        ErrorLog = ErrorLog + "<interesting things happened...>";
+                        return "";
+                    }
                 }
-                else
-                {
-                    ErrorLog = ErrorLog + "<OriLyric TransLyric COUNT ERROR>";
-                    return "";
-                }
-                returnString = new StringBuilder(Lyrics.formatTineline(returnString.ToString(), true));
+                returnString = new StringBuilder(Lyrics.formatTimeline(returnString.ToString(), true));
                 return returnString.ToString();
             }
             catch (System.ArgumentNullException)
