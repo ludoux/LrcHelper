@@ -15,7 +15,7 @@ namespace LrcHelper
         {
             InitializeComponent();
         }
-        private CancellationTokenSource cancelToken = new CancellationTokenSource();
+        private CancellationTokenSource cancelToken;
         private void GETbutton_Click(object sender, EventArgs e)
         {
             GETbutton.Enabled = false;
@@ -39,12 +39,13 @@ namespace LrcHelper
             }
             else if(PlaylistradioButton.Checked)
             {
-
+                cancelToken = new CancellationTokenSource();
+                ParallelOptions parOpts = new ParallelOptions();
+                parOpts.CancellationToken = cancelToken.Token;
+                parOpts.MaxDegreeOfParallelism = System.Environment.ProcessorCount;//上面三行针对TPL并行类库
                 Task.Factory.StartNew(() =>
                 {
-                    ParallelOptions parOpts = new ParallelOptions();
-                    parOpts.CancellationToken = cancelToken.Token;
-                    parOpts.MaxDegreeOfParallelism = System.Environment.ProcessorCount;//上面三行针对TPL并行类库
+                    
 
                     List<string> Log = new List<string>();
                     Playlist pl = new Playlist(ID);
@@ -61,7 +62,7 @@ namespace LrcHelper
                     });
                     try
                     {
-                        Parallel.For(0, iDList.Count, i =>
+                        Parallel.For(0, iDList.Count,parOpts, i =>
                         {
                             parOpts.CancellationToken.ThrowIfCancellationRequested();
                             Music m = new Music(iDList[i]);
@@ -79,35 +80,34 @@ namespace LrcHelper
                     }
                     catch (OperationCanceledException ex)
                     {
-                        this.Invoke((Action)delegate
-                        {
-                            StatusInfolabel.Text = "OperationCanceled:" + ex.Message;
-                        });
+
                     }
                     finally
                     {
-                        //cancelToken.Dispose();
+                        
                         this.Invoke((Action)delegate
                         {
                             Cancelbutton.Enabled = false;
                             GETbutton.Enabled = true;
                         });
                     }
-
+                    
                     sw.Stop();
                     StringBuilder OutLog = new StringBuilder();
-                    OutLog.Append("PlaylistID:" + ID + "\r\nPlaylistName:" + pl.Name + "\r\nTotalCount:" + iDList.Count + "\r\n0为无人上传歌词,1为有词,2为纯音乐,-1错误,-2未命中\r\n");
-                    OutLog.Append(string.Format("\r\n{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
+                    OutLog.Append("PlaylistID:" + ID + "\r\nPlaylistName:" + pl.Name + "\r\nTotalCount:" + iDList.Count + "\r\nTask Status:");
+                    OutLog.Append(cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished");
+                    OutLog.Append("\r\n0为无人上传歌词,1为有词,2为纯音乐,-1错误,-2未命中");
+                    OutLog.Append(string.Format("\r\n\r\n{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
                     for (int i = 0; i < Log.Count; i++)
                         OutLog.Append("\r\n" + Log[i]);
                     OutLog.Append("\r\n\r\n" + DateTime.Now.ToString() + "  Used Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]\r\nEnjoy music with lyrics now!(*^_^*)");
                     System.IO.File.WriteAllText(".\\" + folderName + @"\Log.txt", OutLog.ToString(), Encoding.UTF8);
                     this.Invoke((Action)delegate
                     {
-                        StatusInfolabel.Text = "Done\r\nRead Log.txt to learn more.";
+                        StatusInfolabel.Text = (cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished") + "\r\nRead Log.txt to learn more.";
                     });
+                    cancelToken.Dispose();
                 });
-                
             }
         }
         private string DownloadLrc(int MusicID,int DelayMsc, string File, out int status)
