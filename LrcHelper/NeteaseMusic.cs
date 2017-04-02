@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
@@ -18,9 +17,8 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 
             string sContent = ""; //Content
             string sLine = "";
-
             try
-            {
+            { 
                 WebRequest wrGETURL = WebRequest.Create(sURL);
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
@@ -31,12 +29,10 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                         sContent += sLine;
                 }
             }
-
             catch (Exception e)
             {
                 sContent = "ERR!" + e.ToString();
             }
-
             return sContent;
         }
     }
@@ -46,7 +42,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 		byte Status;
 		bool HasOriLyric;
 		bool HasTransLyric;
-        string ErrorLog="";
+        string ErrorLog = "";
         Lyrics MixedLyric = new Lyrics();//翻译作为trans来保存
         public Lyric(int ID)
 		{
@@ -96,9 +92,8 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 tempTransLyric.ArrangeLyrics(sLRC);
                 if (tempOriLyric.Count >= tempTransLyric.Count && tempTransLyric.Count != 0)//翻译可能比外文歌词少，下面会对时间轴来判断配对
                 {
-                    int count = tempTransLyric.Count;
                     int j = 0;//j为外文歌词的index
-                    for (int i = 0; i < count; j++)
+                    for (int i = 0; i < tempTransLyric.Count && j < tempOriLyric.Count; j++)
                     {
                         if (tempOriLyric[j].Timeline != tempTransLyric[i].Timeline)
                             continue;

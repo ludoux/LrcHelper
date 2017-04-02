@@ -18,46 +18,25 @@ namespace Ludoux.LrcHelper.SharedFramework
                     return null;
                 return mc[0].Value;
             }
-            set
-            {
-                _tineline = "[" + value + "]";
-            }
+            set => _tineline = "[" + value + "]";
         }
         string _oriLyrics;
         internal string OriLyrics
         {
-            get
-            {
-                return _oriLyrics;
-            }
-            set
-            {
-                _oriLyrics = value;
-            }
+            get => _oriLyrics;
+            set => _oriLyrics = value;
         }
         string _break;// 用是否为空来判断是否有翻译
         internal string Break
         {
-            get
-            {
-                return _break;
-            }
-            private set
-            {
-                _break = value;
-            }
+            get => _break;
+            private set => _break = value;
         }
         string _transLyrics;
         internal string TransLyrics
         {
-            get
-            {
-                return _transLyrics;
-            }
-            private set
-            {
-                _transLyrics = value;
-            }
+            get => _transLyrics;
+            private set => _transLyrics = value;
         }
         internal bool HasTrans()
         {
@@ -97,47 +76,23 @@ namespace Ludoux.LrcHelper.SharedFramework
         string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
         string TagAr
         {
-            get
-            {
-                return _tagAr;
-            }
-            set
-            {
-                _tagAr = value;
-            }
+            get => _tagAr;
+            set => _tagAr = value;
         }
         string TagTi
         {
-            get
-            {
-                return _tagTi;
-            }
-            set
-            {
-                _tagTi = value;
-            }
+            get => _tagTi;
+            set => _tagTi = value;
         }
         string TagAl
         {
-            get
-            {
-                return _tagAl;
-            }
-            set
-            {
-                _tagAl = value;
-            }
+            get => _tagAl;
+            set => _tagAl = value;
         }
         string TagBy
         {
-            get
-            {
-                return _tagBy;
-            }
-            set
-            {
-                _tagBy = value;
-            }
+            get => _tagBy;
+            set => _tagBy = value;
         }
         public string GetAllTags()
         {
@@ -172,13 +127,7 @@ namespace Ludoux.LrcHelper.SharedFramework
             return ReturnString;
         }
 
-        public LyricsLine this[int index]
-        {
-            get
-            {
-                return LyricsLineText[index];
-            }
-        }
+        public LyricsLine this[int index] => LyricsLineText[index];
         public Lyrics(List<LyricsLine> Lyrics)
         {
             LyricsLineText=Lyrics;
