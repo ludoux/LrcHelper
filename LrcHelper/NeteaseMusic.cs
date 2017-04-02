@@ -6,7 +6,6 @@ using System.IO;
 using Ludoux.LrcHelper.SharedFramework;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Ludoux.LrcHelper.NeteaseMusic
 {
@@ -130,52 +129,9 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         }
         public string GetDelayedLyric(int DelayMsec)//1等于10ms，注意进制。应该在GetOnlineLyric()后使用,若无翻译将直接返回ori
         {
-            try
-            {
-                StringBuilder returnString = new StringBuilder("");
-                for (int i = 0; i < MixedLyric.Count; i++)
-                {
-                    if(MixedLyric.Count == 0)
-                    {
-                        ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
-                        return "";
-                    }
-                    else if(MixedLyric[i].HasTrans())
-                    {//如果有翻译
-                        string tl = MixedLyric[i].Timeline;
-                        tl = tl.Replace(Regex.Match(tl, @"\.\d\d$").Value, "." + (Convert.ToInt32(Regex.Match(tl, @"(?<=\.)\d\d$").Value) + DelayMsec).ToString());//直接修改毫秒，后面会调用方法修正
-                        if (returnString.ToString() != "")
-                            returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].OriLyrics + "\r\n[" + tl + "]" + MixedLyric[i].TransLyrics);
-                        else
-                            returnString.Append("[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].OriLyrics + "\r\n[" + tl + "]" + MixedLyric[i].TransLyrics);
-                    }
-                    else if(MixedLyric[i].HasTrans() == false)
-                    {
-                        if (returnString.ToString() != "")
-                            returnString.Append("\r\n[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
-                        else
-                            returnString.Append("[" + MixedLyric[i].Timeline + "]" + MixedLyric[i].ToString());
-                    }
-                    else
-                    {
-                        ErrorLog = ErrorLog + "<interesting things happened...>";
-                        return "";
-                    }
-                }
-                returnString = new StringBuilder(Lyrics.formatTimeline(returnString.ToString(), true));
-                return returnString.ToString();
-            }
-            catch (System.ArgumentNullException)
-            {
-                ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
-                return "";
-            }
-            catch (System.NullReferenceException)
-            {
-                ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
-                return "";
-            }
-
+            string[]  result = MixedLyric.GetWalkmanStyleLyrics(0, new object[] { DelayMsec });
+            ErrorLog += result[1];
+            return result[0].ToString();
         }
         public string GetErrorLog()
         {

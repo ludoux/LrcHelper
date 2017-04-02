@@ -115,6 +115,7 @@ namespace LrcHelper
             Lyric l = new Lyric(MusicID);
             
             l.GetOnlineLyric();
+            
             string lyricText = l.GetDelayedLyric(DelayMsc);
             if (lyricText != "")
             {

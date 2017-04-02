@@ -8,17 +8,39 @@ namespace Ludoux.LrcHelper.SharedFramework
     
      public class LyricsLine
     {
-        string _tineline;//含[]
+        int _timeline;//以十毫秒数来保存，100=1000ms=1s
         internal string Timeline//返回不带[]
         {
             get
             {
-                MatchCollection mc = new Regex(@"(?<=\[).+(?=\])").Matches(_tineline);//不含 [ ]
-                if (mc.Count != 1)//有误
-                    return null;
-                return mc[0].Value;
+                int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
+                if (_timeline > 99)
+                {
+                    MSec = _timeline % 100;
+                    Sec = Convert.ToInt32(Math.Floor(Convert.ToDecimal(_timeline / 100)));
+                }
+                else
+                    return $"00:00.{_timeline.ToString():D2}";
+                
+                if(Sec>59)
+                {
+                    Min = Convert.ToInt32(Math.Floor(Convert.ToDecimal(Sec / 60)));
+                    Sec = Sec % 60;
+                }
+                return $"{Min:D2}:{Sec:D2}.{MSec:D2}";
             }
-            set => _tineline = "[" + value + "]";
+            set
+            {
+                int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
+                Min = Convert.ToInt32(Regex.Match(value, @"^\d+(?=:)").Value);
+                Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value);
+                MSec = Convert.ToInt32(Regex.Match(value, @"(?<=\.)\d+$").Value);
+                int tl = MSec + Sec * 100 + Min * 100 * 60;
+                if (tl > 0)
+                    _timeline = tl;
+                else
+                    _timeline = 0;
+            }
         }
         string _oriLyrics;
         internal string OriLyrics
@@ -38,6 +60,7 @@ namespace Ludoux.LrcHelper.SharedFramework
             get => _transLyrics;
             private set => _transLyrics = value;
         }
+
         internal bool HasTrans()
         {
             if (Break != null && Break != "" && TransLyrics != null && TransLyrics != "")
@@ -68,7 +91,11 @@ namespace Ludoux.LrcHelper.SharedFramework
             Break=BreakText;
             TransLyrics=TransLyricsText;
         }
-        
+        internal void DelayTimeline(int MSec)//以十毫秒数来保存，100=1000ms=1s
+        {
+            if (_timeline + MSec > 0)
+                _timeline = _timeline + MSec;
+        }
     }
      public class Lyrics
     {
@@ -192,70 +219,43 @@ namespace Ludoux.LrcHelper.SharedFramework
             }
             return tmp.ToString();
         }
-        public static string formatTimeline(string RowText,bool OnlyToFixDelay=false)
+        public static string formatTimeline(string RowText)
         {//TODO: 完善！！
             StringBuilder tmp = new StringBuilder(RowText);
             StringBuilder changedText;
             MatchCollection mc = new Regex(@"\[[0-9:\.]+\]").Matches(tmp.ToString());//出来的是时间轴含[]，已经不含了tags
             if (mc.Count == 0)
                 return "";
-            if (OnlyToFixDelay == false)
+            for (int i = 0; i < mc.Count; i++)
             {
-                for (int i = 0; i < mc.Count; i++)
+                changedText = new StringBuilder(mc[i].Value);
+                if (Regex.IsMatch(mc[i].Value, @"\[\d\:"))//为*[0:*
                 {
-                    changedText = new StringBuilder(mc[i].Value);
-                    if (Regex.IsMatch(mc[i].Value, @"\[\d\:"))//为*[0:*
-                    {
-                        changedText = changedText.Replace("[", "[0");
-                    }
-                    if (Regex.IsMatch(mc[i].Value, @"\:\d\."))//为*:0.*
-                    {
-                        changedText = changedText.Replace(":", ":0");
-                    }
-                    if (Regex.IsMatch(mc[i].Value, @"\.\d\]")) //为*.0]*
-                    {
-                        changedText = changedText.Replace("]", "0]");
-                    }
-                    if (Regex.IsMatch(mc[i].Value, @"\.\d{3}\]"))//为*.000]*
-                    {
-                        changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\d\]", "]"));
-                    }
-                    if (Regex.IsMatch(mc[i].Value, @":\d{2}\]"))//为[00:00]*
-                    {
-                        changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\]", ".00]"));
-                    }
-                    tmp.Replace(mc[i].Value, changedText.ToString());
+                    changedText = changedText.Replace("[", "[0");
                 }
-            }
-            else
-            {
-                for(int i=0;i<mc.Count;i++)
+                if (Regex.IsMatch(mc[i].Value, @"\:\d\."))//为*:0.*
                 {
-                    changedText = new StringBuilder(mc[i].Value);
-                    int mSec = Convert.ToInt32(Regex.Match(mc[i].Value, @"(?<=\.).+(?=\])").Value);
-                    if (mSec > 99)
-                    {
-                        changedText = new StringBuilder("[" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=^\[).*?(?=:)").Value)) +
-                                      ":" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=:).*?(?=\.)").Value) + 1) +
-                                      "." + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=\.).*?(?=\])").Value) - 100) +
-                                      "]");
-                    }
-
-                    int sec = Convert.ToInt32(Regex.Match(mc[i].Value, @"(?<=:).+(?=\.)").Value);
-                    if (sec > 59)
-                    {
-                        changedText = new StringBuilder("[" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=^\[).+(?=:)").Value) + 1) +
-                                      ":" + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=:).+(?=\.)").Value) - 60) +
-                                      "." + string.Format("{0:D2}", Convert.ToInt32(Regex.Match(changedText.ToString(), @"(?<=\.).+(?=\])").Value)) +
-                                      "]");
-                    }
-                    tmp.Replace(mc[i].Value, changedText.ToString());
+                    changedText = changedText.Replace(":", ":0");
                 }
+                if (Regex.IsMatch(mc[i].Value, @"\.\d\]")) //为*.0]*
+                {
+                    changedText = changedText.Replace("]", "0]");
+                }
+                if (Regex.IsMatch(mc[i].Value, @"\.\d{3}\]"))//为*.000]*
+                {
+                    changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\d\]", "]"));
+                }
+                if (Regex.IsMatch(mc[i].Value, @":\d{2}\]"))//为[00:00]*
+                {
+                    changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\]", ".00]"));
+                }
+                tmp.Replace(mc[i].Value, changedText.ToString());
             }
             return tmp.ToString();
         }
         public void ArrangeLyrics(string Text,string Break=null)
         {
+            
             Text = formatNewline(Text);
             Text = formatTimeline(Text);
             Text = formatBlankline(Text);
@@ -307,6 +307,74 @@ namespace Ludoux.LrcHelper.SharedFramework
             else
                 return false;
         }
+        public string[] GetWalkmanStyleLyrics(int ModeIndex, object[] args)
+        {
+            string ErrorLog = "";
+            switch (ModeIndex)
+            {
+                case 0://翻译延迟，作为新行出现
+                    try
+                    {
+                        int DelayMsec = Convert.ToInt32(args[0]);
+                        StringBuilder returnString = new StringBuilder("");
+                        for (int i = 0; i < Count; i++)
+                        {
+                            if (Count == 0)
+                            {
+                                ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
+                                return new string[] { "", ErrorLog };
+                            }
+                            else if (this[i].HasTrans())
+                            {//如果有翻译
+                                if (returnString.ToString() != "")
+                                {
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].OriLyrics);
+                                    this[i].DelayTimeline(DelayMsec);
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
+                                    this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                }
+
+                                else
+                                {
+                                    returnString.Append("[" + this[i].Timeline + "]" + this[i].OriLyrics);
+                                    this[i].DelayTimeline(DelayMsec);
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
+                                    this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                }
+
+                            }
+                            else if (this[i].HasTrans() == false)
+                            {
+                                if (returnString.ToString() != "")
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].ToString());
+                                else
+                                    returnString.Append("[" + this[i].Timeline + "]" + this[i].ToString());
+                            }
+                            else
+                            {
+                                ErrorLog = ErrorLog + "<Interesting things happened...>";
+                                return new string[] { "", ErrorLog };
+                            }
+                        }
+
+                        return new string[] { returnString.ToString(), ErrorLog };
+                    }
+                    catch (System.ArgumentNullException)
+                    {
+                        ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
+                        return new string[] { "", ErrorLog };
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
+                        return new string[] { "", ErrorLog };
+                    }
+
+                default:
+                    return null;
+            }
+
+        }
     }
     static class FormatFileName
     {
@@ -332,5 +400,5 @@ namespace Ludoux.LrcHelper.SharedFramework
             return fileName;
         }
     }
-    
+
 }
