@@ -167,98 +167,49 @@ namespace Ludoux.LrcHelper.SharedFramework
         {
             ArrangeLyrics(Text, Break);
         }
-        public static string formatNewline(string RowText)
-        {
-            // \r.length=1   \r\n.length=2
-            StringBuilder tmp=new StringBuilder(RowText);
-            
-            tmp.Replace(@"\r", "\r");
-            tmp.Replace(@"\n", "\n");//将明码出的\r \n 成为转义符
-            
-            if (Regex.IsMatch(tmp.ToString(), @"\r(?!\n)"))//存在\r单独存在的情况
-            {
-                MatchCollection mc = new Regex(@"\r(?!\n)").Matches(tmp.ToString());
-                for (int i = 0; i < mc.Count; i++)
-                {
-                tmp.Remove(mc[i].Index+i, 1);//删除插入会影响sb的index
-                tmp.Insert(mc[i].Index+i,"\r\n");
-                }
-            }
-            
-            if (Regex.IsMatch(tmp.ToString(), @"(?<!\r)\n"))//存在\n单独存在的情况
-            {
-                MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
-                for (int i = 0; i < mc.Count; i++)
-                {
-                tmp.Remove(mc[i].Index+i, 1);//删除插入会影响sb的index
-                tmp.Insert(mc[i].Index+i,"\r\n");
-                }
-            }
-            
-            if (Regex.IsMatch(tmp.ToString(), @"\r\n"))//存在\r\n单独存在的情况
-            {
-                MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
-                for (int i = 0; i < mc.Count; i++)
-                {
-                tmp.Remove(mc[i].Index+i, 1);//删除插入会影响sb的index
-                tmp.Insert(mc[i].Index+i,"\r\n");
-                }
-            }
-            return tmp.ToString();
-        }
-        public static string formatBlankline(string RowText)
-        {
-            StringBuilder tmp = new StringBuilder(RowText);
-            while (Regex.IsMatch(tmp.ToString(), @"\r\n\r\n"))
-                tmp.Replace("\r\n\r\n", "\r\n");
-            while (Regex.IsMatch(tmp.ToString(), @"\r\n\s*\r\n"))
-            {
-                MatchCollection mc = new Regex(@"\r\n\s*\r\n").Matches(tmp.ToString());
-                for (int i = 0; i < mc.Count; i++)
-                    tmp.Replace(mc[i].Value, "\r\n");
-            }
-            return tmp.ToString();
-        }
-        public static string formatTimeline(string RowText)
-        {//TODO: 完善！！
-            StringBuilder tmp = new StringBuilder(RowText);
-            StringBuilder changedText;
-            MatchCollection mc = new Regex(@"\[[0-9:\.]+\]").Matches(tmp.ToString());//出来的是时间轴含[]，已经不含了tags
-            if (mc.Count == 0)
-                return "";
-            for (int i = 0; i < mc.Count; i++)
-            {
-                changedText = new StringBuilder(mc[i].Value);
-                if (Regex.IsMatch(mc[i].Value, @"\[\d\:"))//为*[0:*
-                {
-                    changedText = changedText.Replace("[", "[0");
-                }
-                if (Regex.IsMatch(mc[i].Value, @"\:\d\."))//为*:0.*
-                {
-                    changedText = changedText.Replace(":", ":0");
-                }
-                if (Regex.IsMatch(mc[i].Value, @"\.\d\]")) //为*.0]*
-                {
-                    changedText = changedText.Replace("]", "0]");
-                }
-                if (Regex.IsMatch(mc[i].Value, @"\.\d{3}\]"))//为*.000]*
-                {
-                    changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\d\]", "]"));
-                }
-                if (Regex.IsMatch(mc[i].Value, @":\d{2}\]"))//为[00:00]*
-                {
-                    changedText = new StringBuilder(Regex.Replace(changedText.ToString(), @"\]", ".00]"));
-                }
-                tmp.Replace(mc[i].Value, changedText.ToString());
-            }
-            return tmp.ToString();
-        }
+        
         public void ArrangeLyrics(string Text,string Break=null)
         {
-            
+             string formatNewline(string RowText)
+            {
+                // \r.length=1   \r\n.length=2
+                StringBuilder tmp = new StringBuilder(RowText);
+
+                tmp.Replace(@"\r", "\r");
+                tmp.Replace(@"\n", "\n");//将明码出的\r \n 成为转义符
+
+                if (Regex.IsMatch(tmp.ToString(), @"\r(?!\n)"))//存在\r单独存在的情况
+                {
+                    MatchCollection mc = new Regex(@"\r(?!\n)").Matches(tmp.ToString());
+                    for (int i = 0; i < mc.Count; i++)
+                    {
+                        tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
+                        tmp.Insert(mc[i].Index + i, "\r\n");
+                    }
+                }
+
+                if (Regex.IsMatch(tmp.ToString(), @"(?<!\r)\n"))//存在\n单独存在的情况
+                {
+                    MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
+                    for (int i = 0; i < mc.Count; i++)
+                    {
+                        tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
+                        tmp.Insert(mc[i].Index + i, "\r\n");
+                    }
+                }
+
+                if (Regex.IsMatch(tmp.ToString(), @"\r\n"))//存在\r\n单独存在的情况
+                {
+                    MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
+                    for (int i = 0; i < mc.Count; i++)
+                    {
+                        tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
+                        tmp.Insert(mc[i].Index + i, "\r\n");
+                    }
+                }
+                return tmp.ToString();
+            }
             Text = formatNewline(Text);
-            Text = formatTimeline(Text);
-            Text = formatBlankline(Text);
             string[] textList = Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             int totalCount=textList.Count();//总行数
             int n = -1;//n只在歌词行时跳
@@ -293,11 +244,11 @@ namespace Ludoux.LrcHelper.SharedFramework
                 LyricsLineText[n].Timeline = Regex.Match(textList[i], @"(?<=\[).+(?=\])").Value;
                 if(Break!=null)//有翻译
                 {
-                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[n].Timeline + @"\]).+(?=" + Break + @")").Value;
-                    LyricsLineText[n].SetTransLyrics(Break,Regex.Match(textList[i],@"(?<=" + Break + @").+$").Value);
+                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\]).+(?=" + Break + @")").Value;
+                    LyricsLineText[n].SetTransLyrics(Break,Regex.Match(textList[i], @"(?<=" + Break + @").+$").Value);
                 }
                 else
-                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[" + LyricsLineText[n].Timeline + @"\]).+$").Value;
+                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\]).+$").Value;
             }
         }
         public bool HasTransLyrics(int Line)

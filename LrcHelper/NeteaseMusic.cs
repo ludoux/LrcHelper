@@ -11,7 +11,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 {
     class HttpRequest
     {
-        public string getContent(string sURL)
+        public string GetContent(string sURL)
         {
 
             string sContent = ""; //Content
@@ -35,15 +35,15 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             return sContent;
         }
     }
-    class Lyric
+    class ExtendedLyrics
 	{
 		int ID;
 		byte Status;
-		bool HasOriLyric;
-		bool HasTransLyric;
+		bool HasOriLyrics;
+		bool HasTransLyrics;
         string ErrorLog = "";
-        Lyrics MixedLyric = new Lyrics();//翻译作为trans来保存
-        public Lyric(int ID)
+        Lyrics MixedLyrics = new Lyrics();//翻译作为trans来保存
+        public ExtendedLyrics(int ID)
 		{
 			this.ID=ID;
 		}
@@ -51,14 +51,14 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 		{
             try
             {
-                HasOriLyric = false;
-                HasTransLyric = false;
+                HasOriLyrics = false;
+                HasTransLyrics = false;
                 Lyrics tempOriLyric = new Lyrics();
                 Lyrics tempTransLyric = new Lyrics();
                 string sLRC = "";
                 string sContent;
                 HttpRequest hr = new HttpRequest();
-                sContent = hr.getContent("http://music.163.com/api/song/media?id=" + ID);
+                sContent = hr.GetContent("http://music.163.com/api/song/media?id=" + ID);
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
                     ErrorLog = ErrorLog + "<RETURN ERR!>";
@@ -74,10 +74,10 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 }
                 sLRC = o["lyric"].ToString();
                 tempOriLyric.ArrangeLyrics(sLRC);
-                HasOriLyric = true;
-                MixedLyric.ArrangeLyrics(sLRC);
+                HasOriLyrics = true;
+                MixedLyrics.ArrangeLyrics(sLRC);
                 //===========翻译
-                sContent = hr.getContent("http://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
+                sContent = hr.GetContent("http://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
                     ErrorLog = ErrorLog + "<RETURN ERR!>";
@@ -97,17 +97,17 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                         if (tempOriLyric[j].Timeline != tempTransLyric[i].Timeline)
                             continue;
                         if(tempTransLyric[i].OriLyrics != null && tempTransLyric[i].OriLyrics != "")
-                            MixedLyric[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
+                            MixedLyrics[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
                         i++;
                     }
                 }
                 else
                 {
-                    ErrorLog = ErrorLog + "<COUNT ERROR>";//也有可能是无翻译
+                    //无翻译
                     return;
                 }
 
-                HasTransLyric = true;
+                HasTransLyrics = true;
 
                 
                 tempOriLyric = null;
@@ -125,11 +125,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         }
         public override string ToString()
         {
-            return MixedLyric.ToString();
+            return MixedLyrics.ToString();
         }
         public string GetDelayedLyric(int DelayMsec)//1等于10ms，注意进制。应该在GetOnlineLyric()后使用,若无翻译将直接返回ori
         {
-            string[]  result = MixedLyric.GetWalkmanStyleLyrics(0, new object[] { DelayMsec });
+            string[]  result = MixedLyrics.GetWalkmanStyleLyrics(0, new object[] { DelayMsec });
             ErrorLog += result[1];
             return result[0].ToString();
         }
@@ -143,11 +143,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             string sContent;
             HttpRequest hr = new HttpRequest();
             JObject o = new JObject();
-            sContent = hr.getContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+            sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
             o = (JObject)JsonConvert.DeserializeObject(sContent);
             if (o.First.ToString() == @"""songs"": []" || o.First.ToString() == @"""code"": 400")
                 return -1;
-            sContent = hr.getContent("http://music.163.com/api/song/media?id=" + ID);
+            sContent = hr.GetContent("http://music.163.com/api/song/media?id=" + ID);
             if (sContent.Substring(0, 4).Equals("ERR!"))
                 return -1;
 
@@ -177,7 +177,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string FinalText = "";
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
-                sContent = hr.getContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+                sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 FinalText = o["songs"].ToString();
                 FinalText = Regex.Replace(FinalText, @"^\[", "");
@@ -210,7 +210,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string sContent;
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
-                sContent = hr.getContent("http://music.163.com/api/playlist/detail?id=" + ID);
+                sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["result"].ToString();
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
@@ -228,7 +228,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string sContent = "";
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
-                sContent = hr.getContent("http://music.163.com/api/playlist/detail?id=" + ID);
+                sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["result"].ToString();
                 o = (JObject)JsonConvert.DeserializeObject(sContent);

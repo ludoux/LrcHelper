@@ -28,8 +28,7 @@ namespace LrcHelper
             if (MusicradioButton.Checked)
             {
                 Music m = new Music(ID);
-                int status;
-                string Log = DownloadLrc(ID, 100, ".\\" + m.GetFileName() + ".lrc",out status);
+                string Log = DownloadLrc(ID, 100, ".\\" + m.GetFileName() + ".lrc", out int status);
                 sw.Stop();
                 if (Log == "")
                     StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
@@ -40,9 +39,11 @@ namespace LrcHelper
             else if(PlaylistradioButton.Checked)
             {
                 cancelToken = new CancellationTokenSource();
-                ParallelOptions parOpts = new ParallelOptions();
-                parOpts.CancellationToken = cancelToken.Token;
-                parOpts.MaxDegreeOfParallelism = System.Environment.ProcessorCount;//上面三行针对TPL并行类库
+                ParallelOptions parOpts = new ParallelOptions()
+                {
+                    CancellationToken = cancelToken.Token,
+                    MaxDegreeOfParallelism = System.Environment.ProcessorCount//上面三行针对TPL并行类库
+                };
                 Task.Factory.StartNew(() =>
                 {
                     
@@ -66,8 +67,7 @@ namespace LrcHelper
                         {
                             parOpts.CancellationToken.ThrowIfCancellationRequested();
                             Music m = new Music(iDList[i]);
-                            int status;
-                            string ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out status);
+                            string ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
                             if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
                                 Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
                             else
@@ -112,7 +112,7 @@ namespace LrcHelper
         }
         private string DownloadLrc(int MusicID,int DelayMsc, string File, out int status)
         {
-            Lyric l = new Lyric(MusicID);
+            ExtendedLyrics l = new ExtendedLyrics(MusicID);
             
             l.GetOnlineLyric();
             
