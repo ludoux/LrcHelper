@@ -1,5 +1,4 @@
-﻿[![Build Status](https://travis-ci.org/Ludoux/LrcHelper.svg?branch=master)](https://travis-ci.org/Ludoux/LrcHelper)
-访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases)来获得最新的发布版本，或者手动编译代码尝鲜(但通常二进制文件与源代码所对应) 
+﻿访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases)来获得最新的发布版本，或者手动编译代码尝鲜(但通常二进制文件与源代码所对应) 
 
 -----
 
@@ -31,15 +30,14 @@ DEMO，练手项目，多多包涵~~~///(^v^)\\\~~~
 
 ## Known Bugs
 
-1.不支持同行多个时间轴，且没有异常处理.
+1. 稳定性
 
 ## TODO:
 
 
 1. 增加歌曲信息，歌词信息等，Tag 更多方法.
 2. 写其它的歌词文件处理方法.
-3. 时间轴排序？
-4. 继续封装，完善代码安全性和可维护性.
+3. 继续封装，完善代码安全性和可维护性.
 
 ## License:
 
@@ -53,7 +51,7 @@ DEMO，练手项目，多多包涵~~~///(^v^)\\\~~~
 
 ## 更新信息(最近在上)
 
-* 2017.4.14 修 Bug，清理无用代码。
+* 2017.4.14 修 Bug，清理无用代码。支持同行多个时间轴，支持排序。
 * 2017.4.2  日常修 bug，Json.NET 升为 10.0.2，更改核心代码，将时间轴以 int 方式存储方便以后排序，更改了翻译延时处理的方法，清理了原本的过时的时轴规范方法。(换用最新的 Visual Studio 2017 而且升级过程异常顺利)(#Weekly)
 * 2017.3.12 可以取消(Cancel)操作了(#Weekly)(v1.0.2 #Release)
 * 2017.3.11 更改了核心代码——允许空白歌词(含翻译)存在，对翻译处理更大度，更改了对于翻译是否存在的实现，修复了一个经常发生关于延迟修复的bug.注意cancel仍有问题.(#Weekly)

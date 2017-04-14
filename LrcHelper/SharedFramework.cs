@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace Ludoux.LrcHelper.SharedFramework
 {
     
-     public class LyricsLine
+     public class LyricsLine : IComparable<LyricsLine>
     {
         int _timeline;//以十毫秒数来保存，100=1000ms=1s
         internal string Timeline//返回不带[]
@@ -96,10 +96,19 @@ namespace Ludoux.LrcHelper.SharedFramework
             if (_timeline + MSec > 0)
                 _timeline = _timeline + MSec;
         }
+        public int CompareTo(LyricsLine other)
+        {
+            return _timeline.CompareTo(other._timeline);
+        }
+
     }
      public class Lyrics
     {
         List<LyricsLine> LyricsLineText=new List<LyricsLine>();
+        bool HasTags
+        {
+            get => GetAllTags() != "";
+        }
         string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
         string TagAr
         {
@@ -143,14 +152,9 @@ namespace Ludoux.LrcHelper.SharedFramework
         }
         public override string ToString()
         {
-            string ReturnString=null;
+            string ReturnString=GetAllTags();
             foreach (LyricsLine ll in LyricsLineText)
-            {
-                if (ReturnString == null)
-                    ReturnString = ll.ToString();
-                else
-                    ReturnString += "\r\n" + ll.ToString();
-            }
+                ReturnString += "\r\n" + ll.ToString();
             return ReturnString;
         }
 
@@ -168,6 +172,10 @@ namespace Ludoux.LrcHelper.SharedFramework
             ArrangeLyrics(Text, Break);
         }
         
+        public void Sort()
+        {
+            LyricsLineText.Sort();
+        }
         public void ArrangeLyrics(string Text,string Break=null)
         {
              string formatNewline(string RowText)
@@ -212,7 +220,8 @@ namespace Ludoux.LrcHelper.SharedFramework
             Text = formatNewline(Text);
             string[] textList = Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             int totalCount=textList.Count();//总行数
-            int n = -1;//n只在歌词行时跳
+            int n = -1;//指示愿文本行，只在歌词行时跳
+            int j = -1;//指示List，可能有同行多个时间轴
             for(int i=0;i<totalCount;i++)
             {
                 if(Regex.IsMatch(textList[i], @"^\[Ar:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
@@ -240,15 +249,27 @@ namespace Ludoux.LrcHelper.SharedFramework
                     continue;
                 }
                 n++;
-                LyricsLineText.Add(new LyricsLine());
-                LyricsLineText[n].Timeline = Regex.Match(textList[i], @"(?<=\[).+(?=\])").Value;
-                if(Break!=null)//有翻译
+                MatchCollection mc = Regex.Matches(textList[i], @"(?<=\[).+?(?=\])");
+                int c = mc.Count;//可能有同行多个时间轴的可能性
+                for (int k = 0; k < c; k++)
                 {
-                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\]).+(?=" + Break + @")").Value;
-                    LyricsLineText[n].SetTransLyrics(Break,Regex.Match(textList[i], @"(?<=" + Break + @").+$").Value);
+                    j++;
+                    LyricsLineText.Add(new LyricsLine());
+
+
+                    LyricsLineText[j].Timeline = mc[k].Value;
+
+                    if (Break != null)//有翻译
+                    {
+                        LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+(?=" + Break + @")").Value;
+                        LyricsLineText[j].SetTransLyrics(Break, Regex.Match(textList[i], @"(?<=" + Break + @").+$").Value);
+                    }
+                    else
+                        LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+$").Value;
                 }
-                else
-                    LyricsLineText[n].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\]).+$").Value;
+
+
+
             }
         }
         public bool HasTransLyrics(int Line)
@@ -308,7 +329,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                             }
                         }
 
-                        return new string[] { returnString.ToString(), ErrorLog };
+                        return new string[] {(GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), ErrorLog };//写入 Tag 信息
                     }
                     catch (System.ArgumentNullException)
                     {
@@ -324,6 +345,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                 default:
                     return null;
             }
+
 
         }
     }

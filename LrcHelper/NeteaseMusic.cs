@@ -100,16 +100,9 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                             MixedLyrics[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
                         i++;
                     }
+                    HasTransLyrics = true;
                 }
-                else
-                {
-                    //无翻译
-                    return;
-                }
-
-                HasTransLyrics = true;
-
-                
+                MixedLyrics.Sort();
                 tempOriLyric = null;
                 tempTransLyric = null;
             }
@@ -165,7 +158,6 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             return -2;
         }
     }
-
 	class Music
 	{
 		int ID;

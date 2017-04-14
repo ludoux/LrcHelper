@@ -35,6 +35,7 @@ namespace LrcHelper
                 else
                     StatusInfolabel.Text = Log + " Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
                 GETbutton.Enabled = true;
+                IDtextBox.Clear();
             }
             else if(PlaylistradioButton.Checked)
             {
@@ -89,6 +90,7 @@ namespace LrcHelper
                         {
                             Cancelbutton.Enabled = false;
                             GETbutton.Enabled = true;
+                            IDtextBox.Clear();
                         });
                     }
                     
@@ -109,13 +111,13 @@ namespace LrcHelper
                     cancelToken.Dispose();
                 });
             }
+            
+            
         }
         private string DownloadLrc(int MusicID,int DelayMsc, string File, out int status)
         {
             ExtendedLyrics l = new ExtendedLyrics(MusicID);
-            
             l.GetOnlineLyric();
-            
             string lyricText = l.GetDelayedLyric(DelayMsc);
             if (lyricText != "")
             {
