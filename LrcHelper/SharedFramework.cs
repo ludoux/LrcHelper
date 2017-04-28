@@ -35,6 +35,8 @@ namespace Ludoux.LrcHelper.SharedFramework
                 Min = Convert.ToInt32(Regex.Match(value, @"^\d+(?=:)").Value);
                 Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value);
                 MSec = Convert.ToInt32(Regex.Match(value, @"(?<=\.)\d+$").Value);
+                if(MSec > 99)
+                    MSec = Convert.ToInt32(Math.Round(Convert.ToDouble(MSec / 10)));
                 int tl = MSec + Sec * 100 + Min * 100 * 60;
                 if (tl > 0)
                     _timeline = tl;
@@ -220,9 +222,9 @@ namespace Ludoux.LrcHelper.SharedFramework
             Text = formatNewline(Text);
             string[] textList = Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             int totalCount=textList.Count();//总行数
-            int n = -1;//指示愿文本行，只在歌词行时跳
+            
             int j = -1;//指示List，可能有同行多个时间轴
-            for(int i=0;i<totalCount;i++)
+            for (int i=0;i<totalCount;i++)//i指示原文本行，只在歌词行时跳
             {
                 if(Regex.IsMatch(textList[i], @"^\[Ar:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
                 {
@@ -248,15 +250,12 @@ namespace Ludoux.LrcHelper.SharedFramework
                     TagBy = tagText;
                     continue;
                 }
-                n++;
                 MatchCollection mc = Regex.Matches(textList[i], @"(?<=\[).+?(?=\])");
                 int c = mc.Count;//可能有同行多个时间轴的可能性
                 for (int k = 0; k < c; k++)
                 {
                     j++;
                     LyricsLineText.Add(new LyricsLine());
-
-
                     LyricsLineText[j].Timeline = mc[k].Value;
 
                     if (Break != null)//有翻译
@@ -267,9 +266,6 @@ namespace Ludoux.LrcHelper.SharedFramework
                     else
                         LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+$").Value;
                 }
-
-
-
             }
         }
         public bool HasTransLyrics(int Line)
