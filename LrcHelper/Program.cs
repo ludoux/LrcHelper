@@ -21,7 +21,7 @@ namespace LrcHelper
 
                 client.Headers["User-Agent"] = @"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0";
                 client.Encoding = System.Text.Encoding.UTF8;
-                client.DownloadDataAsync(new Uri("https://raw.githubusercontent.com/Ludoux/LrcHelper/master/LrcHelper/LrcHelper/UpdateInfo/UpInfo.txt"));
+                client.DownloadDataAsync(new Uri("https://raw.githubusercontent.com/Ludoux/LrcHelper/master/UpdateInfo/UpInfo.txt"));
                 client.DownloadDataCompleted += Client_DownloadDataCompleted;
 
             }
