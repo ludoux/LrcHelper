@@ -182,6 +182,7 @@ namespace Ludoux.LrcHelper.SharedFramework
         {
              string formatNewline(string RowText)
             {
+                
                 // \r.length=1   \r\n.length=2
                 StringBuilder tmp = new StringBuilder(RowText);
 

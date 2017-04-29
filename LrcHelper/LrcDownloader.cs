@@ -121,7 +121,7 @@ namespace LrcHelper
             string lyricText = l.GetDelayedLyric(DelayMsc);
             if (lyricText != "")
             {
-                System.IO.File.WriteAllText(File, lyricText+ "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:"+System.Diagnostics.FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion+ "]", Encoding.UTF8);
+                System.IO.File.WriteAllText(File, lyricText+ "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:"+FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion+ "]", Encoding.UTF8);
                 status = l.GetLyricStatus();
                 return "";
             }

@@ -1,0 +1,19 @@
+﻿;===================
+;ATTENTION
+;Software will ask for this file and check the lastest version.
+;DO NOT change the style of this file.
+;===================
+
+;Software with these version WILL NOT chek update.If <All> is existed, Software with ANY version WILL NOT check.
+[UnsupportedVer]
+
+;Lastest Released Version
+[Ver]
+<1.0.2.0>
+
+;WebLink, not software download link.
+[WebLink]
+<https://github.com/Ludoux/LrcHelper/releases>
+
+
+;=END=
