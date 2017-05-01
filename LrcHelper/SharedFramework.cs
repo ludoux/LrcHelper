@@ -8,19 +8,23 @@ namespace Ludoux.LrcHelper.SharedFramework
     
      public class LyricsLine : IComparable<LyricsLine>
     {
+        int _offset = 0;//以十毫秒数来保存，100=1000ms=1s
         int _timeline;//以十毫秒数来保存，100=1000ms=1s
         internal string Timeline//返回不带[]
         {
             get
             {
+                int _tmptimeline = _timeline;//
+                if (_offset != 0)
+                    _tmptimeline = _tmptimeline + _offset;
                 int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
-                if (_timeline > 99)
+                if (_tmptimeline > 99)
                 {
-                    MSec = _timeline % 100;
-                    Sec = Convert.ToInt32(Math.Floor(Convert.ToDecimal(_timeline / 100)));
+                    MSec = _tmptimeline % 100;
+                    Sec = Convert.ToInt32(Math.Floor(Convert.ToDecimal(_tmptimeline / 100)));
                 }
                 else
-                    return $"00:00.{_timeline.ToString():D2}";
+                    return $"00:00.{_tmptimeline.ToString():D2}";
                 
                 if(Sec>59)
                 {
@@ -29,8 +33,14 @@ namespace Ludoux.LrcHelper.SharedFramework
                 }
                 return $"{Min:D2}:{Sec:D2}.{MSec:D2}";
             }
-            set
+            set//进来不带[]
             {
+                if (Regex.IsMatch(value, @"^offset:\d+$", RegexOptions.IgnoreCase))//处理offset
+                {
+                    _offset = Convert.ToInt32(Math.Round(Convert.ToDecimal(Regex.Match(value, @"(?<=offset:)\d+$", RegexOptions.IgnoreCase).Value) / 10));
+                    return;
+                }
+                    
                 int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
                 Min = Convert.ToInt32(Regex.Match(value, @"^\d+(?=:)").Value);
                 Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value);
@@ -44,6 +54,8 @@ namespace Ludoux.LrcHelper.SharedFramework
                     _timeline = 0;
             }
         }
+        
+
         string _oriLyrics;
         internal string OriLyrics
         {
