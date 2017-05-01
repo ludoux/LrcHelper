@@ -47,10 +47,8 @@ namespace LrcHelper
 
                     string ver = Regex.Match(textData, @"(?<=\[Ver\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value;
                     if (Convert.ToInt32(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion.Replace(@".", "")) < Convert.ToInt32(ver.Replace(@".", ""))
-                        && MessageBox.Show("We found lastest version" + ver + "\r\n Do you want to visit the download page and get it?", "New Version Found", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                    {
+                        && MessageBox.Show("Current version:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "\r\nLastest version:" + ver + "\r\n\r\n Do you want to visit the download page and get it?", "New Version Found", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                         Process.Start(Regex.Match(textData, @"(?<=\[WebLink\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value);
-                    }
 
                 }
             }

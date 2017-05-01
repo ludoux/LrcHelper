@@ -77,6 +77,7 @@ namespace LrcHelper
                             {
                                 StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
                             });
+                            m = null;
                         });
                     }
                     catch (OperationCanceledException ex)
@@ -109,6 +110,9 @@ namespace LrcHelper
                         StatusInfolabel.Text = (cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished") + "\r\nRead Log.txt to learn more.";
                     });
                     cancelToken.Dispose();
+                    Log.Clear();
+                    OutLog.Clear();
+                    pl = null;
                 });
             }
             

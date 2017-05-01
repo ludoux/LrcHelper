@@ -1,4 +1,4 @@
-﻿访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases)来获得最新的发布版本，或者手动编译代码尝鲜(但通常二进制文件与源代码所对应) 
+﻿访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本，或者手动编译代码尝鲜(但通常二进制文件与源代码所对应) 
 
 -----
 
@@ -51,7 +51,8 @@
 
 ## 更新信息(最近在上)
 
-* 2017.4.19 软件支持检查更新，修上次更新出现的 bug ，升级框架到4.6.2。(#Weekly)(v1.0.3 #Release)
+* 2017.5.1  支持 offset ，稳定性提升。(#Weekly)(v1.0.4 #Release)
+* 2017.4.29 软件支持检查更新，修上次更新出现的 bug ，升级框架到4.6.2。(#Weekly)(v1.0.3 #Release)
 * 2017.4.14 修 Bug，清理无用代码。支持同行多个时间轴，支持排序。(#Weekly)
 * 2017.4.2  日常修 bug，Json.NET 升为 10.0.2，更改核心代码，将时间轴以 int 方式存储方便以后排序，更改了翻译延时处理的方法，清理了原本的过时的时轴规范方法。(换用最新的 Visual Studio 2017 而且升级过程异常顺利)(#Weekly)
 * 2017.3.12 可以取消(Cancel)操作了(#Weekly)(v1.0.2 #Release)
