@@ -50,7 +50,7 @@ namespace LrcHelper
                 {
                     List<string> Log = new List<string>();
                     Playlist pl = new Playlist(ID);
-                    List<int> iDList = pl.SongIDInPlaylist;
+                    List<long> iDList = pl.SongIDInPlaylist;
                     string folderName = pl.GetFolderName();
                     for (int i = 0; i < iDList.Count; i++)
                         Log.Add("");//先写空白，后面并行直接写[i]
@@ -127,7 +127,7 @@ namespace LrcHelper
                 {
                     List<string> Log = new List<string>();
                     Album a = new Album(ID);
-                    List<int> iDList = a.SongIDInAlbum;
+                    List<long> iDList = a.SongIDInAlbum;
                     string folderName = a.GetFolderName();
                     for (int i = 0; i < iDList.Count; i++)
                         Log.Add("");//先写空白，后面并行直接写[i]
@@ -191,7 +191,7 @@ namespace LrcHelper
                 });
             }
         }
-        private string DownloadLrc(int MusicID,int DelayMsc, string File, out int status)
+        private string DownloadLrc(long MusicID,int DelayMsc, string File, out int status)
         {
             ExtendedLyrics l = new ExtendedLyrics(MusicID);
             l.GetOnlineLyric();

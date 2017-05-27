@@ -40,13 +40,13 @@ namespace Ludoux.LrcHelper.NeteaseMusic
     }
     class ExtendedLyrics
 	{
-		int ID;
+		long ID;
 		byte Status;
 		bool HasOriLyrics;
 		bool HasTransLyrics;
         string ErrorLog = "";
         Lyrics MixedLyrics = new Lyrics();//翻译作为trans来保存
-        public ExtendedLyrics(int ID)
+        public ExtendedLyrics(long ID)
 		{
 			this.ID=ID;
 		}
@@ -164,7 +164,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
     }
 	class Music
 	{
-		int ID;
+        long ID;
         string _name;
 		internal string Name
         {
@@ -193,7 +193,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 		string Artist;
 		string Album;
 		byte Status;
-		public Music(int ID)
+		public Music(long ID)
 		{
 			this.ID = ID;
 		}
@@ -204,12 +204,12 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 	}
     class Playlist
     {
-        int ID;
-        internal List<int> SongIDInPlaylist
+        long ID;
+        internal List<long> SongIDInPlaylist
         {
             get
             {
-                List<int> SIPL = new List<int>(); ;//TODO:用后备！！！！
+                List<long> SIPL = new List<long>(); ;//TODO:用后备！！！！
                 string sContent;
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
@@ -220,7 +220,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 sContent = o["tracks"].ToString();
                 MatchCollection mc = new Regex(@"(?<=\r\n    ""id"": ).*(?=,)").Matches(sContent);//正则匹配歌曲的ID
                 for (int i = 0; i < mc.Count; i++)
-                    SIPL.Add(Convert.ToInt32(mc[i].Value.ToString()));
+                    SIPL.Add(Convert.ToInt64(mc[i].Value.ToString()));
                 return SIPL;
             }
         }
@@ -247,7 +247,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 
             }
         }
-        public Playlist(int ID)
+        public Playlist(long ID)
         {
             this.ID = ID;
         }
@@ -258,16 +258,16 @@ namespace Ludoux.LrcHelper.NeteaseMusic
     }
     class Album
     {
-        int ID;
-        public Album(int ID)
+        long ID;
+        public Album(long ID)
         {
             this.ID = ID;
         }
-        internal List<int> SongIDInAlbum
+        internal List<long> SongIDInAlbum
         {
             get
             {
-                List<int> SIA = new List<int>(); ;//TODO:用后备！！！！
+                List<long> SIA = new List<long>(); ;//TODO:用后备！！！！
                 string sContent;
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
@@ -279,7 +279,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 
                 MatchCollection mc = new Regex(@"(?<=\r\n    ""id"": ).*(?=\r\n)").Matches(sContent);//正则匹配歌曲的ID
                 for (int i = 0; i < mc.Count; i++)
-                    SIA.Add(Convert.ToInt32(mc[i].Value.ToString()));
+                    SIA.Add(Convert.ToInt64(mc[i].Value.ToString()));
                 return SIA;
             }
         }
