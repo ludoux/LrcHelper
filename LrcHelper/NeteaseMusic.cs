@@ -17,8 +17,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             string sContent = ""; //Content
             string sLine = "";
             try
-            { 
-                WebRequest wrGETURL = WebRequest.Create(sURL);
+            {
+                HttpWebRequest wrGETURL = WebRequest.CreateHttp(sURL);
+                
+                wrGETURL.Referer= "https://music.163.com";
+                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
                 while (sLine != null)
@@ -58,6 +61,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string sLRC = "";
                 string sContent;
                 HttpRequest hr = new HttpRequest();
+                
                 sContent = hr.GetContent("http://music.163.com/api/song/media?id=" + ID);
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
@@ -161,22 +165,29 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 	class Music
 	{
 		int ID;
+        string _name;
 		internal string Name
         {
             get
             {
-                string sContent;
-                string FinalText = "";
-                HttpRequest hr = new HttpRequest();
-                JObject o = new JObject();
-                sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
-                o = (JObject)JsonConvert.DeserializeObject(sContent);
-                FinalText = o["songs"].ToString();
-                FinalText = Regex.Replace(FinalText, @"^\[", "");
-                FinalText = Regex.Replace(FinalText, @"\]$", "");
-                o = (JObject)JsonConvert.DeserializeObject(FinalText);
-                FinalText = o["name"].ToString();
-                return FinalText;
+                if (_name != null && _name != "")
+                    return _name;
+                else
+                {
+                    string sContent;
+                    string finalText = "";
+                    HttpRequest hr = new HttpRequest();
+                    JObject o = new JObject();
+                    sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+                    o = (JObject)JsonConvert.DeserializeObject(sContent);
+                    finalText = o["songs"].ToString();
+                    finalText = Regex.Replace(finalText, @"^\[", "");
+                    finalText = Regex.Replace(finalText, @"\]$", "");
+                    o = (JObject)JsonConvert.DeserializeObject(finalText);
+                    finalText = o["name"].ToString();
+                    _name = finalText;
+                }
+                return _name;
             }
         }
 		string Artist;
@@ -213,24 +224,86 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 return SIPL;
             }
         }
+        string _name;
         internal string Name
         {
             get
             {
-                string sContent = "";
-                HttpRequest hr = new HttpRequest();
-                JObject o = new JObject();
-                sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
-                o = (JObject)JsonConvert.DeserializeObject(sContent);
-                sContent = o["result"].ToString();
-                o = (JObject)JsonConvert.DeserializeObject(sContent);
-                sContent = o["name"].ToString();
-                return sContent;
+                if (_name != null && _name != "")
+                    return _name;
+                else
+                {
+                    string sContent = "";
+                    HttpRequest hr = new HttpRequest();
+                    JObject o = new JObject();
+                    sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
+                    o = (JObject)JsonConvert.DeserializeObject(sContent);
+                    sContent = o["result"].ToString();
+                    o = (JObject)JsonConvert.DeserializeObject(sContent);
+                    sContent = o["name"].ToString();
+                    _name = sContent;
+                }
+                return _name;
+
             }
         }
         public Playlist(int ID)
         {
             this.ID = ID;
+        }
+        internal string GetFolderName()
+        {
+            return FormatFileName.CleanInvalidFileName(Name);
+        }
+    }
+    class Album
+    {
+        int ID;
+        public Album(int ID)
+        {
+            this.ID = ID;
+        }
+        internal List<int> SongIDInAlbum
+        {
+            get
+            {
+                List<int> SIA = new List<int>(); ;//TODO:用后备！！！！
+                string sContent;
+                HttpRequest hr = new HttpRequest();
+                JObject o = new JObject();
+                sContent = hr.GetContent("https://music.163.com/api/album/" + ID);
+                o = (JObject)JsonConvert.DeserializeObject(sContent);
+                sContent = o["album"].ToString();
+                o = (JObject)JsonConvert.DeserializeObject(sContent);
+                sContent = o["songs"].ToString();
+                
+                MatchCollection mc = new Regex(@"(?<=\r\n    ""id"": ).*(?=\r\n)").Matches(sContent);//正则匹配歌曲的ID
+                for (int i = 0; i < mc.Count; i++)
+                    SIA.Add(Convert.ToInt32(mc[i].Value.ToString()));
+                return SIA;
+            }
+        }
+        string _name;
+        internal string Name
+        {
+            get
+            {
+                if (_name != null && _name != "")
+                    return _name;
+                else
+                {
+                    string sContent = "";
+                    HttpRequest hr = new HttpRequest();
+                    JObject o = new JObject();
+                    sContent = hr.GetContent("https://music.163.com/api/album/" + ID);
+                    o = (JObject)JsonConvert.DeserializeObject(sContent);
+                    sContent = o["album"].ToString();
+                    o = (JObject)JsonConvert.DeserializeObject(sContent);
+                    sContent = o["name"].ToString();
+                    _name = sContent;
+                }
+                return _name;
+            }
         }
         internal string GetFolderName()
         {

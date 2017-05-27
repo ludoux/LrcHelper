@@ -45,9 +45,9 @@
 
 ## 参考&感谢:
 
-获取外文歌词的代码基于 ituff 的[163lyric项目](https://github.com/ituff/163lyric)的实现，进行了修改。（但是ituff并没有指定那个项目的开源协议）
+获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现，进行了修改。（但是ituff并没有指定那个项目的开源协议）
 
-感谢 Moonlib。com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html)。
+感谢 Moonlib.com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html)。
 
 ## 更新信息（最近在上）
 

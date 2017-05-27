@@ -43,6 +43,7 @@
             this.StatusPDTotallabel = new System.Windows.Forms.Label();
             this.StatusInfolabel = new System.Windows.Forms.Label();
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
+            this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.StatusgroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,7 +131,7 @@
             this.StatusgroupBox.Controls.Add(this.StatusPDFinishedlabel);
             this.StatusgroupBox.Controls.Add(this.StatusPDTotallabel);
             this.StatusgroupBox.Controls.Add(this.StatusInfolabel);
-            this.StatusgroupBox.Location = new System.Drawing.Point(219, 50);
+            this.StatusgroupBox.Location = new System.Drawing.Point(219, 59);
             this.StatusgroupBox.Name = "StatusgroupBox";
             this.StatusgroupBox.Size = new System.Drawing.Size(200, 100);
             this.StatusgroupBox.TabIndex = 8;
@@ -193,11 +194,23 @@
             this.AutoSetcheckBox.Text = "Auto-Set";
             this.AutoSetcheckBox.UseVisualStyleBackColor = true;
             // 
+            // AlbumradioButton
+            // 
+            this.AlbumradioButton.AutoSize = true;
+            this.AlbumradioButton.Location = new System.Drawing.Point(219, 37);
+            this.AlbumradioButton.Name = "AlbumradioButton";
+            this.AlbumradioButton.Size = new System.Drawing.Size(53, 16);
+            this.AlbumradioButton.TabIndex = 10;
+            this.AlbumradioButton.TabStop = true;
+            this.AlbumradioButton.Text = "Album";
+            this.AlbumradioButton.UseVisualStyleBackColor = true;
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 201);
+            this.Controls.Add(this.AlbumradioButton);
             this.Controls.Add(this.AutoSetcheckBox);
             this.Controls.Add(this.StatusgroupBox);
             this.Controls.Add(this.Cancelbutton);
@@ -238,5 +251,6 @@
         private System.Windows.Forms.Label StatusPDTotallabel;
         private System.Windows.Forms.Label StatusInfolabel;
         private System.Windows.Forms.CheckBox AutoSetcheckBox;
+        private System.Windows.Forms.RadioButton AlbumradioButton;
     }
 }
