@@ -231,6 +231,12 @@ namespace LrcHelper
                     PlaylistradioButton.Checked = true;
                     IDtextBox.Text = iD;
                 }
+                else if (System.Text.RegularExpressions.Regex.IsMatch(cbt, @"album\?id\="))
+                {
+                    string iD = System.Text.RegularExpressions.Regex.Match(cbt, @"(?<=album\?id\=)\d+(?=\D*)").Value;
+                    AlbumradioButton.Checked = true;
+                    IDtextBox.Text = iD;
+                }
             }
         }
         

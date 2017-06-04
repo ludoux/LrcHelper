@@ -43,9 +43,9 @@ namespace Ludoux.LrcHelper.SharedFramework
                     
                 int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
                 Min = Convert.ToInt32(Regex.Match(value, @"^\d+(?=:)").Value);
-                Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value);
-                MSec = Convert.ToInt32(Regex.Match(value, @"(?<=\.)\d+$").Value);
-                if(MSec > 99)
+                Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value != "" ? Regex.Match(value, @"(?<=:)\d+(?=\.)").Value : Regex.Match(value, @"(?<=:)\d+$").Value);
+                MSec = Convert.ToInt32(Regex.Match(value, @"(?<=\.)\d+$").Value != "" ? Regex.Match(value, @"(?<=\.)\d+$").Value : "0"); //考虑像 00:37 这样的玩意，使用三目计算符
+                if (MSec > 99)
                     MSec = Convert.ToInt32(Math.Round(Convert.ToDouble(MSec / 10)));
                 int tl = MSec + Sec * 100 + Min * 100 * 60;
                 if (tl > 0)
@@ -238,28 +238,28 @@ namespace Ludoux.LrcHelper.SharedFramework
             
             int j = -1;//指示List，可能有同行多个时间轴
             for (int i=0;i<totalCount;i++)//i指示原文本行，只在歌词行时跳
-            {
-                if(Regex.IsMatch(textList[i], @"^\[Ar:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
+            {//要考虑到有些写了标签却没写内容的小婊砸
+                if(Regex.IsMatch(textList[i], @"^\[Ar:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
                 {
-                    string tagText = Regex.Match(textList[i], @"(?<=\[Ar:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Ar:).*(?=\])", RegexOptions.IgnoreCase).Value;
                     TagAr = tagText;
                     continue;
                 }
-                if(Regex.IsMatch(textList[i], @"^\[Ti:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ti
+                if(Regex.IsMatch(textList[i], @"^\[Ti:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ti
                 {
-                    string tagText = Regex.Match(textList[i], @"(?<=\[Ti:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Ti:).*(?=\])", RegexOptions.IgnoreCase).Value;
                     TagTi = tagText;
                     continue;
                 }
-                if(Regex.IsMatch(textList[i], @"^\[Al:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags Al
+                if(Regex.IsMatch(textList[i], @"^\[Al:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Al
                 {
-                    string tagText = Regex.Match(textList[i], @"(?<=\[Al:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    string tagText = Regex.Match(textList[i], @"(?<=\[Al:).*(?=\])", RegexOptions.IgnoreCase).Value;
                     TagAl = tagText;
                     continue;
                 }
-                if(Regex.IsMatch(textList[i], @"^\[By:.+\]$", RegexOptions.IgnoreCase))//命中则说明为tags By
+                if(Regex.IsMatch(textList[i], @"^\[By:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags By
                 {
-                    string tagText = Regex.Match(textList[i], @"(?<=\[By:).+(?=\])", RegexOptions.IgnoreCase).Value;
+                    string tagText = Regex.Match(textList[i], @"(?<=\[By:).*(?=\])", RegexOptions.IgnoreCase).Value;
                     TagBy = tagText;
                     continue;
                 }
