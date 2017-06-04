@@ -277,8 +277,8 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["songs"].ToString();
                 
-                MatchCollection mc = new Regex(@"(?<=\r\n    ""id"": ).*(?=\,{0,1}\r\n)").Matches(sContent);//正则匹配歌曲的ID
-                for (int i = 0; i < mc.Count; i++)//有个逗号问题
+                MatchCollection mc = new Regex(@"(?<=\r\n    ""id"": ).*?(?=\,{0,1}\r\n)").Matches(sContent);//正则匹配歌曲的ID
+                for (int i = 0; i < mc.Count; i++)
                     SIA.Add(Convert.ToInt64(mc[i].Value.ToString()));
                 return SIA;
             }
