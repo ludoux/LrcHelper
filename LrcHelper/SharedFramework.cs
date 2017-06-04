@@ -16,7 +16,7 @@ namespace Ludoux.LrcHelper.SharedFramework
             {
                 int _tmptimeline = _timeline;//
                 if (_offset != 0)
-                    _tmptimeline = _tmptimeline + _offset;
+                    _tmptimeline = _tmptimeline - _offset;//假如正值提前的话，那么就应该是减号
                 int MSec = 0, Sec = 0, Min = 0;//此处Msec为10毫秒
                 if (_tmptimeline > 99)
                 {
