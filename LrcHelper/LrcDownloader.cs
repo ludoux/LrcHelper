@@ -64,19 +64,37 @@ namespace LrcHelper
                     try
                     {
                         Parallel.For(0, iDList.Count, parOpts, i =>
+
                          {
                              parOpts.CancellationToken.ThrowIfCancellationRequested();
+                             string ErrorLog = "";
+                             int status = -1;
                              Music m = new Music(iDList[i]);
-                             string ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
-                             if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
-                                 Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
-                             else
-                                 Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|×" + ErrorLog, i + 1, iDList[i], m.Name, status);
-                             this.Invoke((Action)delegate
+                             try
                              {
-                                 StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
-                             });
-                             m = null;
+                                 
+                                 ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out status);
+                                 
+                             }
+                             catch(Exception ex)
+                             {
+                                 ErrorLog += "<" + ex.Message + ">";
+                             }
+                             finally
+                             {
+                                 if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                 else
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|×" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                 this.Invoke((Action)delegate
+                                 {
+                                     StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
+                                 });
+                                 m = null;
+                             }
+                             
+                             
+                             
                          });
                     }
                     catch (OperationCanceledException ex)

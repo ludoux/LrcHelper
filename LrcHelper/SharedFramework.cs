@@ -263,6 +263,9 @@ namespace Ludoux.LrcHelper.SharedFramework
                     TagBy = tagText;
                     continue;
                 }
+                if (Regex.IsMatch(textList[i], @"^\[\D+:.*\]$", RegexOptions.IgnoreCase))//匹配一些可能是tag但不支持的文本，直接忽略掉以免当成时间轴（还有怎么有人的tag是中！文！的！居然有[作词:xxx]这样的东西！！！
+                    continue;
+                
                 MatchCollection mc = Regex.Matches(textList[i], @"(?<=\[).+?(?=\])");
                 int c = mc.Count;//可能有同行多个时间轴的可能性
                 for (int k = 0; k < c; k++)

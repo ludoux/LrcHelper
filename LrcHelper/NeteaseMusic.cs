@@ -62,7 +62,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string sContent;
                 HttpRequest hr = new HttpRequest();
                 
-                sContent = hr.GetContent("http://music.163.com/api/song/media?id=" + ID);
+                sContent = hr.GetContent("https://music.163.com/api/song/media?id=" + ID);
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
                     ErrorLog = ErrorLog + "<RETURN ERR!>";
@@ -81,7 +81,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 HasOriLyrics = true;
                 MixedLyrics.ArrangeLyrics(sLRC);
                 //===========翻译
-                sContent = hr.GetContent("http://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
+                sContent = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
                     ErrorLog = ErrorLog + "<RETURN ERR!>";
@@ -140,11 +140,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             string sContent;
             HttpRequest hr = new HttpRequest();
             JObject o = new JObject();
-            sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+            sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
             o = (JObject)JsonConvert.DeserializeObject(sContent);
             if (o.First.ToString() == @"""songs"": []" || o.First.ToString() == @"""code"": 400")
                 return -1;
-            sContent = hr.GetContent("http://music.163.com/api/song/media?id=" + ID);
+            sContent = hr.GetContent("https://music.163.com/api/song/media?id=" + ID);
             if (sContent.Substring(0, 4).Equals("ERR!"))
                 return -1;
 
@@ -178,7 +178,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                     string finalText = "";
                     HttpRequest hr = new HttpRequest();
                     JObject o = new JObject();
-                    sContent = hr.GetContent("http://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+                    sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
                     o = (JObject)JsonConvert.DeserializeObject(sContent);
                     finalText = o["songs"].ToString();
                     finalText = Regex.Replace(finalText, @"^\[", "");
@@ -213,7 +213,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 string sContent;
                 HttpRequest hr = new HttpRequest();
                 JObject o = new JObject();
-                sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
+                sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + ID);
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["result"].ToString();
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
@@ -236,7 +236,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                     string sContent = "";
                     HttpRequest hr = new HttpRequest();
                     JObject o = new JObject();
-                    sContent = hr.GetContent("http://music.163.com/api/playlist/detail?id=" + ID);
+                    sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + ID);
                     o = (JObject)JsonConvert.DeserializeObject(sContent);
                     sContent = o["result"].ToString();
                     o = (JObject)JsonConvert.DeserializeObject(sContent);
