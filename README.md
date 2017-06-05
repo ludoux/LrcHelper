@@ -45,12 +45,13 @@
 
 ## 参考&感谢:
 
-获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现，进行了修改。（但是ituff并没有指定那个项目的开源协议）
+获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
 
 感谢 Moonlib.com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html) 。
 
 ## 更新信息（最近在上）
 
+* 2017.6.5  功能增加：支持了直接从专辑（album）链接下载歌词，不用再保存为歌单。近一个月的时间在修 bug：tag 采用白名单模式，不符合的 pass 掉以免进入时轴处理。对并行处理有了错误捕获。采用 https 链接。使用 int64 存储 ID 因为测试时遇到了长 ID 直接爆掉……
 * 2017.5.1  支持 offset ，稳定性提升。（#Weekly）（v1.0.4 #Release）
 * 2017.4.29 软件支持检查更新，修上次更新出现的 bug ，升级框架到4.6.2。（#Weekly）（v1.0.3 #Release）
 * 2017.4.14 修 Bug，清理无用代码。支持同行多个时间轴，支持排序。（#Weekly）
