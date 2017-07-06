@@ -203,7 +203,7 @@ namespace Ludoux.LrcHelper.SharedFramework
 
                 if (Regex.IsMatch(tmp.ToString(), @"\r(?!\n)"))//存在\r单独存在的情况
                 {
-                    MatchCollection mc = new Regex(@"\r(?!\n)").Matches(tmp.ToString());
+                    MatchCollection mc =  Regex.Matches(tmp.ToString(), @"\r(?!\n)");
                     for (int i = 0; i < mc.Count; i++)
                     {
                         tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
@@ -213,7 +213,7 @@ namespace Ludoux.LrcHelper.SharedFramework
 
                 if (Regex.IsMatch(tmp.ToString(), @"(?<!\r)\n"))//存在\n单独存在的情况
                 {
-                    MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
+                    MatchCollection mc = Regex.Matches(tmp.ToString(), @"(?<!\r)\n");
                     for (int i = 0; i < mc.Count; i++)
                     {
                         tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
@@ -223,7 +223,7 @@ namespace Ludoux.LrcHelper.SharedFramework
 
                 if (Regex.IsMatch(tmp.ToString(), @"\r\n"))//存在\r\n单独存在的情况
                 {
-                    MatchCollection mc = new Regex(@"(?<!\r)\n").Matches(tmp.ToString());
+                    MatchCollection mc = Regex.Matches(tmp.ToString(), @"(?<!\r)\n");
                     for (int i = 0; i < mc.Count; i++)
                     {
                         tmp.Remove(mc[i].Index + i, 1);//删除插入会影响sb的index
@@ -354,6 +354,107 @@ namespace Ludoux.LrcHelper.SharedFramework
                         return new string[] { "", ErrorLog };
                     }
 
+                case 1://处理标点/文字的占位，倘若能同屏显示那么就优先同屏显示，否则按 case 0 一样翻译换行
+                    /* 
+                     * 在 NW-A27 的环境下测试。2.2 英寸屏幕，320*240 分辨率
+                     * 倘若一行为 10 ，同屏三行共 30 textSize
+                     * 纯中文/大写字母 10/13 = 0.76
+                     * 小写字母 10/16 = 0.62
+                     * 全半角感叹号逗号都会转成半角显示以及英文半角句号，10/54 = 0.18
+                     * 汉字全角句号 10/19 = 0.52
+                     * 【 10/30 = 0.33
+                     * （会转成半角， 10/33 = 0.30
+                     * 空格处理得很诡异，索尼对于过长的空格直接换行就不理它了。短空格按逗号算，0.18
+                     * 全角引号，10/28 = 0.35
+                     * 半角引号，10/36 = 0.27
+                     * 「 10/36 = 0.27
+                     * 』 10/18 = 0.55
+                     * 半角冒号没测，当 0.18.全角冒号就让他过去吧
+                     */
+                    try
+                    {
+                        int DelayMsec = Convert.ToInt32(args[0]);
+                        StringBuilder returnString = new StringBuilder("");
+                        for (int i = 0; i < Count; i++)
+                        {
+                            if (Count == 0)
+                            {
+                                ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
+                                return new string[] { "", ErrorLog };
+                            }
+                            else if (this[i].HasTrans())
+                            {//如果有翻译
+                                double textSize = 0;
+                                string connectedText = this[i].OriLyrics + this[i].TransLyrics;//将原文和翻译合并，计算来确定能否同屏显示
+                                void getSize(string pattern, double multiple)//获取指定正则规则下的字符 size，然后在 connectedText 中去掉
+                                {
+                                    MatchCollection mc = Regex.Matches(connectedText, pattern);
+                                    textSize += mc.Count * multiple;
+                                    for (int j = 0; j < mc.Count; j++)
+                                        connectedText = connectedText.Replace(mc[j].Value.ToString(), "");
+                                }
+                                getSize(@"。", 0.52); getSize(@"[【】]", 0.33); getSize(@"[「」]", 0.27);
+                                getSize(@"[『』]", 0.55); getSize(@"[“”]", 0.35); getSize(@"[""]", 0.27);
+                                getSize(@"[！!，,.: ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
+                                getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62);
+                                if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
+                                {
+                                    textSize += connectedText.Count() * 0.76;
+                                    ErrorLog = ErrorLog + "<connectedText{(" + connectedText.Count().ToString() + ") " + connectedText + "} is not empty>";
+                                }
+                                System.Diagnostics.Debug.WriteLine(this[i].OriLyrics + this[i].TransLyrics + "\r\n" + connectedText.Count().ToString() + ") " + connectedText + "\r\n" + textSize + "\r\n============");
+                                if (textSize < 30)//30 为三行同屏的 size
+                                {
+                                    if (returnString.ToString() != "")
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].ToString());
+                                    else
+                                        returnString.Append("[" + this[i].Timeline + "]" + this[i].ToString());
+                                }
+                                else//同case0
+                                {
+                                    if (returnString.ToString() != "")
+                                    {
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].OriLyrics);
+                                        this[i].DelayTimeline(DelayMsec);
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
+                                        this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                    }
+
+                                    else
+                                    {
+                                        returnString.Append("[" + this[i].Timeline + "]" + this[i].OriLyrics);
+                                        this[i].DelayTimeline(DelayMsec);
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
+                                        this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                    }
+                                }
+                            }
+                            else if (this[i].HasTrans() == false)
+                            {
+                                if (returnString.ToString() != "")
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].ToString());
+                                else
+                                    returnString.Append("[" + this[i].Timeline + "]" + this[i].ToString());
+                            }
+                            else
+                            {
+                                ErrorLog = ErrorLog + "<Interesting things happened...>";
+                                return new string[] { "", ErrorLog };
+                            }
+                        }
+
+                        return new string[] { (GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), ErrorLog };//写入 Tag 信息
+                    }
+                    catch (System.ArgumentNullException)
+                    {
+                        ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
+                        return new string[] { "", ErrorLog };
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
+                        return new string[] { "", ErrorLog };
+                    }
                 default:
                     return null;
             }
