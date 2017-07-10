@@ -47,16 +47,16 @@
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.DelayMsecnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.DelayMseclabel = new System.Windows.Forms.Label();
             this.LyricsStylenumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.LyricsStylelabel = new System.Windows.Forms.Label();
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.DelayMseclabel = new System.Windows.Forms.Label();
-            this.DelayMsecnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // IDtextBox
@@ -230,6 +230,43 @@
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
             // 
+            // DelayMsecnumericUpDown
+            // 
+            this.DelayMsecnumericUpDown.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(89, 39);
+            this.DelayMsecnumericUpDown.Maximum = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
+            this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(38, 21);
+            this.DelayMsecnumericUpDown.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 is 1sec");
+            this.DelayMsecnumericUpDown.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // DelayMseclabel
+            // 
+            this.DelayMseclabel.AutoSize = true;
+            this.DelayMseclabel.Location = new System.Drawing.Point(18, 41);
+            this.DelayMseclabel.Name = "DelayMseclabel";
+            this.DelayMseclabel.Size = new System.Drawing.Size(65, 12);
+            this.DelayMseclabel.TabIndex = 15;
+            this.DelayMseclabel.Text = "DelayMsec:";
+            // 
             // LyricsStylenumericUpDown
             // 
             this.LyricsStylenumericUpDown.Location = new System.Drawing.Point(89, 16);
@@ -241,8 +278,8 @@
             this.LyricsStylenumericUpDown.Name = "LyricsStylenumericUpDown";
             this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(30, 21);
             this.LyricsStylenumericUpDown.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will in the different line\r\n1:OriLyrics and TransLyri" +
-        "cs will in the same line if it can");
+            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will be displayed in the different lines\r\n1:OriLyrics" +
+        " and TransLyrics will be displayed  in the same line if it can");
             // 
             // LyricsStylelabel
             // 
@@ -268,43 +305,10 @@
             // toolTip1
             // 
             this.toolTip1.AutomaticDelay = 100;
-            // 
-            // DelayMseclabel
-            // 
-            this.DelayMseclabel.AutoSize = true;
-            this.DelayMseclabel.Location = new System.Drawing.Point(18, 41);
-            this.DelayMseclabel.Name = "DelayMseclabel";
-            this.DelayMseclabel.Size = new System.Drawing.Size(65, 12);
-            this.DelayMseclabel.TabIndex = 15;
-            this.DelayMseclabel.Text = "DelayMsec:";
-            // 
-            // DelayMsecnumericUpDown
-            // 
-            this.DelayMsecnumericUpDown.Increment = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(89, 39);
-            this.DelayMsecnumericUpDown.Maximum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            0});
-            this.DelayMsecnumericUpDown.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
-            this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(38, 21);
-            this.DelayMsecnumericUpDown.TabIndex = 16;
-            this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 means 1sec");
-            this.DelayMsecnumericUpDown.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.toolTip1.AutoPopDelay = 10000;
+            this.toolTip1.InitialDelay = 100;
+            this.toolTip1.ReshowDelay = 0;
+            this.toolTip1.ShowAlways = true;
             // 
             // LrcDownloader
             // 
@@ -335,8 +339,8 @@
             this.StatusgroupBox.PerformLayout();
             this.AdvancedSettingsgroupBox.ResumeLayout(false);
             this.AdvancedSettingsgroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
