@@ -74,9 +74,7 @@ namespace LrcHelper
                              Music m = new Music(iDList[i]);
                              try
                              {
-                                 
                                  ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out status);
-                                 
                              }
                              catch(Exception ex)
                              {
@@ -85,18 +83,15 @@ namespace LrcHelper
                              finally
                              {
                                  if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
-                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                                  else
-                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|×" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                                  this.Invoke((Action)delegate
                                  {
                                      StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
                                  });
                                  m = null;
                              }
-                             
-                             
-                             
                          });
                     }
                     catch (OperationCanceledException)
@@ -166,9 +161,9 @@ namespace LrcHelper
                             Music m = new Music(iDList[i]);
                             string ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
                             if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
-                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                             else
-                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|×" + ErrorLog, i + 1, iDList[i], m.Name, status);
+                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                             this.Invoke((Action)delegate
                             {
                                 StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
@@ -220,13 +215,10 @@ namespace LrcHelper
             {
                 System.IO.File.WriteAllText(File, lyricText+ "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:"+FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion+ "]", Encoding.UTF8);
                 status = l.GetLyricStatus();
-                return "";
             }
             else
-            {
                 status = l.GetLyricStatus();
-                return l.GetErrorLog();
-            }
+            return l.GetErrorLog();
         }
 
         private void Cancelbutton_Click(object sender, EventArgs e)
