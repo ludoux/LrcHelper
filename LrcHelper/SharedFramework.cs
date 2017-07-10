@@ -370,6 +370,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                      * 「 10/36 = 0.27
                      * 』 10/18 = 0.55
                      * 半角冒号没测，当 0.18.全角冒号就让他过去吧
+                     * 数字没测，当0.52
                      */
                     try
                     {
@@ -396,7 +397,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                                 getSize(@"。", 0.52); getSize(@"[【】]", 0.33); getSize(@"[「」]", 0.27);
                                 getSize(@"[『』]", 0.55); getSize(@"[“”]", 0.35); getSize(@"[""]", 0.27);
                                 getSize(@"[！!，,.: ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
-                                getSize(@"[\uac00-\ud7ff]", 0.76); getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62);
+                                getSize(@"[\uac00-\ud7ff]", 0.76); getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62); getSize(@"[0-9]", 0.52);
                                 if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
                                 {
                                     textSize += connectedText.Count() * 0.76;
