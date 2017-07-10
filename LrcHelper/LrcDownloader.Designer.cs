@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LrcDownloader));
             this.IDtextBox = new System.Windows.Forms.TextBox();
             this.IDlabel = new System.Windows.Forms.Label();
             this.Functionlabel = new System.Windows.Forms.Label();
@@ -44,7 +46,17 @@
             this.StatusInfolabel = new System.Windows.Forms.Label();
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
+            this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.LyricsStylenumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.LyricsStylelabel = new System.Windows.Forms.Label();
+            this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.DelayMseclabel = new System.Windows.Forms.Label();
+            this.DelayMsecnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.StatusgroupBox.SuspendLayout();
+            this.AdvancedSettingsgroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // IDtextBox
@@ -107,11 +119,11 @@
             // Copyrightlabel
             // 
             this.Copyrightlabel.AutoSize = true;
-            this.Copyrightlabel.Location = new System.Drawing.Point(12, 86);
+            this.Copyrightlabel.Location = new System.Drawing.Point(303, 3);
             this.Copyrightlabel.Name = "Copyrightlabel";
-            this.Copyrightlabel.Size = new System.Drawing.Size(185, 24);
+            this.Copyrightlabel.Size = new System.Drawing.Size(167, 24);
             this.Copyrightlabel.TabIndex = 6;
-            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LrcHelper";
+            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\ngithub.com/ludoux/lrchelper";
             // 
             // Cancelbutton
             // 
@@ -187,7 +199,7 @@
             this.AutoSetcheckBox.AutoSize = true;
             this.AutoSetcheckBox.Checked = true;
             this.AutoSetcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoSetcheckBox.Location = new System.Drawing.Point(14, 54);
+            this.AutoSetcheckBox.Location = new System.Drawing.Point(278, 38);
             this.AutoSetcheckBox.Name = "AutoSetcheckBox";
             this.AutoSetcheckBox.Size = new System.Drawing.Size(72, 16);
             this.AutoSetcheckBox.TabIndex = 9;
@@ -205,11 +217,102 @@
             this.AlbumradioButton.Text = "Album";
             this.AlbumradioButton.UseVisualStyleBackColor = true;
             // 
+            // AdvancedSettingsgroupBox
+            // 
+            this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMsecnumericUpDown);
+            this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMseclabel);
+            this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylenumericUpDown);
+            this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylelabel);
+            this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(12, 62);
+            this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
+            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 83);
+            this.AdvancedSettingsgroupBox.TabIndex = 11;
+            this.AdvancedSettingsgroupBox.TabStop = false;
+            this.AdvancedSettingsgroupBox.Visible = false;
+            // 
+            // LyricsStylenumericUpDown
+            // 
+            this.LyricsStylenumericUpDown.Location = new System.Drawing.Point(89, 16);
+            this.LyricsStylenumericUpDown.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.LyricsStylenumericUpDown.Name = "LyricsStylenumericUpDown";
+            this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(30, 21);
+            this.LyricsStylenumericUpDown.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will in the different line\r\n1:OriLyrics and TransLyri" +
+        "cs will in the same line if it can");
+            // 
+            // LyricsStylelabel
+            // 
+            this.LyricsStylelabel.AutoSize = true;
+            this.LyricsStylelabel.Location = new System.Drawing.Point(6, 18);
+            this.LyricsStylelabel.Name = "LyricsStylelabel";
+            this.LyricsStylelabel.Size = new System.Drawing.Size(77, 12);
+            this.LyricsStylelabel.TabIndex = 13;
+            this.LyricsStylelabel.Text = "LyricsStyle:";
+            this.toolTip1.SetToolTip(this.LyricsStylelabel, "Only for the lyrics with translation");
+            // 
+            // AdvancedSettingscheckBox
+            // 
+            this.AdvancedSettingscheckBox.AutoSize = true;
+            this.AdvancedSettingscheckBox.Location = new System.Drawing.Point(14, 60);
+            this.AdvancedSettingscheckBox.Name = "AdvancedSettingscheckBox";
+            this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(120, 16);
+            this.AdvancedSettingscheckBox.TabIndex = 12;
+            this.AdvancedSettingscheckBox.Text = "AdvancedSettings";
+            this.AdvancedSettingscheckBox.UseVisualStyleBackColor = true;
+            this.AdvancedSettingscheckBox.CheckedChanged += new System.EventHandler(this.AdvancedSettingscheckBox_CheckedChanged);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 100;
+            // 
+            // DelayMseclabel
+            // 
+            this.DelayMseclabel.AutoSize = true;
+            this.DelayMseclabel.Location = new System.Drawing.Point(18, 41);
+            this.DelayMseclabel.Name = "DelayMseclabel";
+            this.DelayMseclabel.Size = new System.Drawing.Size(65, 12);
+            this.DelayMseclabel.TabIndex = 15;
+            this.DelayMseclabel.Text = "DelayMsec:";
+            // 
+            // DelayMsecnumericUpDown
+            // 
+            this.DelayMsecnumericUpDown.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(89, 39);
+            this.DelayMsecnumericUpDown.Maximum = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
+            this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(38, 21);
+            this.DelayMsecnumericUpDown.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 means 1sec");
+            this.DelayMsecnumericUpDown.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 201);
+            this.ClientSize = new System.Drawing.Size(476, 172);
+            this.Controls.Add(this.AdvancedSettingscheckBox);
+            this.Controls.Add(this.AdvancedSettingsgroupBox);
             this.Controls.Add(this.AlbumradioButton);
             this.Controls.Add(this.AutoSetcheckBox);
             this.Controls.Add(this.StatusgroupBox);
@@ -222,6 +325,7 @@
             this.Controls.Add(this.IDlabel);
             this.Controls.Add(this.IDtextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "LrcDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -229,6 +333,10 @@
             this.Activated += new System.EventHandler(this.LrcDownloader_Activated);
             this.StatusgroupBox.ResumeLayout(false);
             this.StatusgroupBox.PerformLayout();
+            this.AdvancedSettingsgroupBox.ResumeLayout(false);
+            this.AdvancedSettingsgroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LyricsStylenumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,5 +360,12 @@
         private System.Windows.Forms.Label StatusInfolabel;
         private System.Windows.Forms.CheckBox AutoSetcheckBox;
         private System.Windows.Forms.RadioButton AlbumradioButton;
+        private System.Windows.Forms.GroupBox AdvancedSettingsgroupBox;
+        private System.Windows.Forms.CheckBox AdvancedSettingscheckBox;
+        private System.Windows.Forms.NumericUpDown LyricsStylenumericUpDown;
+        private System.Windows.Forms.Label LyricsStylelabel;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label DelayMseclabel;
+        private System.Windows.Forms.NumericUpDown DelayMsecnumericUpDown;
     }
 }

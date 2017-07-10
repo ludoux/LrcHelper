@@ -124,9 +124,9 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             return MixedLyrics.ToString();
         }
-        public string GetDelayedLyric(int DelayMsec)//1等于10ms，注意进制。应该在GetOnlineLyric()后使用,若无翻译将直接返回ori
+        public string GetDelayedLyric(int ModelIndex, int DelayMsec)//1等于10ms，注意进制。应该在GetOnlineLyric()后使用,若无翻译将直接返回ori
         {
-            string[]  result = MixedLyrics.GetWalkmanStyleLyrics(1, new object[] { DelayMsec });
+            string[]  result = MixedLyrics.GetWalkmanStyleLyrics(ModelIndex, new object[] { DelayMsec });
             ErrorLog += result[1];
             return result[0].ToString();
         }

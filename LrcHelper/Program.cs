@@ -23,13 +23,12 @@ namespace LrcHelper
                 client.Encoding = System.Text.Encoding.UTF8;
                 client.DownloadDataAsync(new Uri("https://raw.githubusercontent.com/Ludoux/LrcHelper/master/UpdateInfo/UpInfo.txt"));
                 client.DownloadDataCompleted += Client_DownloadDataCompleted;
-
+                
             }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LrcDownloader());
-            
         }
 
         private static void Client_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
@@ -44,7 +43,7 @@ namespace LrcHelper
                     string textData = System.Text.Encoding.UTF8.GetString(data);
                     if (Regex.IsMatch(textData, @"\[UnsupportedVer\].*\r\n.*\<All\>.*\r\n", RegexOptions.IgnoreCase) && Regex.IsMatch(textData, @"\[UnsupportedVer\].*\r\n.*\<" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + @"\>.*\r\n", RegexOptions.IgnoreCase))
                         return;//不继续检查
-
+                    
                     string ver = Regex.Match(textData, @"(?<=\[Ver\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value;
                     if (Convert.ToInt32(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion.Replace(@".", "")) < Convert.ToInt32(ver.Replace(@".", ""))
                         && MessageBox.Show("Current version:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "\r\nLastest version:" + ver + "\r\n\r\n Do you want to visit the download page and get it?", "New Version Found", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)

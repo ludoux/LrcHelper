@@ -24,7 +24,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                     Sec = Convert.ToInt32(Math.Floor(Convert.ToDecimal(_tmptimeline / 100)));
                 }
                 else
-                    return $"00:00.{_tmptimeline.ToString():D2}";
+                    return $"00:00.{_tmptimeline:D2}";
                 
                 if(Sec>59)
                 {
@@ -291,10 +291,10 @@ namespace Ludoux.LrcHelper.SharedFramework
             else
                 return false;
         }
-        public string[] GetWalkmanStyleLyrics(int ModeIndex, object[] args)
+        public string[] GetWalkmanStyleLyrics(int ModelIndex, object[] args)
         {
             string ErrorLog = "";
-            switch (ModeIndex)
+            switch (ModelIndex)
             {
                 case 0://翻译延迟，作为新行出现
                     try
@@ -396,7 +396,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                                 getSize(@"。", 0.52); getSize(@"[【】]", 0.33); getSize(@"[「」]", 0.27);
                                 getSize(@"[『』]", 0.55); getSize(@"[“”]", 0.35); getSize(@"[""]", 0.27);
                                 getSize(@"[！!，,.: ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
-                                getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62);
+                                getSize(@"[\uac00-\ud7ff]", 0.76); getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62);
                                 if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
                                 {
                                     textSize += connectedText.Count() * 0.76;

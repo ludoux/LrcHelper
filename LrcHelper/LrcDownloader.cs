@@ -26,10 +26,12 @@ namespace LrcHelper
             Stopwatch sw = new Stopwatch();
             sw.Start();
             int ID = Convert.ToInt32(IDtextBox.Text);
+            int ModelIndex = Convert.ToInt32(LyricsStylenumericUpDown.Value);
+            int DelayMsec = Convert.ToInt32(DelayMsecnumericUpDown.Value);
             if (MusicradioButton.Checked)
             {
                 Music m = new Music(ID);
-                string Log = DownloadLrc(ID, 100, ".\\" + m.GetFileName() + ".lrc", out int status);
+                string Log = DownloadLrc(ID, ModelIndex, DelayMsec, ".\\" + m.GetFileName() + ".lrc", out int status);
                 sw.Stop();
                 if (Log == "")
                     StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
@@ -73,7 +75,7 @@ namespace LrcHelper
                              try
                              {
                                  
-                                 ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out status);
+                                 ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out status);
                                  
                              }
                              catch(Exception ex)
@@ -97,9 +99,9 @@ namespace LrcHelper
                              
                          });
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
-
+                        //
                     }
                     finally
                     {
@@ -162,7 +164,7 @@ namespace LrcHelper
                         {
                             parOpts.CancellationToken.ThrowIfCancellationRequested();
                             Music m = new Music(iDList[i]);
-                            string ErrorLog = DownloadLrc(iDList[i], 100, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
+                            string ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
                             if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
                                 Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√" + ErrorLog, i + 1, iDList[i], m.Name, status);
                             else
@@ -174,9 +176,9 @@ namespace LrcHelper
                             m = null;
                         });
                     }
-                    catch (OperationCanceledException ex)
+                    catch (OperationCanceledException)
                     {
-
+                        //
                     }
                     finally
                     {
@@ -209,11 +211,11 @@ namespace LrcHelper
                 });
             }
         }
-        private string DownloadLrc(long MusicID,int DelayMsc, string File, out int status)
+        private string DownloadLrc(long MusicID, int ModeIIndex, int DelayMsc, string File, out int status)
         {
             ExtendedLyrics l = new ExtendedLyrics(MusicID);
             l.GetOnlineLyric();
-            string lyricText = l.GetDelayedLyric(DelayMsc);
+            string lyricText = l.GetDelayedLyric(ModeIIndex, DelayMsc);
             if (lyricText != "")
             {
                 System.IO.File.WriteAllText(File, lyricText+ "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:"+FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion+ "]", Encoding.UTF8);
@@ -257,6 +259,10 @@ namespace LrcHelper
                 }
             }
         }
-        
+
+        private void AdvancedSettingscheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            AdvancedSettingsgroupBox.Visible = AdvancedSettingscheckBox.Checked;
+        }
     }
 }
