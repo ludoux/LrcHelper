@@ -204,6 +204,7 @@
             this.AutoSetcheckBox.Size = new System.Drawing.Size(72, 16);
             this.AutoSetcheckBox.TabIndex = 9;
             this.AutoSetcheckBox.Text = "Auto-Set";
+            this.toolTip1.SetToolTip(this.AutoSetcheckBox, "To get  the song ID in URLs from clipboard");
             this.AutoSetcheckBox.UseVisualStyleBackColor = true;
             // 
             // AlbumradioButton
@@ -266,6 +267,7 @@
             this.DelayMseclabel.Size = new System.Drawing.Size(65, 12);
             this.DelayMseclabel.TabIndex = 15;
             this.DelayMseclabel.Text = "DelayMsec:";
+            this.toolTip1.SetToolTip(this.DelayMseclabel, "How long should the translyrics be delayed?");
             // 
             // LyricsStylenumericUpDown
             // 
@@ -278,8 +280,8 @@
             this.LyricsStylenumericUpDown.Name = "LyricsStylenumericUpDown";
             this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(30, 21);
             this.LyricsStylenumericUpDown.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will be displayed in the different lines\r\n1:OriLyrics" +
-        " and TransLyrics will be displayed  in the same line if it can");
+            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will be displayed in the different lines.\r\n1:OriLyric" +
+        "s and TransLyrics will be displayed  in the same line if it can.");
             // 
             // LyricsStylelabel
             // 
@@ -289,7 +291,7 @@
             this.LyricsStylelabel.Size = new System.Drawing.Size(77, 12);
             this.LyricsStylelabel.TabIndex = 13;
             this.LyricsStylelabel.Text = "LyricsStyle:";
-            this.toolTip1.SetToolTip(this.LyricsStylelabel, "Only for the lyrics with translation");
+            this.toolTip1.SetToolTip(this.LyricsStylelabel, "Different styles for different environment.");
             // 
             // AdvancedSettingscheckBox
             // 
@@ -299,6 +301,7 @@
             this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(120, 16);
             this.AdvancedSettingscheckBox.TabIndex = 12;
             this.AdvancedSettingscheckBox.Text = "AdvancedSettings";
+            this.toolTip1.SetToolTip(this.AdvancedSettingscheckBox, "More features but less stable.");
             this.AdvancedSettingscheckBox.UseVisualStyleBackColor = true;
             this.AdvancedSettingscheckBox.CheckedChanged += new System.EventHandler(this.AdvancedSettingscheckBox_CheckedChanged);
             // 

@@ -254,6 +254,8 @@ namespace LrcHelper
 
         private void AdvancedSettingscheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            LyricsStylenumericUpDown.Value = 0;
+            DelayMsecnumericUpDown.Value = 100;//恢复默认
             AdvancedSettingsgroupBox.Visible = AdvancedSettingscheckBox.Checked;
         }
     }
