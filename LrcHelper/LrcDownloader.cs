@@ -209,16 +209,16 @@ namespace LrcHelper
         private string DownloadLrc(long MusicID, int ModeIIndex, int DelayMsc, string File, out int status)
         {
             ExtendedLyrics l = new ExtendedLyrics(MusicID);
-            l.GetOnlineLyric();
-            string lyricText = l.GetDelayedLyric(ModeIIndex, DelayMsc);
+            l.FetchOnlineLyrics();
+            string lyricText = l.GetCustomLyric(ModeIIndex, DelayMsc);
             if (lyricText != "")
             {
-                System.IO.File.WriteAllText(File, lyricText+ "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:"+FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion+ "]", Encoding.UTF8);
-                status = l.GetLyricStatus();
+                System.IO.File.WriteAllText(File, lyricText + "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]", Encoding.UTF8);
+                status = l.Status;
             }
             else
-                status = l.GetLyricStatus();
-            return l.GetErrorLog();
+                status = l.Status;
+            return l.ErrorLog;
         }
 
         private void Cancelbutton_Click(object sender, EventArgs e)

@@ -8,8 +8,8 @@ namespace Ludoux.LrcHelper.SharedFramework
     
      public class LyricsLine : IComparable<LyricsLine>
     {
-        int _offset = 0;//以十毫秒数来保存，100=1000ms=1s
-        int _timeline;//以十毫秒数来保存，100=1000ms=1s
+        private int _offset = 0;//以十毫秒数来保存，100=1000ms=1s
+        private int _timeline;//以十毫秒数来保存，100=1000ms=1s
         internal string Timeline//返回不带[]
         {
             get
@@ -54,21 +54,21 @@ namespace Ludoux.LrcHelper.SharedFramework
                     _timeline = 0;
             }
         }
-        
 
-        string _oriLyrics;
+
+        private string _oriLyrics;
         internal string OriLyrics
         {
             get => _oriLyrics;
             set => _oriLyrics = value;
         }
-        string _break;// 用是否为空来判断是否有翻译
+        private string _break;// 用是否为空来判断是否有翻译
         internal string Break
         {
             get => _break;
             private set => _break = value;
         }
-        string _transLyrics;
+        private string _transLyrics;
         internal string TransLyrics
         {
             get => _transLyrics;
@@ -116,14 +116,14 @@ namespace Ludoux.LrcHelper.SharedFramework
         }
 
     }
-     public class Lyrics
+    public class Lyrics
     {
         List<LyricsLine> LyricsLineText=new List<LyricsLine>();
         bool HasTags
         {
             get => GetAllTags() != "";
         }
-        string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
+        private string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
         string TagAr
         {
             get => _tagAr;
@@ -164,6 +164,10 @@ namespace Ludoux.LrcHelper.SharedFramework
                 return LyricsLineText.Count;
             }
         }
+        /// <summary>
+        /// 有 Tag ，没有时间轴
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string ReturnString=GetAllTags();
@@ -369,8 +373,9 @@ namespace Ludoux.LrcHelper.SharedFramework
                      * 半角引号，10/36 = 0.27
                      * 「 10/36 = 0.27
                      * 』 10/18 = 0.55
-                     * 半角冒号没测，当 0.18.全角冒号就让他过去吧
-                     * 数字没测，当0.52
+                     * 半角冒号 10/65 = 0.15，全角冒号会转为半角显示
+                     * 数字 10/19 = 0.52
+                     * ' 10/72 = 0.13
                      */
                     try
                     {
@@ -396,8 +401,9 @@ namespace Ludoux.LrcHelper.SharedFramework
                                 }
                                 getSize(@"。", 0.52); getSize(@"[【】]", 0.33); getSize(@"[「」]", 0.27);
                                 getSize(@"[『』]", 0.55); getSize(@"[“”]", 0.35); getSize(@"[""]", 0.27);
-                                getSize(@"[！!，,.: ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
+                                getSize(@"[！!，,. ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
                                 getSize(@"[\uac00-\ud7ff]", 0.76); getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62); getSize(@"[0-9]", 0.52);
+                                getSize(@"'", 0.13); getSize(@"[:：]", 0.15);
                                 if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
                                 {
                                     textSize += connectedText.Count() * 0.76;
