@@ -48,11 +48,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         internal LyricsStatus Status { get => _status; private set { if (_status == LyricsStatus.Unsured) { _status = value; } } }//_status 仅可供修改一次，设计是不可以对外更改的
         
 
-        private bool HasOriLyrics;
-        private bool HasTransLyrics;
+        private bool hasOriLyrics;
+        private bool hasTransLyrics;
         private string _errorLog = "";
         internal string ErrorLog { get => _errorLog; private set => _errorLog = value; }
-        Lyrics MixedLyrics = new Lyrics();//翻译作为trans来保存
+        private Lyrics mixedLyrics = new Lyrics();//翻译作为trans来保存
 
         public ExtendedLyrics(long ID)
 		{
@@ -63,8 +63,8 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         /// </summary>
         internal void FetchOnlineLyrics()
 		{
-            HasOriLyrics = false;
-            HasTransLyrics = false;
+            hasOriLyrics = false;
+            hasTransLyrics = false;
             Lyrics tempOriLyric = new Lyrics();
             Lyrics tempTransLyric = new Lyrics();
             string sLRC = "";
@@ -97,8 +97,8 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 { ErrorLog += "<CAN NOT FIND LYRIC LABEL>"; return; }
                 sLRC = o["lyric"].ToString();
                 tempOriLyric.ArrangeLyrics(sLRC);
-                HasOriLyrics = true;
-                MixedLyrics.ArrangeLyrics(sLRC);
+                hasOriLyrics = true;
+                mixedLyrics.ArrangeLyrics(sLRC);
 
                 //===========翻译
                 sContent = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + ID + "&tv=-1");
@@ -121,12 +121,12 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                         if (tempOriLyric[j].Timeline != tempTransLyric[i].Timeline)
                             continue;
                         if(tempTransLyric[i].OriLyrics != null && tempTransLyric[i].OriLyrics != "")
-                            MixedLyrics[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
+                            mixedLyrics[j].SetTransLyrics("#", tempTransLyric[i].OriLyrics);//Mix是以外文歌词的j来充填，当没有trans的时候留空
                         i++;
                     }
-                    HasTransLyrics = true;
+                    hasTransLyrics = true;
                 }
-                MixedLyrics.Sort();
+                mixedLyrics.Sort();
                 tempOriLyric = null;
                 tempTransLyric = null;
             }
@@ -141,7 +141,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         }
         public override string ToString()
         {
-            return MixedLyrics.ToString();
+            return mixedLyrics.ToString();
         }
         /// <summary>
         /// 应该在GetOnlineLyric()后使用,若无翻译将直接返回ori
@@ -151,7 +151,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         /// <returns>返回的lrc文本</returns>
         public string GetCustomLyric(int ModelIndex, int DelayMsec)
         {
-            string[] result = MixedLyrics.GetWalkmanStyleLyrics(ModelIndex, new object[] { DelayMsec });
+            string[] result = mixedLyrics.GetWalkmanStyleLyrics(ModelIndex, new object[] { DelayMsec });
             ErrorLog += result[1];
             return result[0];
         }

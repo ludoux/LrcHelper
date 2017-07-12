@@ -153,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lyrics.ico" />
-    <Content Include="www.ico.la_3744f2ca9b2d03154c468725a2a328f6_128X128.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
