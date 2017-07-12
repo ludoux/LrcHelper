@@ -6,6 +6,7 @@ using System.IO;
 using Ludoux.LrcHelper.SharedFramework;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Ludoux.LrcHelper.NeteaseMusic
 {
@@ -38,21 +39,19 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             return sContent;
         }
     }
+    public enum LyricsStatus {[Description("未命中")] Unmatch = -2, [Description("错误")] Error = -1, [Description("无人上传歌词")] NotSupplied = 0, [Description("有词")] Existed = 1, [Description("纯音乐")] NoLyrics = 2, [Description("初始值（以防状态被多次更改）")] Unsured = 3 }
     class ExtendedLyrics
     {
         private long ID;
-        /// <summary>
-        /// 0为无人上传歌词,1为有词,2为纯音乐,-1错误,-2未命中
-        /// </summary>
-        private int _status = -3;
-        internal int Status { get => _status; private set { if (_status == -3) { _status = value; } } }//_status 仅可供修改一次
+        private LyricsStatus _status = LyricsStatus.Unsured;
+        internal LyricsStatus Status { get => _status; private set { if (_status == LyricsStatus.Unsured) { _status = value; } } }//_status 仅可供修改一次
+        
+
         private bool HasOriLyrics;
         private bool HasTransLyrics;
         private string _errorLog = "";
         internal string ErrorLog { get => _errorLog; private set => _errorLog = value; }
         Lyrics MixedLyrics = new Lyrics();//翻译作为trans来保存
-
-
 
         public ExtendedLyrics(long ID)
 		{
@@ -76,21 +75,21 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");//这个是仅对确定歌词状态有用的
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 if (o.First.ToString() == @"""songs"": []" || o.First.ToString() == @"""code"": 400")
-                { ErrorLog += "<RETURN ERR!>"; Status = -1; return; }
+                { ErrorLog += "<RETURN ERR!>"; Status = LyricsStatus.Error; return; }
 
                 sContent = hr.GetContent("https://music.163.com/api/song/media?id=" + ID);
                 if (sContent.Substring(0, 4).Equals("ERR!"))
-                { ErrorLog += "<RETURN ERR!>"; Status = -1; return; }
+                { ErrorLog += "<RETURN ERR!>"; Status = LyricsStatus.Error; return; }
                 o = (JObject)JsonConvert.DeserializeObject(sContent);//解析返回值，分析歌词状态和原文歌词
 
                 if (o.First.ToString() == o.Last.ToString() && o.First.ToString() == @"""code"": 200")//分析歌词状态
                     Status = 0;
                 if (Regex.IsMatch(o.First.ToString(), @"""nolyric"": true"))
-                    Status = 2;
+                    Status = LyricsStatus.NoLyrics;
                 else
-                    Status = 1;
+                    Status = LyricsStatus.Existed;
                 
-                Status = -2;//都没踩中
+                Status = LyricsStatus.Unmatch;//都没踩中
 
                 //分析原文歌词
                 if (Regex.IsMatch(o.Root.ToString(), @"""lyric""") == false)

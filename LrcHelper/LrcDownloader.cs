@@ -31,7 +31,7 @@ namespace LrcHelper
             if (MusicradioButton.Checked)
             {
                 Music m = new Music(ID);
-                string Log = DownloadLrc(ID, ModelIndex, DelayMsec, ".\\" + m.GetFileName() + ".lrc", out int status);
+                string Log = DownloadLrc(ID, ModelIndex, DelayMsec, ".\\" + m.GetFileName() + ".lrc", out LyricsStatus status);
                 sw.Stop();
                 if (Log == "")
                     StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
@@ -70,7 +70,7 @@ namespace LrcHelper
                          {
                              parOpts.CancellationToken.ThrowIfCancellationRequested();
                              string ErrorLog = "";
-                             int status = -1;
+                             LyricsStatus status = LyricsStatus.Unsured;
                              Music m = new Music(iDList[i]);
                              try
                              {
@@ -83,9 +83,9 @@ namespace LrcHelper
                              finally
                              {
                                  if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
-                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                                  else
-                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
+                                     Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                                  this.Invoke((Action)delegate
                                  {
                                      StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
@@ -113,8 +113,7 @@ namespace LrcHelper
                     StringBuilder OutLog = new StringBuilder();
                     OutLog.Append("PlaylistID:" + ID + "\r\nPlaylistName:" + pl.Name + "\r\nTotalCount:" + iDList.Count + "\r\nTask Status:");
                     OutLog.Append(cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished");
-                    OutLog.Append("\r\n==LrcSts==\r\n0:Lyrics×\r\n1:Lyrics√\r\n2:Absolute Music\r\n-1:Error\r\n-2:Unmatch\r\n==LrcSts==");
-                    OutLog.Append(string.Format("\r\n\r\n{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
+                    OutLog.Append(string.Format("\r\n\r\n{0,-7}|{1,-12}|{2,-50}|{3,-15}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
                     for (int i = 0; i < Log.Count; i++)
                         OutLog.Append("\r\n" + Log[i]);
                     OutLog.Append("\r\n\r\n" + DateTime.Now.ToString() + "  Used Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]\r\nEnjoy music with lyrics now!(*^_^*)");
@@ -159,11 +158,11 @@ namespace LrcHelper
                         {
                             parOpts.CancellationToken.ThrowIfCancellationRequested();
                             Music m = new Music(iDList[i]);
-                            string ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out int status);
+                            string ErrorLog = DownloadLrc(iDList[i], ModelIndex, DelayMsec, ".\\" + folderName + @"\" + m.GetFileName() + ".lrc", out LyricsStatus status);
                             if (System.IO.File.Exists(".\\" + folderName + @"\" + m.GetFileName() + ".lrc"))
-                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
+                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|√ ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                             else
-                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-6}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
+                                Log[i] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|× ", i + 1, iDList[i], m.Name, status) + ErrorLog;
                             this.Invoke((Action)delegate
                             {
                                 StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
@@ -189,8 +188,7 @@ namespace LrcHelper
                     StringBuilder OutLog = new StringBuilder();
                     OutLog.Append("PlaylistID:" + ID + "\r\nPlaylistName:" + a.Name + "\r\nTotalCount:" + iDList.Count + "\r\nTask Status:");
                     OutLog.Append(cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished");
-                    OutLog.Append("\r\n==LrcSts==\r\n0:Lyrics×\r\n1:Lyrics√\r\n2:Absolute Music\r\n-1:Error\r\n-2:Unmatch\r\n==LrcSts==");
-                    OutLog.Append(string.Format("\r\n\r\n{0,-7}|{1,-12}|{2,-50}|{3,-6}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
+                    OutLog.Append(string.Format("\r\n\r\n{0,-7}|{1,-12}|{2,-50}|{3,-15}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts"));
                     for (int i = 0; i < Log.Count; i++)
                         OutLog.Append("\r\n" + Log[i]);
                     OutLog.Append("\r\n\r\n" + DateTime.Now.ToString() + "  Used Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]\r\nEnjoy music with lyrics now!(*^_^*)");
@@ -206,7 +204,7 @@ namespace LrcHelper
                 });
             }
         }
-        private string DownloadLrc(long MusicID, int ModeIIndex, int DelayMsc, string File, out int status)
+        private string DownloadLrc(long MusicID, int ModeIIndex, int DelayMsc, string File, out LyricsStatus status)
         {
             ExtendedLyrics l = new ExtendedLyrics(MusicID);
             l.FetchOnlineLyrics();
