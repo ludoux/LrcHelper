@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Ludoux.LrcHelper.NeteaseMusic;
 using System.Diagnostics;
+using static Ludoux.LrcHelper.NeteaseMusic.ExtendedLyrics;
 
 namespace LrcHelper
 {
@@ -70,7 +71,7 @@ namespace LrcHelper
                          {
                              parOpts.CancellationToken.ThrowIfCancellationRequested();
                              string ErrorLog = "";
-                             LyricsStatus status = LyricsStatus.Unsured;
+                            LyricsStatus status = LyricsStatus.Unsured;
                              Music m = new Music(iDList[i]);
                              try
                              {

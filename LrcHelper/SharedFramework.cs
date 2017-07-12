@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -119,44 +120,24 @@ namespace Ludoux.LrcHelper.SharedFramework
     public class Lyrics
     {
         List<LyricsLine> LyricsLineText=new List<LyricsLine>();
-        bool HasTags
+        public bool HasTags
         {
             get => GetAllTags() != "";
-        }
-        private string _tagAr, _tagTi, _tagAl, _tagBy;//艺人名，曲名，专辑名，编者
-        string TagAr
-        {
-            get => _tagAr;
-            set => _tagAr = value;
-        }
-        string TagTi
-        {
-            get => _tagTi;
-            set => _tagTi = value;
-        }
-        string TagAl
-        {
-            get => _tagAl;
-            set => _tagAl = value;
-        }
-        string TagBy
-        {
-            get => _tagBy;
-            set => _tagBy = value;
         }
         public string GetAllTags()
         {
             string allTags = "";
-            if(TagAr != null && TagAl != "")
-               allTags = "[Al:" + TagAr + "]";
-            if(TagTi != null && TagTi != "")
-               allTags += "\r\n[Ti:" + TagTi +"]";
-            if(TagAl != null && TagAl != "")
-               allTags += "\r\n[Al:" + TagAl + "]";
-            if(TagBy != null && TagBy != "")
-               allTags += "\r\n[By:" + TagBy + "]";
+            foreach(var item in Tags)
+            {
+                if (allTags == "")
+                    allTags = string.Format("[{0}:{1}]", item.Key, item.Value);
+                else
+                    allTags += string.Format("\r\n[{0}:{1}]", item.Key, item.Value);
+            }
             return allTags;
         }
+        public enum LyricsTags {[Description("艺人名")] Ar, [Description("曲名")] Ti, [Description("专辑名")] Al, [Description("歌词编写者")] By };
+        public Dictionary<LyricsTags, string> Tags = new Dictionary<LyricsTags, string>();//设计是可以对外访问的
         public int Count
         {
             get
@@ -246,25 +227,25 @@ namespace Ludoux.LrcHelper.SharedFramework
                 if(Regex.IsMatch(textList[i], @"^\[Ar:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Ar:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    TagAr = tagText;
+                    Tags.Add(LyricsTags.Ar, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[Ti:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ti
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Ti:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    TagTi = tagText;
+                    Tags.Add(LyricsTags.Ti, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[Al:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Al
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Al:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    TagAl = tagText;
+                    Tags.Add(LyricsTags.Al, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[By:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags By
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[By:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    TagBy = tagText;
+                    Tags.Add(LyricsTags.By, tagText);
                     continue;
                 }
                 if (Regex.IsMatch(textList[i], @"^\[\D+:.*\]$", RegexOptions.IgnoreCase))//匹配一些可能是tag但不支持的文本，直接忽略掉以免当成时间轴（还有怎么有人的tag是中！文！的！居然有[作词:xxx]这样的东西！！！
@@ -359,24 +340,42 @@ namespace Ludoux.LrcHelper.SharedFramework
                     }
 
                 case 1://处理标点/文字的占位，倘若能同屏显示那么就优先同屏显示，否则按 case 0 一样翻译换行
-                    /* 
-                     * 在 NW-A27 的环境下测试。2.2 英寸屏幕，320*240 分辨率
-                     * 倘若一行为 10 ，同屏三行共 30 textSize
-                     * 纯中文/大写字母 10/13 = 0.76
-                     * 小写字母 10/16 = 0.62
-                     * 全半角感叹号逗号都会转成半角显示以及英文半角句号，10/54 = 0.18
-                     * 汉字全角句号 10/19 = 0.52
-                     * 【 10/30 = 0.33
-                     * （会转成半角， 10/33 = 0.30
-                     * 空格处理得很诡异，索尼对于过长的空格直接换行就不理它了。短空格按逗号算，0.18
-                     * 全角引号，10/28 = 0.35
-                     * 半角引号，10/36 = 0.27
-                     * 「 10/36 = 0.27
-                     * 』 10/18 = 0.55
-                     * 半角冒号 10/65 = 0.15，全角冒号会转为半角显示
-                     * 数字 10/19 = 0.52
-                     * ' 10/72 = 0.13
-                     */
+                       /* 
+                        * 在 NW-A27 的环境下测试。2.2 英寸屏幕，320*240 分辨率
+                        * 倘若一行为 10 ，同屏三行共 30 textSize
+                        * 纯中文/大写字母 10/13 = 0.76
+                        * 小写字母 10/16 = 0.62
+                        * 全半角感叹号逗号都会转成半角显示以及英文半角句号，10/54 = 0.18
+                        * 汉字全角句号 10/19 = 0.52
+                        * 【 10/30 = 0.33
+                        * （会转成半角， 10/33 = 0.30
+                        * 空格处理得很诡异，索尼对于过长的空格直接换行就不理它了。短空格按逗号算，0.18
+                        * 全角引号，10/28 = 0.35
+                        * 半角引号，10/36 = 0.27
+                        * 「 10/36 = 0.27
+                        * 』 10/18 = 0.55
+                        * 半角冒号 10/65 = 0.15，全角冒号会转为半角显示
+                        * 数字 10/19 = 0.52
+                        * ' 10/72 = 0.13
+                        */
+                    Dictionary<string, double> textSize = new Dictionary<string, double>()
+                    {
+                        {@"。", 0.52 },
+                        {@"[【】]", 0.33 },
+                        {@"[「」]", 0.27 },
+                        {@"[『』]", 0.55 },
+                        {@"[“”]", 0.35 },
+                        {@"[""]", 0.27 },
+                        {@"[！!，,. ]", 0.18 },
+                        {@"[（）()]", 0.30 },
+                        {@"[\u2E80-\u9FFF]", 0.76 },
+                        {@"[\uac00-\ud7ff]", 0.76 },
+                        {@"[A-Z]", 0.76 },
+                        {@"[a-z]", 0.62 },
+                        {@"[0-9]", 0.52 },
+                        {@"'", 0.13 },
+                        {@"[:：]", 0.15 },
+                    };
                     try
                     {
                         int DelayMsec = Convert.ToInt32(args[0]);
@@ -390,27 +389,24 @@ namespace Ludoux.LrcHelper.SharedFramework
                             }
                             else if (this[i].HasTrans())
                             {//如果有翻译
-                                double textSize = 0;
+                                double totalTextSize = 0;
                                 string connectedText = this[i].OriLyrics + this[i].TransLyrics;//将原文和翻译合并，计算来确定能否同屏显示
                                 void getSize(string pattern, double multiple)//获取指定正则规则下的字符 size，然后在 connectedText 中去掉
                                 {
                                     MatchCollection mc = Regex.Matches(connectedText, pattern);
-                                    textSize += mc.Count * multiple;
+                                    totalTextSize += mc.Count * multiple;
                                     for (int j = 0; j < mc.Count; j++)
                                         connectedText = connectedText.Replace(mc[j].Value.ToString(), "");
                                 }
-                                getSize(@"。", 0.52); getSize(@"[【】]", 0.33); getSize(@"[「」]", 0.27);
-                                getSize(@"[『』]", 0.55); getSize(@"[“”]", 0.35); getSize(@"[""]", 0.27);
-                                getSize(@"[！!，,. ]", 0.18); getSize(@"[（）()]", 0.30); getSize(@"[\u2E80-\u9FFF]", 0.76);
-                                getSize(@"[\uac00-\ud7ff]", 0.76); getSize(@"[A-Z]", 0.76); getSize(@"[a-z]", 0.62); getSize(@"[0-9]", 0.52);
-                                getSize(@"'", 0.13); getSize(@"[:：]", 0.15);
+                                foreach (var item in textSize)
+                                    getSize(item.Key, item.Value);
                                 if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
                                 {
-                                    textSize += connectedText.Count() * 0.76;
+                                    totalTextSize += connectedText.Count() * 0.76;
                                     ErrorLog = ErrorLog + "<connectedText{(" + connectedText.Count().ToString() + ") " + connectedText + "} is not empty>";
                                 }
-                                System.Diagnostics.Debug.WriteLine(this[i].OriLyrics + this[i].TransLyrics + "\r\n" + connectedText.Count().ToString() + ") " + connectedText + "\r\n" + textSize + "\r\n============");
-                                if (textSize < 30)//30 为三行同屏的 size
+                                System.Diagnostics.Debug.WriteLine(this[i].OriLyrics + this[i].TransLyrics + "\r\n" + connectedText.Count().ToString() + ") " + connectedText + "\r\n" + totalTextSize + "\r\n============");
+                                if (totalTextSize < 30)//30 为三行同屏的 size
                                 {
                                     if (returnString.ToString() != "")
                                         returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].ToString());

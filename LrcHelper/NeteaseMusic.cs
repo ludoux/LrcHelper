@@ -39,12 +39,13 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             return sContent;
         }
     }
-    public enum LyricsStatus {[Description("未命中")] Unmatch = -2, [Description("错误")] Error = -1, [Description("无人上传歌词")] NotSupplied = 0, [Description("有词")] Existed = 1, [Description("纯音乐")] NoLyrics = 2, [Description("初始值（以防状态被多次更改）")] Unsured = 3 }
+    
     class ExtendedLyrics
     {
         private long ID;
+        public enum LyricsStatus {[Description("未命中")] Unmatch = -2, [Description("错误")] Error = -1, [Description("无人上传歌词")] NotSupplied = 0, [Description("有词")] Existed = 1, [Description("纯音乐")] NoLyrics = 2, [Description("初始值（以防状态被多次更改）")] Unsured = 3 }
         private LyricsStatus _status = LyricsStatus.Unsured;
-        internal LyricsStatus Status { get => _status; private set { if (_status == LyricsStatus.Unsured) { _status = value; } } }//_status 仅可供修改一次
+        internal LyricsStatus Status { get => _status; private set { if (_status == LyricsStatus.Unsured) { _status = value; } } }//_status 仅可供修改一次，设计是不可以对外更改的
         
 
         private bool HasOriLyrics;
