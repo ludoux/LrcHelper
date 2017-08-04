@@ -85,7 +85,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 
                 if (o.First.ToString() == o.Last.ToString() && o.First.ToString() == @"""code"": 200")//分析歌词状态
                     Status = LyricsStatus.NOTSUPPLIED;
-                if (Regex.IsMatch(o.First.ToString(), @"""nolyric"": true"))
+                if (Regex.IsMatch(o.First.ToString(), @"""nolyric"":\strue"))
                     Status = LyricsStatus.NOLYRICS;
                 else
                     Status = LyricsStatus.EXISTED;
@@ -160,43 +160,88 @@ namespace Ludoux.LrcHelper.NeteaseMusic
     }
 	class Music
 	{
-        long id;
-        string _name;
-		internal string Name
+        int _index;
+        public int Index { get => _index; set => _index = (value > 1 ? value : 1); }
+        long _id;
+        public long ID { get => _id; set => _id = value; }
+        string _title;//由于titile和artist是一个api，所以获取任意一个都会给两个值进行获取（倘若为空才获取）
+		public string Title
         {
             get
             {
-                if (_name != null && _name != "")
-                    return _name;
+                if (_title != null && _title != "")
+                    return _title;
                 else
-                {
-                    string sContent;
-                    string finalText = "";
-                    HttpRequest hr = new HttpRequest();
-                    JObject o = new JObject();
-                    sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]");
-                    o = (JObject)JsonConvert.DeserializeObject(sContent);
-                    finalText = o["songs"].ToString();
-                    finalText = Regex.Replace(finalText, @"^\[", "");
-                    finalText = Regex.Replace(finalText, @"\]$", "");
-                    o = (JObject)JsonConvert.DeserializeObject(finalText);
-                    finalText = o["name"].ToString();
-                    _name = finalText;
-                }
-                return _name;
+                    fetchInfo();
+                return _title;
             }
         }
-        string artist;
-        string album;
-		byte status;
-		public Music(long ID)
-		{
-			this.id = ID;
-		}
-        internal string GetFileName()
+        string _artist;
+        public string Artist
         {
-            return FormatFileName.CleanInvalidFileName(Name);
+            get
+            {
+                if (_artist != null && _artist != "")
+                    return _artist;
+                else
+                    fetchInfo();
+                return _artist;
+            }
         }
+        string _album;
+        public string Album
+        {
+            get
+            {
+                if (_album != null && _album != "")
+                    return _album;
+                else
+                    fetchInfo();
+                return _album;
+            }
+        }
+        private void fetchInfo()
+        {
+            string sContent;
+            string finalText = "";
+            HttpRequest hr = new HttpRequest();
+            JObject o = new JObject();
+            sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+            o = (JObject)JsonConvert.DeserializeObject(sContent);
+            finalText = o["songs"].ToString();
+            finalText = Regex.Replace(finalText, @"^\[", "");
+            finalText = Regex.Replace(finalText, @"\]$", "");
+            o = (JObject)JsonConvert.DeserializeObject(finalText);
+            finalText = o["name"].ToString();
+            _title = finalText;
+
+            o = (JObject)JsonConvert.DeserializeObject(sContent);
+            finalText = o["songs"].ToString();
+            finalText = Regex.Replace(finalText, @"^\[", "");
+            finalText = Regex.Replace(finalText, @"\]$", "");
+            o = (JObject)JsonConvert.DeserializeObject(finalText);
+            finalText = o["artists"].ToString();
+            //"name": "Princesska.ru",
+            MatchCollection mc = Regex.Matches(finalText, @"(?<=""name"":\s"").+(?="",)");
+            for (int i = 0; i < (mc.Count - 1); i++)
+                _artist += mc[i].Value + "/";
+            _artist += mc[mc.Count - 1].Value;
+
+            o = (JObject)JsonConvert.DeserializeObject(sContent);
+            finalText = o["songs"].ToString();
+            finalText = Regex.Replace(finalText, @"^\[", "");
+            finalText = Regex.Replace(finalText, @"\]$", "");
+            o = (JObject)JsonConvert.DeserializeObject(finalText);
+            finalText = o["album"].ToString();
+            _album = Regex.Match(finalText, @"(?<=""name"":\s"").+(?="",)").Value;
+        }
+        
+
+		public Music(long id, int index = 1)
+		{
+			this.ID = id;
+            this.Index = index;
+		}
 	}
     class Playlist
     {
@@ -214,7 +259,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 sContent = o["result"].ToString();
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["tracks"].ToString();
-                MatchCollection mc = Regex.Matches(sContent, @"(?<=\r\n    ""id"": ).*(?=,)");//正则匹配歌曲的ID
+                MatchCollection mc = Regex.Matches(sContent, @"(?<=\r\n\s\s\s\s""id"":\s).*(?=,)");//正则匹配歌曲的ID
                 for (int i = 0; i < mc.Count; i++)
                     songidInPlaylist.Add(Convert.ToInt64(mc[i].Value.ToString()));
                 return songidInPlaylist;
@@ -247,10 +292,6 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             this.id = id;
         }
-        internal string GetFolderName()
-        {
-            return FormatFileName.CleanInvalidFileName(Name);
-        }
     }
     class Album
     {
@@ -273,10 +314,10 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 o = (JObject)JsonConvert.DeserializeObject(sContent);
                 sContent = o["songs"].ToString();
                 
-                MatchCollection mc = Regex.Matches(sContent, @"(?<=\r\n    ""id"": ).*?(?=\,{0,1}\r\n)");//正则匹配歌曲的ID
+                MatchCollection mc = Regex.Matches(sContent, @"(?<=\r\n\s\s\s\s""id"":\s).*?(?=\,{0,1}\r\n)");//正则匹配歌曲的ID
                 for (int i = 0; i < mc.Count; i++)
-                    SongidInAlbum.Add(Convert.ToInt64(mc[i].Value.ToString()));
-                return SongidInAlbum;
+                    songidInAlbum.Add(Convert.ToInt64(mc[i].Value));
+                return songidInAlbum;
             }
         }
         string _name;
@@ -300,10 +341,6 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 }
                 return _name;
             }
-        }
-        internal string GetFolderName()
-        {
-            return FormatFileName.CleanInvalidFileName(Name);
         }
     }
 }

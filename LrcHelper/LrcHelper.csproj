@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileWriter.cs" />
     <Compile Include="NeteaseMusic.cs" />
     <Compile Include="LrcDownloader.cs">
       <SubType>Form</SubType>

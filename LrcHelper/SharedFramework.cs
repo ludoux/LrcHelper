@@ -95,21 +95,21 @@ namespace Ludoux.LrcHelper.SharedFramework
                 return OriLyrics + Break+TransLyrics;
             }
         }
-        internal void SetTransLyrics(string BreakText,string TransLyricsText,bool ClaerIt=false)//ClearIt清除
+        internal void SetTransLyrics(string breakText,string transLyricsText,bool claerIt=false)//ClearIt清除
         {
-            if(ClaerIt)
+            if(claerIt)
             {
                 Break=null;
                 TransLyrics=null;
                 return;
             }
-            Break=BreakText;
-            TransLyrics=TransLyricsText;
+            Break=breakText;
+            TransLyrics=transLyricsText;
         }
-        internal void DelayTimeline(int MSec)//以十毫秒数来保存，100=1000ms=1s
+        internal void DelayTimeline(int mSec)//以十毫秒数来保存，100=1000ms=1s
         {
-            if (_timeline + MSec > 0)
-                _timeline = _timeline + MSec;
+            if (_timeline + mSec > 0)
+                _timeline = _timeline + mSec;
         }
         public int CompareTo(LyricsLine other)
         {
@@ -166,22 +166,22 @@ namespace Ludoux.LrcHelper.SharedFramework
         public Lyrics()
         {
         }
-        public Lyrics(string Text, string Break = null)
+        public Lyrics(string text, string breakText = null)
         {
-            ArrangeLyrics(Text, Break);
+            ArrangeLyrics(text, breakText);
         }
         
         public void Sort()
         {
             LyricsLineText.Sort();
         }
-        public void ArrangeLyrics(string Text,string Break=null)
+        public void ArrangeLyrics(string text,string breakText=null)
         {
-             string formatNewline(string RowText)
+             string formatNewline(string rowText)
             {
                 
                 // \r.length=1   \r\n.length=2
-                StringBuilder tmp = new StringBuilder(RowText);
+                StringBuilder tmp = new StringBuilder(rowText);
 
                 tmp.Replace(@"\r", "\r");
                 tmp.Replace(@"\n", "\n");//将明码出的\r \n 成为转义符
@@ -217,8 +217,8 @@ namespace Ludoux.LrcHelper.SharedFramework
                 }
                 return tmp.ToString();
             }
-            Text = formatNewline(Text);
-            string[] textList = Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            text = formatNewline(text);
+            string[] textList = text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             int totalCount=textList.Count();//总行数
             
             int j = -1;//指示List，可能有同行多个时间轴
@@ -259,27 +259,27 @@ namespace Ludoux.LrcHelper.SharedFramework
                     LyricsLineText.Add(new LyricsLine());
                     LyricsLineText[j].Timeline = mc[k].Value;
 
-                    if (Break != null)//有翻译
+                    if (breakText != null)//有翻译
                     {
-                        LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+(?=" + Break + @")").Value;
-                        LyricsLineText[j].SetTransLyrics(Break, Regex.Match(textList[i], @"(?<=" + Break + @").+$").Value);
+                        LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+(?=" + breakText + @")").Value;
+                        LyricsLineText[j].SetTransLyrics(breakText, Regex.Match(textList[i], @"(?<=" + breakText + @").+$").Value);
                     }
                     else
                         LyricsLineText[j].OriLyrics = Regex.Match(textList[i], @"(?<=\[.+\])[^\[\]]+$").Value;
                 }
             }
         }
-        public bool HasTransLyrics(int Line)
+        public bool HasTransLyrics(int line)
         {
-            if(LyricsLineText[Line].Break!=null)
+            if(LyricsLineText[line].Break!=null)
                 return true;
             else
                 return false;
         }
-        public string[] GetWalkmanStyleLyrics(int ModelIndex, object[] args)
+        public string[] GetWalkmanStyleLyrics(int modelIndex, object[] args)
         {
-            string ErrorLog = "";
-            switch (ModelIndex)
+            string errorLog = "";
+            switch (modelIndex)
             {
                 case 0://翻译延迟，作为新行出现
                     try
@@ -290,8 +290,8 @@ namespace Ludoux.LrcHelper.SharedFramework
                         {
                             if (Count == 0)
                             {
-                                ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
-                                return new string[] { "", ErrorLog };
+                                errorLog = errorLog + "<MixedLyric COUNT ERROR>";
+                                return new string[] { "", errorLog };
                             }
                             else if (this[i].HasTrans())
                             {//如果有翻译
@@ -321,22 +321,22 @@ namespace Ludoux.LrcHelper.SharedFramework
                             }
                             else
                             {
-                                ErrorLog = ErrorLog + "<Interesting things happened...>";
-                                return new string[] { "", ErrorLog };
+                                errorLog = errorLog + "<Interesting things happened...>";
+                                return new string[] { "", errorLog };
                             }
                         }
 
-                        return new string[] {(GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), ErrorLog };//写入 Tag 信息
+                        return new string[] {(GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), errorLog };//写入 Tag 信息
                     }
                     catch (System.ArgumentNullException)
                     {
-                        ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
-                        return new string[] { "", ErrorLog };
+                        errorLog = errorLog + "<ArgumentNullException ERROR!>";
+                        return new string[] { "", errorLog };
                     }
                     catch (System.NullReferenceException)
                     {
-                        ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
-                        return new string[] { "", ErrorLog };
+                        errorLog = errorLog + "<NullReferenceException ERROR!>";
+                        return new string[] { "", errorLog };
                     }
 
                 case 1://处理标点/文字的占位，倘若能同屏显示那么就优先同屏显示，否则按 case 0 一样翻译换行
@@ -384,8 +384,8 @@ namespace Ludoux.LrcHelper.SharedFramework
                         {
                             if (Count == 0)
                             {
-                                ErrorLog = ErrorLog + "<MixedLyric COUNT ERROR>";
-                                return new string[] { "", ErrorLog };
+                                errorLog = errorLog + "<MixedLyric COUNT ERROR>";
+                                return new string[] { "", errorLog };
                             }
                             else if (this[i].HasTrans())
                             {//如果有翻译
@@ -403,7 +403,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                                 if (connectedText != "")//假如还有剩，就是上面没有命中，属于遗漏的
                                 {
                                     totalTextSize += connectedText.Count() * 0.76;
-                                    ErrorLog = ErrorLog + "<connectedText{(" + connectedText.Count().ToString() + ") " + connectedText + "} is not empty>";
+                                    errorLog = errorLog + "<connectedText{(" + connectedText.Count().ToString() + ") " + connectedText + "} is not empty>";
                                 }
                                 System.Diagnostics.Debug.WriteLine(this[i].OriLyrics + this[i].TransLyrics + "\r\n" + connectedText.Count().ToString() + ") " + connectedText + "\r\n" + totalTextSize + "\r\n============");
                                 if (totalTextSize < 30)//30 为三行同屏的 size
@@ -414,7 +414,7 @@ namespace Ludoux.LrcHelper.SharedFramework
                                         returnString.Append("[" + this[i].Timeline + "]" + this[i].ToString());
                                 }
                                 else//同case0
-                                {
+                                {//TODO 不要copy
                                     if (returnString.ToString() != "")
                                     {
                                         returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].OriLyrics);
@@ -441,22 +441,22 @@ namespace Ludoux.LrcHelper.SharedFramework
                             }
                             else
                             {
-                                ErrorLog = ErrorLog + "<Interesting things happened...>";
-                                return new string[] { "", ErrorLog };
+                                errorLog = errorLog + "<Interesting things happened...>";
+                                return new string[] { "", errorLog };
                             }
                         }
 
-                        return new string[] { (GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), ErrorLog };//写入 Tag 信息
+                        return new string[] { (GetAllTags() != "" ? GetAllTags() + "\r\n" : "") + returnString.ToString(), errorLog };//写入 Tag 信息
                     }
                     catch (System.ArgumentNullException)
                     {
-                        ErrorLog = ErrorLog + "<ArgumentNullException ERROR!>";
-                        return new string[] { "", ErrorLog };
+                        errorLog = errorLog + "<ArgumentNullException ERROR!>";
+                        return new string[] { "", errorLog };
                     }
                     catch (System.NullReferenceException)
                     {
-                        ErrorLog = ErrorLog + "<NullReferenceException ERROR!>";
-                        return new string[] { "", ErrorLog };
+                        errorLog = errorLog + "<NullReferenceException ERROR!>";
+                        return new string[] { "", errorLog };
                     }
                 default:
                     return null;
@@ -465,29 +465,6 @@ namespace Ludoux.LrcHelper.SharedFramework
 
         }
     }
-    static class FormatFileName
-    {
-        //非法字符列表
-        private static readonly char[] InvalidFileNameChars = new[]
-        {
-
-            '"','<','>','|','\0','\u0001','\u0002','\u0003','\u0004','\u0005','\u0006','\a','\b','\t','\n','\v','\f',
-            '\r','\u000e','\u000f','\u0010','\u0011','\u0012','\u0013','\u0014','\u0015','\u0016','\u0017',
-            '\u0018','\u0019','\u001a','\u001b','\u001c','\u001d','\u001e','\u001f',':','*','?','\\','/'
-        };
-
-        //过滤方法
-
-        public static string CleanInvalidFileName(string fileName)
-
-        {
-            fileName = fileName + "";
-            fileName = InvalidFileNameChars.Aggregate(fileName, (current, c) => current.Replace(c + "", ""));
-            if (fileName.Length > 1)
-                if (fileName[0] == '.')
-                    fileName = "dot" + fileName.TrimStart('.');
-            return fileName;
-        }
-    }
+    
 
 }

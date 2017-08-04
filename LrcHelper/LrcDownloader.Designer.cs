@@ -47,6 +47,8 @@
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.FilenamePatterncomboBox = new System.Windows.Forms.ComboBox();
+            this.FilenamePatternLabel = new System.Windows.Forms.Label();
             this.DelayMsecnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.DelayMseclabel = new System.Windows.Forms.Label();
             this.LyricsStylenumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -220,16 +222,42 @@
             // 
             // AdvancedSettingsgroupBox
             // 
+            this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatterncomboBox);
+            this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatternLabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMsecnumericUpDown);
             this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMseclabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylenumericUpDown);
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylelabel);
             this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(12, 62);
             this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
-            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 83);
+            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 122);
             this.AdvancedSettingsgroupBox.TabIndex = 11;
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
+            // 
+            // FilenamePatterncomboBox
+            // 
+            this.FilenamePatterncomboBox.FormattingEnabled = true;
+            this.FilenamePatterncomboBox.Items.AddRange(new object[] {
+            "[title].lrc",
+            "[track number]. [title].lrc",
+            "[artist] - [title].lrc",
+            "[title] - [artist].lrc"});
+            this.FilenamePatterncomboBox.Location = new System.Drawing.Point(8, 83);
+            this.FilenamePatterncomboBox.Name = "FilenamePatterncomboBox";
+            this.FilenamePatterncomboBox.Size = new System.Drawing.Size(176, 20);
+            this.FilenamePatterncomboBox.TabIndex = 18;
+            this.FilenamePatterncomboBox.Text = "[title].lrc";
+            this.toolTip1.SetToolTip(this.FilenamePatterncomboBox, "Support:[title][track number][album][artist]");
+            // 
+            // FilenamePatternLabel
+            // 
+            this.FilenamePatternLabel.AutoSize = true;
+            this.FilenamePatternLabel.Location = new System.Drawing.Point(6, 68);
+            this.FilenamePatternLabel.Name = "FilenamePatternLabel";
+            this.FilenamePatternLabel.Size = new System.Drawing.Size(101, 12);
+            this.FilenamePatternLabel.TabIndex = 17;
+            this.FilenamePatternLabel.Text = "FilenamePattern:";
             // 
             // DelayMsecnumericUpDown
             // 
@@ -317,7 +345,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 172);
+            this.ClientSize = new System.Drawing.Size(476, 223);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);
             this.Controls.Add(this.AlbumradioButton);
@@ -374,5 +402,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label DelayMseclabel;
         private System.Windows.Forms.NumericUpDown DelayMsecnumericUpDown;
+        private System.Windows.Forms.ComboBox FilenamePatterncomboBox;
+        private System.Windows.Forms.Label FilenamePatternLabel;
     }
 }
