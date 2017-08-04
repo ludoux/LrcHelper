@@ -53,7 +53,7 @@ namespace LrcHelper
                 {
                     List<string> Log = new List<string>();
                     Playlist pl = new Playlist(ID);
-                    List<long> iDList = pl.SongIDInPlaylist;
+                    List<long> iDList = pl.SongidInPlaylist;
                     string folderName = pl.GetFolderName();
                     for (int i = 0; i < iDList.Count; i++)
                         Log.Add("");//先写空白，后面并行直接写[i]
@@ -71,7 +71,7 @@ namespace LrcHelper
                          {
                              parOpts.CancellationToken.ThrowIfCancellationRequested();
                              string ErrorLog = "";
-                            LyricsStatus status = LyricsStatus.Unsured;
+                            LyricsStatus status = LyricsStatus.UNSURED;
                              Music m = new Music(iDList[i]);
                              try
                              {
@@ -142,7 +142,7 @@ namespace LrcHelper
                 {
                     List<string> Log = new List<string>();
                     Album a = new Album(ID);
-                    List<long> iDList = a.SongIDInAlbum;
+                    List<long> iDList = a.SongidInAlbum;
                     string folderName = a.GetFolderName();
                     for (int i = 0; i < iDList.Count; i++)
                         Log.Add("");//先写空白，后面并行直接写[i]
