@@ -10,6 +10,10 @@
 
 学习目的~~~///(^v^)\\\~~~
 
+## Screenshots
+
+![LrcDownloader](https://raw.githubusercontent.com/Ludoux/LrcHelper/master/Pic/LrcDownloader.png)
+
 ## 具体操作方法（Release 版本）
 
 （目前版本去除了手动模式，若有需要烦请 Release 页面下载 Pre-release 的 v0.0.0-beta 版本）。
