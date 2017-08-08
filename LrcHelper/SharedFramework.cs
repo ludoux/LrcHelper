@@ -224,28 +224,41 @@ namespace Ludoux.LrcHelper.SharedFramework
             int j = -1;//指示List，可能有同行多个时间轴
             for (int i=0;i<totalCount;i++)//i指示原文本行，只在歌词行时跳
             {//要考虑到有些写了标签却没写内容的小婊砸
+                //要考虑到有些有多个相同标签的小婊砸
                 if(Regex.IsMatch(textList[i], @"^\[Ar:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ar
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Ar:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    Tags.Add(LyricsTags.Ar, tagText);
+                    if (Tags.ContainsKey(LyricsTags.Ar))
+                        Tags[LyricsTags.Ar] += "/" + tagText;
+                    else
+                        Tags.Add(LyricsTags.Ar, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[Ti:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Ti
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Ti:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    Tags.Add(LyricsTags.Ti, tagText);
+                    if (Tags.ContainsKey(LyricsTags.Ti))
+                        Tags[LyricsTags.Ti] += "/" + tagText;
+                    else
+                        Tags.Add(LyricsTags.Ti, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[Al:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags Al
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[Al:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    Tags.Add(LyricsTags.Al, tagText);
+                    if (Tags.ContainsKey(LyricsTags.Al))
+                        Tags[LyricsTags.Al] += "/" + tagText;
+                    else
+                        Tags.Add(LyricsTags.Al, tagText);
                     continue;
                 }
                 if(Regex.IsMatch(textList[i], @"^\[By:.*\]$", RegexOptions.IgnoreCase))//命中则说明为tags By
                 {
                     string tagText = Regex.Match(textList[i], @"(?<=\[By:).*(?=\])", RegexOptions.IgnoreCase).Value;
-                    Tags.Add(LyricsTags.By, tagText);
+                    if (Tags.ContainsKey(LyricsTags.By))
+                        Tags[LyricsTags.By] += "/" + tagText;
+                    else
+                        Tags.Add(LyricsTags.By, tagText);
                     continue;
                 }
                 if (Regex.IsMatch(textList[i], @"^\[\D+:.*\]$", RegexOptions.IgnoreCase))//匹配一些可能是tag但不支持的文本，直接忽略掉以免当成时间轴（还有怎么有人的tag是中！文！的！居然有[作词:xxx]这样的东西！！！
