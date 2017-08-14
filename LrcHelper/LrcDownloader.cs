@@ -52,7 +52,7 @@ namespace LrcHelper
                 Task.Factory.StartNew(() =>
                 {
                     Playlist pl = new Playlist(id);
-                    LogFileWriter logWriter = new LogFileWriter(@".\\" + pl.Name + @"\");
+                    LogFileWriter logWriter = new LogFileWriter(@".\\" + FormatFileName.CleanInvalidFileName(pl.Name) + @"\");
                     List<long> idList = pl.SongidInPlaylist;
                     logWriter.AppendLyricsDownloadTaskDetail();
                     logWriter.AppendLyricsDownloadTaskDetail(pl.SongidInPlaylist.Count);
@@ -73,7 +73,7 @@ namespace LrcHelper
                              Music m = new Music(idList[i], i + 1);
                              try
                              {
-                                 ErrorLog = DownloadLrc(".\\" + pl.Name + @"\", filenamePattern, m, modelIndex, delayMsec, out status,out filePath);
+                                 ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(pl.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status,out filePath);
                              }
                              catch(Exception ex)
                              {
@@ -131,7 +131,7 @@ namespace LrcHelper
                 Task.Factory.StartNew(() =>
                 {
                     Album a = new Album(id);
-                    LogFileWriter logWriter = new LogFileWriter(@".\\" + a.Name + @"\");
+                    LogFileWriter logWriter = new LogFileWriter(@".\\" + FormatFileName.CleanInvalidFileName(a.Name) + @"\");
                     List<long> idList = a.SongidInAlbum;
                     logWriter.AppendLyricsDownloadTaskDetail();
                     logWriter.AppendLyricsDownloadTaskDetail(a.SongidInAlbum.Count);
@@ -151,7 +151,7 @@ namespace LrcHelper
                             string filePath = "";
                             try
                             {
-                                ErrorLog = DownloadLrc(".\\" + a.Name + @"\", filenamePattern, m, modelIndex, delayMsec, out status, out filePath);
+                                ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(a.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status, out filePath);
                             }
                             catch (Exception ex)
                             {
