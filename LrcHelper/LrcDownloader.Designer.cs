@@ -55,6 +55,7 @@
             this.LyricsStylelabel = new System.Windows.Forms.Label();
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.needhelplabel = new System.Windows.Forms.Label();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -341,11 +342,25 @@
             this.toolTip1.ReshowDelay = 0;
             this.toolTip1.ShowAlways = true;
             // 
+            // needhelplabel
+            // 
+            this.needhelplabel.AutoSize = true;
+            this.needhelplabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.needhelplabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.needhelplabel.ForeColor = System.Drawing.Color.Blue;
+            this.needhelplabel.Location = new System.Drawing.Point(405, 37);
+            this.needhelplabel.Name = "needhelplabel";
+            this.needhelplabel.Size = new System.Drawing.Size(65, 12);
+            this.needhelplabel.TabIndex = 19;
+            this.needhelplabel.Text = "Need Help?";
+            this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 223);
+            this.ClientSize = new System.Drawing.Size(476, 228);
+            this.Controls.Add(this.needhelplabel);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);
             this.Controls.Add(this.AlbumradioButton);
@@ -404,5 +419,6 @@
         private System.Windows.Forms.NumericUpDown DelayMsecnumericUpDown;
         private System.Windows.Forms.ComboBox FilenamePatterncomboBox;
         private System.Windows.Forms.Label FilenamePatternLabel;
+        private System.Windows.Forms.Label needhelplabel;
     }
 }

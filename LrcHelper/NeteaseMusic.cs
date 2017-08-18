@@ -73,11 +73,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             {
                 sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]");//这个是仅对确定歌词状态有用的
                 if (Regex.IsMatch(sContent, @"^{""songs"":\[]") || Regex.IsMatch(sContent, @"^{""code"":400"))
-                { ErrorLog += "<RETURN ERR!>"; Status = LyricsStatus.ERROR; return; }
+                { ErrorLog += "<STATUS_ERR>"; Status = LyricsStatus.ERROR; return; }
 
                 sContent = hr.GetContent("https://music.163.com/api/song/media?id=" + id);
                 if (sContent.Substring(0, 4).Equals("ERR!"))
-                { ErrorLog += "<RETURN ERR!>"; Status = LyricsStatus.ERROR; return; }
+                { ErrorLog += "<STATUS_ERR>"; Status = LyricsStatus.ERROR; return; }
                 
                 if (sContent == @"{""code"":200}")//分析歌词状态
                     Status = LyricsStatus.NOTSUPPLIED;
@@ -90,7 +90,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
 
                 //分析原文歌词
                 if (!Regex.IsMatch(sContent, @"""lyric"""))
-                { ErrorLog += "<CAN NOT FIND LYRIC LABEL>"; return; }
+                { ErrorLog += "<NO_LYRIC_LABEL>"; return; }
                 sLRC = Regex.Match(sContent, @"(?<=""lyric"":"").*?(?="",""code)").Value;
                 tempOriLyric.ArrangeLyrics(sLRC);
                 hasOriLyrics = true;
@@ -100,7 +100,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
                 sContent = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + id + "&tv=-1");
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
-                    ErrorLog += "<RETURN ERR!>";
+                    ErrorLog += "<STATUS_ERR>";
                     return;
                 }
 
@@ -126,11 +126,11 @@ namespace Ludoux.LrcHelper.NeteaseMusic
             }
             catch(System.ArgumentNullException)
             {
-                ErrorLog += "<ArgumentNullException ERROR!>";
+                ErrorLog += "<ArgumentNullException_ERR>";
             }
             catch(System.NullReferenceException)
             {
-                ErrorLog += "<NullReferenceException ERROR!>";
+                ErrorLog += "<NullReferenceException_ERR>";
             }
         }
         public override string ToString()
@@ -161,9 +161,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             get
             {
-                if (_title != null && _title != "")
-                    return _title;
-                else
+                if (_title == null || _title == "")
                     fetchInfo();
                 return _title;
             }
@@ -173,9 +171,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             get
             {
-                if (_artist != null && _artist != "")
-                    return _artist;
-                else
+                if (_artist == null || _artist == "")
                     fetchInfo();
                 return _artist;
             }
@@ -185,9 +181,7 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             get
             {
-                if (_album != null && _album != "")
-                    return _album;
-                else
+                if (_album == null || _album == "")
                     fetchInfo();
                 return _album;
             }
@@ -218,18 +212,14 @@ namespace Ludoux.LrcHelper.NeteaseMusic
     class Playlist
     {
         long id;
+        List<long> _songidInPlaylist = new List<long>();
         internal List<long> SongidInPlaylist
         {
             get
             {
-                List<long> songidInPlaylist = new List<long>(); ;//TODO:用后备！！！！
-                string sContent;
-                HttpRequest hr = new HttpRequest();
-                sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + id);
-                MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=,""position)");//正则匹配歌曲的ID
-                for (int i = 0; i < mc.Count; i++)
-                    songidInPlaylist.Add(Convert.ToInt64(mc[i].Value.ToString()));
-                return songidInPlaylist;
+                if (_songidInPlaylist.Count == 0)
+                    fetchInfo();                    
+                return _songidInPlaylist;
             }
         }
         string _name;
@@ -237,18 +227,22 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             get
             {
-                if (_name != null && _name != "")
-                    return _name;
-                else
-                {
-                    string sContent = "";
-                    HttpRequest hr = new HttpRequest();
-                    sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + id);
-                    _name = Regex.Match(sContent, @"(?<=,""name"":"").*?(?="",""id"")").Value;
-                }
+                if (_name == null || _name == "")
+                    fetchInfo();
                 return _name;
 
             }
+        }
+        private void fetchInfo()
+        {
+            string sContent;
+            HttpRequest hr = new HttpRequest();
+            sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + id);
+            MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=,""position)");//正则匹配歌曲的ID
+            for (int i = 0; i < mc.Count; i++)
+                _songidInPlaylist.Add(Convert.ToInt64(mc[i].Value.ToString()));
+
+            _name = Regex.Match(sContent, @"(?<=,""name"":"").*?(?="",""id"")").Value;
         }
         public Playlist(long id)
         {
@@ -262,18 +256,14 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             this.id = id;
         }
+        List<long> _songidInAlbum = new List<long>();
         internal List<long> SongidInAlbum
         {
             get
             {
-                List<long> songidInAlbum = new List<long>(); ;//TODO:用后备！！！！
-                string sContent;
-                HttpRequest hr = new HttpRequest();
-                sContent = hr.GetContent("https://music.163.com/api/album/" + id);
-                MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=})");//正则匹配歌曲的ID
-                for (int i = 0; i < mc.Count; i++)
-                    songidInAlbum.Add(Convert.ToInt64(mc[i].Value));
-                return songidInAlbum;
+                if (_songidInAlbum.Count == 0)
+                    fetchInfo();
+                return _songidInAlbum;
             }
         }
         string _name;
@@ -281,18 +271,22 @@ namespace Ludoux.LrcHelper.NeteaseMusic
         {
             get
             {
-                if (_name != null && _name != "")
-                    return _name;
-                else
-                {
-                    string sContent = "";
-                    HttpRequest hr = new HttpRequest();
-                    sContent = hr.GetContent("https://music.163.com/api/album/" + id);
-                    MatchCollection mc = Regex.Matches(sContent, @"(?<=""songs"":.*""name"":"")[^]]*?(?="",""id[^]]*?""info"")");
-                    _name = mc[mc.Count - 1].Value;
-                }
+                if (_name == null || _name == "")
+                    fetchInfo();
                 return _name;
             }
+        }
+        private void fetchInfo()
+        {
+            string sContent;
+            HttpRequest hr = new HttpRequest();
+            sContent = hr.GetContent("https://music.163.com/api/album/" + id);
+            MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=})");//正则匹配歌曲的ID
+            for (int i = 0; i < mc.Count; i++)
+                _songidInAlbum.Add(Convert.ToInt64(mc[i].Value));
+
+            mc = Regex.Matches(sContent, @"(?<=""songs"":.*""name"":"")[^]]*?(?="",""id[^]]*?""info"")");
+            _name = mc[mc.Count - 1].Value;
         }
     }
 }

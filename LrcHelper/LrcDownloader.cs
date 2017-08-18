@@ -254,5 +254,10 @@ namespace LrcHelper
             AdvancedSettingsgroupBox.Visible = AdvancedSettingscheckBox.Checked;
             FilenamePatterncomboBox.Text = "[title].lrc";
         }
+
+        private void needhelplabel_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/Ludoux/LrcHelper/wiki");
+        }
     }
 }

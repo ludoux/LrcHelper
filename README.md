@@ -1,28 +1,29 @@
-﻿访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本，或者手动编译代码尝鲜（但通常二进制文件与源代码所对应）
+﻿学习目的~~~///(^v^)\\\~~~
+
+访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本。
 
 -----
 
 **运行要 .NET Framework 4.6.2 的支持**
 
-针对网易云音乐开发，根据提供的歌曲/歌单/专辑 ID，自动下载整理歌词（含翻译）的功能，顺便为  SONY®WALKMAN® 设计了翻译延迟 1 秒的功能。
+针对网易云音乐开发，根据提供的歌曲/歌单/专辑 ID，自动下载整理歌词（含翻译）的功能。
 
-## 写在前面
+## 不同之处
 
-学习目的~~~///(^v^)\\\~~~
+- [x] 可以将原文歌词和翻译分离，套用不同的时间轴
+- [x] 特别为 SONY®WALKMAN® A25 系列屏幕适配，可以尽量将歌词同屏显示
 
 ## Screenshots
 
 ![LrcDownloader](https://raw.githubusercontent.com/Ludoux/LrcHelper/master/Pic/LrcDownloader.png)
 
-## 具体操作方法（Release 版本）
+## 具体操作方法
 
-（目前版本去除了手动模式，若有需要烦请 Release 页面下载 Pre-release 的 v0.0.0-beta 版本）。
+浏览 [wiki](https://github.com/Ludoux/LrcHelper/wiki) 页面了解更多
 
-在 AUTO-SET 功能（默认）开启时，可以直接复制其对应的链接（ex https://music.163.com/#/song?id=461332109 ），软件在切入前台时会自动填充，
+`AUTO-SET`开启时，复制链接（网页端见地址栏，桌面应用点分享-复制链接）后将软件切入前台，软件将自动填充信息。或者自行填充 ID 并选择对应的类型。
 
-或者手动输入对应的 ID 号并选择 ID 所对应的含义（Music/Playlist/Album）
-
-提供了高级设置（AdvancedSettings），勾选了单选框后便可以进行设置调整。
+如有需要可以勾选高级设置（AdvancedSettings）来启用更多功能。
 
 然后点击按钮“GET”。
 
@@ -57,6 +58,8 @@
 
 ## 更新信息（最近在上）
 
+* 2017.8.18 微小的优化；增加 “Need Help?” 导向 wiki 页面。
+* 2017.8.14 移除了 Newtonsoft.json；修正了对非法字符的处理逻辑。
 * 2017.8.8  允许多个 tag 值。（v1.0.8 #Release）
 * 2017.8.6  增加了 FilenamePattern 功能，背后是重新实现了写文本文件的逻辑，还有对网易云音乐上歌曲歌手专辑等的获取；各种大大小小的优化。
 * 2017.7.12 优化了下代码，使用枚举。（v1.0.7 #Release）
