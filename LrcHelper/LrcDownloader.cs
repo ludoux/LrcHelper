@@ -8,6 +8,9 @@ using Ludoux.LrcHelper.NeteaseMusic;
 using System.Diagnostics;
 using static Ludoux.LrcHelper.NeteaseMusic.ExtendedLyrics;
 using Ludoux.LrcHelper.FileWriter;
+using System.Text.RegularExpressions;
+using System.IO;
+
 namespace LrcHelper
 {
     public partial class LrcDownloader : Form
@@ -258,6 +261,33 @@ namespace LrcHelper
         private void needhelplabel_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/Ludoux/LrcHelper/wiki");
+        }
+
+        private void Savelabel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text), Encoding.UTF8);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to save file.");
+                return;
+            }
+            MessageBox.Show("These AdvancedSettings will be used in following loading.");
+        }
+
+        private void LrcDownloader_Load(object sender, EventArgs e)
+        {
+            if(File.Exists(".\\AdvancedSettings.txt"))
+            {
+                string settings = File.ReadAllText(".\\AdvancedSettings.txt", Encoding.UTF8);
+                AdvancedSettingscheckBox.Checked = true;
+                LyricsStylenumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=LyricsStyle:)\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
+                DelayMsecnumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=DelayMsec:)\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
+                FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
+
+            }
         }
     }
 }

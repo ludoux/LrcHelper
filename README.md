@@ -1,6 +1,6 @@
 ﻿学习目的~~~///(^v^)\\\~~~
 
-访问 [Release 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本。
+访问 [releases 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本。
 
 -----
 
@@ -17,13 +17,13 @@
 
 ![LrcDownloader](https://raw.githubusercontent.com/Ludoux/LrcHelper/master/Pic/LrcDownloader.png)
 
-## 具体操作方法
+## 基本操作方法
 
 浏览 [wiki](https://github.com/Ludoux/LrcHelper/wiki) 页面了解更多
 
-`AUTO-SET`开启时，复制链接（网页端见地址栏，桌面应用点分享-复制链接）后将软件切入前台，软件将自动填充信息。或者自行填充 ID 并选择对应的类型。
+`AUTO-SET`开启时，复制链接（网页端见地址栏，桌面应用轻敲分享-复制链接）后将软件切入前台，软件将自动填充信息。当然也可以自行填充 ID 并选择对应的类型。
 
-如有需要可以勾选高级设置（AdvancedSettings）来启用更多功能。
+如有需要可以勾选高级设置（AdvancedSettings）来启用更多功能（请浏览 wiki）。
 
 然后点击按钮“GET”。
 
@@ -50,14 +50,15 @@
 
 在 MIT 协议下发布。
 
-## 参考&感谢:
+## 参考&感谢
 
-获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
+获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现思路，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
 
 感谢 Moonlib.com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html) 。
 
 ## 更新信息（最近在上）
 
+* 2017.8.22 增加 “Save” 以保存高级设置。（v1.0.9 #Release）
 * 2017.8.18 微小的优化；增加 “Need Help?” 导向 wiki 页面。
 * 2017.8.14 移除了 Newtonsoft.json；修正了对非法字符的处理逻辑。
 * 2017.8.8  允许多个 tag 值。（v1.0.8 #Release）

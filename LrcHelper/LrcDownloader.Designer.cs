@@ -56,6 +56,7 @@
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.needhelplabel = new System.Windows.Forms.Label();
+            this.Savelabel = new System.Windows.Forms.Label();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -223,6 +224,7 @@
             // 
             // AdvancedSettingsgroupBox
             // 
+            this.AdvancedSettingsgroupBox.Controls.Add(this.Savelabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatterncomboBox);
             this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatternLabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMsecnumericUpDown);
@@ -355,6 +357,20 @@
             this.needhelplabel.Text = "Need Help?";
             this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
             // 
+            // Savelabel
+            // 
+            this.Savelabel.AutoSize = true;
+            this.Savelabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Savelabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Savelabel.ForeColor = System.Drawing.Color.Blue;
+            this.Savelabel.Location = new System.Drawing.Point(155, 14);
+            this.Savelabel.Name = "Savelabel";
+            this.Savelabel.Size = new System.Drawing.Size(29, 12);
+            this.Savelabel.TabIndex = 19;
+            this.Savelabel.Text = "Save";
+            this.toolTip1.SetToolTip(this.Savelabel, "Software will automatically use these saved advancedsettings when loading.");
+            this.Savelabel.Click += new System.EventHandler(this.Savelabel_Click);
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -381,6 +397,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LrcDownloader";
             this.Activated += new System.EventHandler(this.LrcDownloader_Activated);
+            this.Load += new System.EventHandler(this.LrcDownloader_Load);
             this.StatusgroupBox.ResumeLayout(false);
             this.StatusgroupBox.PerformLayout();
             this.AdvancedSettingsgroupBox.ResumeLayout(false);
@@ -420,5 +437,6 @@
         private System.Windows.Forms.ComboBox FilenamePatterncomboBox;
         private System.Windows.Forms.Label FilenamePatternLabel;
         private System.Windows.Forms.Label needhelplabel;
+        private System.Windows.Forms.Label Savelabel;
     }
 }
