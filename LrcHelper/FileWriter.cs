@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ludoux.LrcHelper.FileWriter
+namespace ludoux.LrcHelper.FileWriter
 {
     class LogFileWriter
     {

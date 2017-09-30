@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-namespace Ludoux.LrcHelper.SharedFramework
+namespace ludoux.LrcHelper.SharedFramework
 {
     
      public class LyricsLine : IComparable<LyricsLine>
@@ -310,18 +310,18 @@ namespace Ludoux.LrcHelper.SharedFramework
                             {//如果有翻译
                                 if (returnString.ToString() != "")
                                 {
-                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].OriLyrics);
-                                    this[i].DelayTimeline(DelayMsec);
-                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
-                                    this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].OriLyrics : this[i].TransLyrics));//三目是有人希望可以让翻译先展示，过一会再显示原文
+                                    this[i].DelayTimeline((DelayMsec >= 0 ? DelayMsec : -DelayMsec));
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].TransLyrics : this[i].OriLyrics));
+                                    this[i].DelayTimeline((DelayMsec >= 0 ? -DelayMsec : DelayMsec));//复原原本的时间轴
                                 }
 
                                 else
                                 {
-                                    returnString.Append("[" + this[i].Timeline + "]" + this[i].OriLyrics);
-                                    this[i].DelayTimeline(DelayMsec);
-                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
-                                    this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                    returnString.Append("[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].OriLyrics : this[i].TransLyrics));
+                                    this[i].DelayTimeline((DelayMsec >= 0 ? DelayMsec : -DelayMsec));
+                                    returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].TransLyrics : this[i].OriLyrics));
+                                    this[i].DelayTimeline((DelayMsec >= 0 ? -DelayMsec : DelayMsec));//复原原本的时间轴
                                 }
 
                             }
@@ -430,18 +430,18 @@ namespace Ludoux.LrcHelper.SharedFramework
                                 {//TODO 不要copy
                                     if (returnString.ToString() != "")
                                     {
-                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].OriLyrics);
-                                        this[i].DelayTimeline(DelayMsec);
-                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
-                                        this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].OriLyrics : this[i].TransLyrics));//三目是有人希望可以让翻译先展示，过一会再显示原文
+                                        this[i].DelayTimeline((DelayMsec >= 0 ? DelayMsec : -DelayMsec));
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].TransLyrics : this[i].OriLyrics));
+                                        this[i].DelayTimeline((DelayMsec >= 0 ? -DelayMsec : DelayMsec));//复原原本的时间轴
                                     }
 
                                     else
                                     {
-                                        returnString.Append("[" + this[i].Timeline + "]" + this[i].OriLyrics);
-                                        this[i].DelayTimeline(DelayMsec);
-                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + this[i].TransLyrics);
-                                        this[i].DelayTimeline(-DelayMsec);//复原原本的时间轴
+                                        returnString.Append("[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].OriLyrics : this[i].TransLyrics));
+                                        this[i].DelayTimeline((DelayMsec >= 0 ? DelayMsec : -DelayMsec));
+                                        returnString.Append("\r\n[" + this[i].Timeline + "]" + (DelayMsec >= 0 ? this[i].TransLyrics : this[i].OriLyrics));
+                                        this[i].DelayTimeline((DelayMsec >= 0 ? -DelayMsec : DelayMsec));//复原原本的时间轴
                                     }
                                 }
                             }

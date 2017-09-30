@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-namespace Ludoux.LrcHelper.FileWriter
+namespace ludoux.LrcHelper.FileWriter
 {
     static class FormatFileName
     {

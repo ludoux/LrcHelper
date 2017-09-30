@@ -47,6 +47,7 @@
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.Savelabel = new System.Windows.Forms.Label();
             this.FilenamePatterncomboBox = new System.Windows.Forms.ComboBox();
             this.FilenamePatternLabel = new System.Windows.Forms.Label();
             this.DelayMsecnumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -56,7 +57,6 @@
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.needhelplabel = new System.Windows.Forms.Label();
-            this.Savelabel = new System.Windows.Forms.Label();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -238,6 +238,20 @@
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
             // 
+            // Savelabel
+            // 
+            this.Savelabel.AutoSize = true;
+            this.Savelabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Savelabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Savelabel.ForeColor = System.Drawing.Color.Blue;
+            this.Savelabel.Location = new System.Drawing.Point(155, 14);
+            this.Savelabel.Name = "Savelabel";
+            this.Savelabel.Size = new System.Drawing.Size(29, 12);
+            this.Savelabel.TabIndex = 19;
+            this.Savelabel.Text = "Save";
+            this.toolTip1.SetToolTip(this.Savelabel, "Software will automatically use these saved advancedsettings when loading.");
+            this.Savelabel.Click += new System.EventHandler(this.Savelabel_Click);
+            // 
             // FilenamePatterncomboBox
             // 
             this.FilenamePatterncomboBox.FormattingEnabled = true;
@@ -276,10 +290,10 @@
             0,
             0});
             this.DelayMsecnumericUpDown.Minimum = new decimal(new int[] {
-            10,
+            400,
             0,
             0,
-            0});
+            -2147483648});
             this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
             this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(38, 21);
             this.DelayMsecnumericUpDown.TabIndex = 16;
@@ -356,20 +370,6 @@
             this.needhelplabel.TabIndex = 19;
             this.needhelplabel.Text = "Need Help?";
             this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
-            // 
-            // Savelabel
-            // 
-            this.Savelabel.AutoSize = true;
-            this.Savelabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Savelabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Savelabel.ForeColor = System.Drawing.Color.Blue;
-            this.Savelabel.Location = new System.Drawing.Point(155, 14);
-            this.Savelabel.Name = "Savelabel";
-            this.Savelabel.Size = new System.Drawing.Size(29, 12);
-            this.Savelabel.TabIndex = 19;
-            this.Savelabel.Text = "Save";
-            this.toolTip1.SetToolTip(this.Savelabel, "Software will automatically use these saved advancedsettings when loading.");
-            this.Savelabel.Click += new System.EventHandler(this.Savelabel_Click);
             // 
             // LrcDownloader
             // 

@@ -38,7 +38,7 @@
             this.Copyrightlabel.Name = "Copyrightlabel";
             this.Copyrightlabel.Size = new System.Drawing.Size(185, 24);
             this.Copyrightlabel.TabIndex = 7;
-            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/Ludoux/LrcHelper";
+            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\nAT github.com/ludoux/LrcHelper";
             // 
             // MainForm
             // 

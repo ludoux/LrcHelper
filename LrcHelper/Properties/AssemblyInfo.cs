@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("LrcHelper")]
-[assembly: AssemblyCopyright("Copyright © 2017 Ludoux")]
+[assembly: AssemblyCopyright("Copyright © 2017 ludoux")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

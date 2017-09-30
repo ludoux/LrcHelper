@@ -4,10 +4,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Threading;
-using Ludoux.LrcHelper.NeteaseMusic;
+using ludoux.LrcHelper.NeteaseMusic;
 using System.Diagnostics;
-using static Ludoux.LrcHelper.NeteaseMusic.ExtendedLyrics;
-using Ludoux.LrcHelper.FileWriter;
+using static ludoux.LrcHelper.NeteaseMusic.ExtendedLyrics;
+using ludoux.LrcHelper.FileWriter;
 using System.Text.RegularExpressions;
 using System.IO;
 
@@ -260,7 +260,7 @@ namespace LrcHelper
 
         private void needhelplabel_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/Ludoux/LrcHelper/wiki");
+            Process.Start("https://github.com/ludoux/LrcHelper/wiki");
         }
 
         private void Savelabel_Click(object sender, EventArgs e)

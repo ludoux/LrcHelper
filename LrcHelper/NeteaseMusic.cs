@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
-using Ludoux.LrcHelper.SharedFramework;
+using ludoux.LrcHelper.SharedFramework;
 using System.ComponentModel;
 
-namespace Ludoux.LrcHelper.NeteaseMusic
+namespace ludoux.LrcHelper.NeteaseMusic
 {
     class HttpRequest
     {
