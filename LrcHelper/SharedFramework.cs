@@ -22,14 +22,14 @@ namespace ludoux.LrcHelper.SharedFramework
                 if (_tmptimeline > 99)
                 {
                     MSec = _tmptimeline % 100;
-                    Sec = Convert.ToInt32(Math.Floor(Convert.ToDecimal(_tmptimeline / 100)));
+                    Sec = Convert.ToInt32(Math.Floor(_tmptimeline / 100.0));
                 }
                 else
                     return $"00:00.{_tmptimeline:D2}";
                 
                 if(Sec>59)
                 {
-                    Min = Convert.ToInt32(Math.Floor(Convert.ToDecimal(Sec / 60)));
+                    Min = Convert.ToInt32(Math.Floor(Sec / 60.0));
                     Sec = Sec % 60;
                 }
                 return $"{Min:D2}:{Sec:D2}.{MSec:D2}";
@@ -47,7 +47,7 @@ namespace ludoux.LrcHelper.SharedFramework
                 Sec = Convert.ToInt32(Regex.Match(value, @"(?<=:)\d+(?=\.)").Value != "" ? Regex.Match(value, @"(?<=:)\d+(?=\.)").Value : Regex.Match(value, @"(?<=:)\d+$").Value);
                 MSec = Convert.ToInt32(Regex.Match(value, @"(?<=\.)\d+$").Value != "" ? Regex.Match(value, @"(?<=\.)\d+$").Value : "0"); //考虑像 00:37 这样的玩意，使用三目计算符
                 if (MSec > 99)
-                    MSec = Convert.ToInt32(Math.Round(Convert.ToDouble(MSec / 10)));
+                    MSec = Convert.ToInt32(Math.Round(MSec / 10.0));
                 int tl = MSec + Sec * 100 + Min * 100 * 60;
                 if (tl > 0)
                     _timeline = tl;
