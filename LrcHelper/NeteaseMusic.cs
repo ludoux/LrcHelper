@@ -59,8 +59,12 @@ namespace ludoux.LrcHelper.NeteaseMusic
         /// <summary>
         /// 从云端取得该对象的歌词信息并记录
         /// </summary>
-        internal void FetchOnlineLyrics()
-		{
+        /// <param name="userReviseFunc">用户是否介入修改 sContent，当软件自动下载歌词报错后，才应该在启用此选项</param>
+        internal void FetchOnlineLyrics(string revisedsContentOriLyricsForUserReviseFunc, string revisedsContentTransLyricsForUserReviseFunc)
+        {
+            bool userReviseFunc = false;
+            if (revisedsContentOriLyricsForUserReviseFunc != null)
+                userReviseFunc = true;
             hasOriLyrics = false;
             hasTransLyrics = false;
             Lyrics tempOriLyric = new Lyrics();
@@ -89,6 +93,9 @@ namespace ludoux.LrcHelper.NeteaseMusic
                 Status = LyricsStatus.UNMATCHED;//都没踩中
 
                 //分析原文歌词
+                if (userReviseFunc)
+                    sContent = revisedsContentOriLyricsForUserReviseFunc;
+
                 if (!Regex.IsMatch(sContent, @"""lyric"""))
                 { ErrorLog += "<NO_LYRIC_LABEL>"; return; }
                 sLRC = Regex.Match(sContent, @"(?<=""lyric"":"").*?(?="",""code)").Value;
@@ -97,7 +104,11 @@ namespace ludoux.LrcHelper.NeteaseMusic
                 mixedLyrics.ArrangeLyrics(sLRC);
 
                 //===========翻译
-                sContent = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + id + "&tv=-1");
+                if (userReviseFunc)
+                    sContent = revisedsContentTransLyricsForUserReviseFunc;
+                else
+                    sContent = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + id + "&tv=-1");
+
                 if (sContent.Substring(0, 4).Equals("ERR!"))
                 {
                     ErrorLog += "<STATUS_ERR>";

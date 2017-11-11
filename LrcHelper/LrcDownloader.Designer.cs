@@ -57,6 +57,7 @@
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.needhelplabel = new System.Windows.Forms.Label();
+            this.ReviseRawcheckBox = new System.Windows.Forms.CheckBox();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -127,7 +128,7 @@
             this.Copyrightlabel.Name = "Copyrightlabel";
             this.Copyrightlabel.Size = new System.Drawing.Size(167, 24);
             this.Copyrightlabel.TabIndex = 6;
-            this.Copyrightlabel.Text = "Email:chinaluchang@live.com\r\ngithub.com/ludoux/lrchelper";
+            this.Copyrightlabel.Text = "Email:hi@luu.moe\r\ngithub.com/ludoux/lrchelper";
             // 
             // Cancelbutton
             // 
@@ -197,6 +198,7 @@
             this.StatusInfolabel.Size = new System.Drawing.Size(188, 31);
             this.StatusInfolabel.TabIndex = 0;
             this.StatusInfolabel.Text = "StatusInfo";
+            this.StatusInfolabel.MouseHover += new System.EventHandler(this.StatusInfolabel_MouseHover);
             // 
             // AutoSetcheckBox
             // 
@@ -224,6 +226,7 @@
             // 
             // AdvancedSettingsgroupBox
             // 
+            this.AdvancedSettingsgroupBox.Controls.Add(this.ReviseRawcheckBox);
             this.AdvancedSettingsgroupBox.Controls.Add(this.Savelabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatterncomboBox);
             this.AdvancedSettingsgroupBox.Controls.Add(this.FilenamePatternLabel);
@@ -233,7 +236,7 @@
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylelabel);
             this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(12, 62);
             this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
-            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 122);
+            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 129);
             this.AdvancedSettingsgroupBox.TabIndex = 11;
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
@@ -371,11 +374,22 @@
             this.needhelplabel.Text = "Need Help?";
             this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
             // 
+            // ReviseRawcheckBox
+            // 
+            this.ReviseRawcheckBox.AutoSize = true;
+            this.ReviseRawcheckBox.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.ReviseRawcheckBox.Location = new System.Drawing.Point(8, 107);
+            this.ReviseRawcheckBox.Name = "ReviseRawcheckBox";
+            this.ReviseRawcheckBox.Size = new System.Drawing.Size(78, 16);
+            this.ReviseRawcheckBox.TabIndex = 20;
+            this.ReviseRawcheckBox.Text = "ReviseRaw";
+            this.ReviseRawcheckBox.UseVisualStyleBackColor = true;
+            // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 228);
+            this.ClientSize = new System.Drawing.Size(476, 201);
             this.Controls.Add(this.needhelplabel);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);
@@ -438,5 +452,6 @@
         private System.Windows.Forms.Label FilenamePatternLabel;
         private System.Windows.Forms.Label needhelplabel;
         private System.Windows.Forms.Label Savelabel;
+        private System.Windows.Forms.CheckBox ReviseRawcheckBox;
     }
 }

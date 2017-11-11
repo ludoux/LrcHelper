@@ -22,6 +22,7 @@ namespace LrcHelper
         private CancellationTokenSource cancelToken;
         private void GETbutton_Click(object sender, EventArgs e)
         {
+            
             string filenamePattern = FilenamePatterncomboBox.Text;
             GETbutton.Enabled = false;
             StatusInfolabel.Text = "StatusInfo";
@@ -35,7 +36,25 @@ namespace LrcHelper
             if (MusicradioButton.Checked)
             {
                 Music m = new Music(id);
-                string Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out LyricsStatus status, out string filePath);
+                string Log = "";
+                LyricsStatus status = LyricsStatus.UNSURED;
+                if (ReviseRawcheckBox.Checked == false)
+                    Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath);//正常的自动化操作
+                else
+                {
+                    HttpRequest hr = new HttpRequest();
+                    string sContentOriLyrics = hr.GetContent("https://music.163.com/api/song/media?id=" + id);
+                    Clipboard.SetText(sContentOriLyrics, TextDataFormat.UnicodeText);
+                    if (MessageBox.Show("OriLyrics raw text has been set is in the clipboard. Please follow these guide below." + Environment.NewLine + Environment.NewLine + "==========" + Environment.NewLine + @"1. Use Notepad++ to read(such as ""paste"") text from the clipboard." + Environment.NewLine + @"2. Try to revise the text. The most mistake we face is wrong typo. (You can search "".lrc guidance"" to learn more.)" + Environment.NewLine + @"3. After revising, please set revised text to the clipboard(such as ""copy"")" + Environment.NewLine + @"4. Click ""Yes"" button. Software will use the revised text instead of the raw text." + Environment.NewLine  + "==========" + Environment.NewLine + Environment.NewLine + @"**If you don't know why you're seeing this messagebox now or you don't know what to do, just click ""No"" button. Don't worry, nothing wrong will happen.**" + Environment.NewLine + @"You can click the blue label ""Need Help?"" in the LrcDownloader Form to learn more about this function.", "OriLyrics raw text - ReviseRaw(Func)_Step 1", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        sContentOriLyrics = Clipboard.GetText( TextDataFormat.UnicodeText);
+
+                    string sContentTransLyrics = hr.GetContent("https://music.163.com/api/song/lyric?os=pc&id=" + id + "&tv=-1");
+                    Clipboard.SetText(sContentTransLyrics, TextDataFormat.UnicodeText);
+                    if (MessageBox.Show("TransLyrics raw text has been set is in the clipboard. Please follow these guide below." + Environment.NewLine + Environment.NewLine + "==========" + Environment.NewLine + @"1. Use Notepad++ to read(such as ""paste"") text from the clipboard." + Environment.NewLine + @"2. Try to revise the text. The most mistake we face is wrong typo. (You can search "".lrc guidance"" to learn more.)" + Environment.NewLine + @"3. After revising, please set revised text to the clipboard(such as ""copy"")" + Environment.NewLine + @"4. Click ""Yes"" button. Software will use the revised text instead of the raw text." + Environment.NewLine + "==========" + Environment.NewLine + Environment.NewLine + @"**If you don't know why you're seeing this messagebox now or you don't know what to do, just click ""No"" button. Don't worry, nothing wrong will happen.**" + Environment.NewLine + @"You can click the blue label ""Need Help?"" in the LrcDownloader Form to learn more about this function.", "TransLyrics raw text - ReviseRaw(Func)_Step 2", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        sContentTransLyrics = Clipboard.GetText(TextDataFormat.UnicodeText);
+
+                    Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath,revisedsContentOriLyricsForUserReviseFunc: sContentOriLyrics, revisedsContentTransLyricsForUserReviseFunc: sContentTransLyrics);
+                }
                 sw.Stop();
                 if (Log == "")
                     StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
@@ -201,10 +220,10 @@ namespace LrcHelper
                 });
             }
         }
-        private string DownloadLrc(string folderPath, string filenamePatern, Music music, int ModeIIndex, int DelayMsc, out LyricsStatus status,out string filePath, string fileEncoding = "UTF-8")
+        private string DownloadLrc(string folderPath, string filenamePatern, Music music, int ModeIIndex, int DelayMsc, out LyricsStatus status,out string filePath, string fileEncoding = "UTF-8",string revisedsContentOriLyricsForUserReviseFunc = null, string revisedsContentTransLyricsForUserReviseFunc = null)
         {
             ExtendedLyrics l = new ExtendedLyrics(music.ID);
-            l.FetchOnlineLyrics();
+            l.FetchOnlineLyrics(revisedsContentOriLyricsForUserReviseFunc, revisedsContentTransLyricsForUserReviseFunc);
             string lyricText = l.GetCustomLyric(ModeIIndex, DelayMsc);
             filePath = "";
             if (lyricText != "")
@@ -256,6 +275,7 @@ namespace LrcHelper
             DelayMsecnumericUpDown.Value = 100;//恢复默认
             AdvancedSettingsgroupBox.Visible = AdvancedSettingscheckBox.Checked;
             FilenamePatterncomboBox.Text = "[title].lrc";
+            ReviseRawcheckBox.Checked = false;
         }
 
         private void needhelplabel_Click(object sender, EventArgs e)
@@ -288,6 +308,11 @@ namespace LrcHelper
                 FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
 
             }
+        }
+
+        private void StatusInfolabel_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(StatusInfolabel, StatusInfolabel.Text);//防止label显示不完文本，专门浮动出来
         }
     }
 }
