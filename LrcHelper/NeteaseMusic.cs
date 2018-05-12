@@ -19,8 +19,8 @@ namespace ludoux.LrcHelper.NeteaseMusic
             {
                 HttpWebRequest wrGETURL = WebRequest.CreateHttp(sURL);
                 
-                wrGETURL.Referer= "https://music.163.com";
-                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");
+                //wrGETURL.Referer= "https://music.163.com";
+                //wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
                 while (sLine != null)
