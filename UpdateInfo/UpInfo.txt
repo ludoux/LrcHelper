@@ -8,8 +8,11 @@
 [UnsupportedVer]
 
 ;Lastest Released Version
+;Older Version Adapt
 [Ver]
 <1.0.11.0>
+[LatestVer]
+<1.0.12.0>
 
 ;WebLink, not software download link.
 [WebLink]

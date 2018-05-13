@@ -84,6 +84,14 @@ namespace ludoux.LrcHelper.FileWriter
             if (!System.IO.Directory.Exists(folderPath))
                 System.IO.Directory.CreateDirectory(folderPath);
             this.fileEncoding = fileEncoding;
+
+            //当获取不到Title的时候，直接以ID号命名。
+            if(music.Title == null || music.Title == "")
+            {
+                fileName = music.ID.ToString() + ".lrc";
+                return;
+            }
+
             fileName = filenamePatern;//结尾应该为.lrc
             fileName = fileName.Replace("[track number]", music.Index.ToString().PadLeft(totalWidth,'0'));
             fileName = fileName.Replace("[title]", music.Title);
@@ -93,6 +101,12 @@ namespace ludoux.LrcHelper.FileWriter
         }
         public string GetFilePath()
         { return folderPath + fileName; }
+
+        public string GetFileName()
+        {
+            return fileName;
+        }
+
         public void WriteFile(string lrc)
         {
             System.IO.File.WriteAllText(folderPath + fileName, lrc + "\r\n[re:Made by LrcHelper @https://github.com/ludoux/lrchelper]\r\n[ve:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "]", Encoding.GetEncoding(fileEncoding));

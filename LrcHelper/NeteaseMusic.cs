@@ -18,9 +18,11 @@ namespace ludoux.LrcHelper.NeteaseMusic
             try
             {
                 HttpWebRequest wrGETURL = WebRequest.CreateHttp(sURL);
-                
+
                 wrGETURL.Referer= "https://music.163.com";
-                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");
+                //wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");         //返回cheating
+                wrGETURL.UserAgent = "NeteaseMusic/4.3.5.1515659116(9999);Dalvik/2.1.0 (Linux; U; Android 8.1.0; OPPO R11)";
+                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "buildver=1515659116; osver=8.1.0; appver=4.3.5; versioncode=112; mobilename=OPPOR11; os=android; channel=google");
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
                 while (sLine != null)
@@ -206,10 +208,15 @@ namespace ludoux.LrcHelper.NeteaseMusic
             _title = Regex.Match(sContent, @"(?<={""songs"":\[{""name"":"").*?(?="","")").Value;
 
             MatchCollection mc = Regex.Matches(Regex.Match(sContent, @"(?<=""artists"":\[).*?(?=],""album)").Value, @"(?<={""name"":"").*?(?="",)");
-            for (int i = 0; i < (mc.Count - 1); i++)
-                _artist += mc[i].Value + "/";
-            _artist += mc[mc.Count - 1].Value;
 
+            //暂时这样避免直接的越界错误....
+            if (mc.Count > 0)
+            {
+                for (int i = 0; i < (mc.Count - 1); i++)
+                    _artist += mc[i].Value + "/";
+                _artist += mc[mc.Count - 1].Value;  //mc.Count = 0时可能产生越界
+            }
+            
             _album = Regex.Match(sContent, @"(?<=""album"":{""name"":"").*?(?="",)").Value;
         }
         

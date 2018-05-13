@@ -30,7 +30,7 @@ namespace LrcHelper
             StatusPDTotalCountlabel.Text = "0";
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            int id = Convert.ToInt32(IDtextBox.Text);
+            long id = Convert.ToInt64(IDtextBox.Text);
             int modelIndex = Convert.ToInt32(LyricsStylenumericUpDown.Value);
             int delayMsec = Convert.ToInt32(DelayMsecnumericUpDown.Value);
             if (MusicradioButton.Checked)
@@ -304,7 +304,7 @@ namespace LrcHelper
                 string settings = File.ReadAllText(".\\AdvancedSettings.txt", Encoding.UTF8);
                 AdvancedSettingscheckBox.Checked = true;
                 LyricsStylenumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=LyricsStyle:)\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
-                DelayMsecnumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=DelayMsec:)\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
+                DelayMsecnumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=DelayMsec:)(-)*\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());  //05-13 修正数值为负数的时候无匹配(变成""),不能进行Convert.ToDecimal("")。
                 FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
 
             }
