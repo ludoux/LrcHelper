@@ -12,7 +12,7 @@
 [Ver]
 <1.0.11.0>
 [LatestVer]
-<1.1.0.0>
+<1.0.12.0>
 
 ;WebLink, not software download link.
 [WebLink]
