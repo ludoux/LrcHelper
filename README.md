@@ -1,6 +1,6 @@
-﻿学习目的~~~///(^v^)\\\~~~
+学习目的~~~///(^v^)\\\~~~
 
-访问 [releases 页面](https://github.com/Ludoux/LRCHelper/releases) 来获得最新的发布版本。
+访问 [releases 页面](https://github.com/ludoux/LrcHelper/releases/latest) 来获得最新的发布版本。
 
 -----
 
@@ -54,6 +54,8 @@
 在 MIT 协议下发布。
 
 ## 参考&感谢
+
+感谢 [@stevennight](https://github.com/stevennight) 的帮助！让本来没有时间维护（因为暂时没有电脑和捡到了一个女朋友）的工具起死回生……
 
 获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现思路，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
 
