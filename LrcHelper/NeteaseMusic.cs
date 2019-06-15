@@ -21,8 +21,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
 
                 wrGETURL.Referer= "https://music.163.com";
                 //wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");         //返回cheating
-                wrGETURL.UserAgent = "NeteaseMusic/4.3.5.1515659116(9999);Dalvik/2.1.0 (Linux; U; Android 8.1.0; OPPO R11)";
-                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "buildver=1515659116; osver=8.1.0; appver=4.3.5; versioncode=112; mobilename=OPPOR11; os=android; channel=google");
+                wrGETURL.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0";
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
                 while (sLine != null)
@@ -204,11 +203,10 @@ namespace ludoux.LrcHelper.NeteaseMusic
             string sContent;
 
             HttpRequest hr = new HttpRequest();
-            sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + ID + "&ids=[" + ID + "]");
+            sContent = hr.GetContent("https://music.163.com/api/v3/song/detail?id=" + ID + @"&c=[{""id"":""" + ID + @"""}]");
             _title = Regex.Match(sContent, @"(?<={""songs"":\[{""name"":"").*?(?="","")").Value;
 
-            MatchCollection mc = Regex.Matches(Regex.Match(sContent, @"(?<=""artists"":\[).*?(?=],""album)").Value, @"(?<={""name"":"").*?(?="",)");
-
+            MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":\d+,""name"":"")[^/]+?(?="",""tns"")");
             //暂时这样避免直接的越界错误....
             if (mc.Count > 0)
             {
@@ -217,7 +215,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
                 _artist += mc[mc.Count - 1].Value;  //mc.Count = 0时可能产生越界
             }
             
-            _album = Regex.Match(sContent, @"(?<=""album"":{""name"":"").*?(?="",)").Value;
+            _album = Regex.Match(sContent, @"(?<=,""al"":{""id"":\d+?,""name"":"").+?(?="",""picUrl)").Value;
         }
         
 

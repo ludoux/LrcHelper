@@ -22,7 +22,6 @@ namespace LrcHelper
         private CancellationTokenSource cancelToken;
         private void GETbutton_Click(object sender, EventArgs e)
         {
-            
             string filenamePattern = FilenamePatterncomboBox.Text;
             GETbutton.Enabled = false;
             StatusInfolabel.Text = "StatusInfo";
@@ -104,9 +103,9 @@ namespace LrcHelper
                              finally
                              {
                                  if (System.IO.File.Exists(filePath))
-                                     logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, status.ToString(), "√" + ErrorLog);
+                                     logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, m.Album, m.Artist, status.ToString(), "√" + ErrorLog);
                                  else
-                                     logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, status.ToString(), "×" + ErrorLog);
+                                     logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, m.Album, m.Artist, status.ToString(), "×" + ErrorLog);
                                  this.Invoke((Action)delegate
                                  {
                                      StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();
@@ -182,9 +181,9 @@ namespace LrcHelper
                             finally
                             {
                                 if (System.IO.File.Exists(filePath))
-                                    logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, status.ToString(), "√" + ErrorLog);
+                                    logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, m.Album, m.Artist, status.ToString(), "√" + ErrorLog);
                                 else
-                                    logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, status.ToString(), "×" + ErrorLog);
+                                    logWriter.AppendLyricsDownloadTaskDetail(i + 1, idList[i], m.Title, m.Album, m.Artist, status.ToString(), "×" + ErrorLog);
                                 this.Invoke((Action)delegate
                                 {
                                     StatusPDFinishedCountlabel.Text = (Convert.ToInt32(StatusPDFinishedCountlabel.Text) + 1).ToString();

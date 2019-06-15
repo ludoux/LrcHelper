@@ -15,7 +15,7 @@ namespace ludoux.LrcHelper.FileWriter
         string fileEncoding;
         const string HEAD_DESCRIPTION = "";//如果需要填写，记得加\r\n
         List<string> log = new List<string> ();
-        const string Bar = "SongNum|SongID      |SongName                                          |LrcSts         |ErrorInfo";//string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|ErrorInfo", "SongNum", "SongID", "SongName", "LrcSts");
+        const string Bar = "SongNum|SongID      |SongName                                          |SongAlbum                               |SongArtist                    |LrcSts         |ErrorInfo";//string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-40}|{4,-30}|{5,-15}|ErrorInfo", "SongNum", "SongID", "SongName", "SongAlbum", "SongArtist","LrcSts");
         public LogFileWriter(string folderPath,string fileName = "Log.txt", string fileEncoding = "UTF-8")
         {
             if(!folderPath.EndsWith(@"\"))
@@ -47,9 +47,9 @@ namespace ludoux.LrcHelper.FileWriter
             for (int i = 0; i < count; i++)
                 log.Add("");//先写空白，后面并行直接写[i]
         }
-        public void AppendLyricsDownloadTaskDetail(int songNum, long songid, string songName, string lyricsStatus, string errorInfo)
+        public void AppendLyricsDownloadTaskDetail(int songNum, long songid, string songName, string songAlbum, string songArtist, string lyricsStatus, string errorInfo)
         { //前面的头信息和bar占了2个list元素
-            log[songNum + 2] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-15}|{4}", songNum, songid, songName, lyricsStatus, errorInfo);
+            log[songNum + 2] = string.Format("{0,-7}|{1,-12}|{2,-50}|{3,-40}|{4,-30}|{5,-15}|{6}", songNum, songid, songName, songAlbum, songArtist,lyricsStatus, errorInfo);
         }
         public void AppendBottomInformation(double usedTime)
         {
