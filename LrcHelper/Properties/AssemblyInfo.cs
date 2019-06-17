@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("LrcHelper")]
-[assembly: AssemblyDescription("LrcHelper")]
+[assembly: AssemblyTitle("163lrc")]
+[assembly: AssemblyDescription("163lrc")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LrcHelper")]
+[assembly: AssemblyProduct("163lrc")]
 [assembly: AssemblyCopyright("Copyright © 2019 ludoux")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

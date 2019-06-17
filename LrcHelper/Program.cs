@@ -18,11 +18,12 @@ namespace LrcHelper
         {
             using (var client = new WebClient())
             {
-
-                client.Headers["User-Agent"] = @"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0";
+                MatchCollection LocalVer = Regex.Matches(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, @"\d+(?($|\.))", RegexOptions.IgnoreCase);
+                
+                client.Headers["User-Agent"] = @"163lrc" + LocalVer[0] + "." + LocalVer[1] + "." + LocalVer[2];
                 client.Encoding = System.Text.Encoding.UTF8;
-                client.DownloadDataAsync(new Uri("https://raw.githubusercontent.com/ludoux/LrcHelper/master/UpdateInfo/UpInfo.txt"));
-                client.DownloadDataCompleted += Client_DownloadDataCompleted;
+                client.DownloadStringAsync(new Uri("https://api.ludoux.com/163lrcwin/update?cver=" + LocalVer[0] + "." + LocalVer[1] + "." + LocalVer[2]));
+                client.DownloadStringCompleted += Client_DownloadStringCompleted;
                 
             }
 
@@ -31,7 +32,7 @@ namespace LrcHelper
             Application.Run(new LrcDownloader());
         }
 
-        private static void Client_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+        private static void Client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             try
             {
@@ -39,26 +40,22 @@ namespace LrcHelper
                 // an exception, display the resource.
                 if (!e.Cancelled && e.Error == null)
                 {
-                    byte[] data = e.Result;
-                    string textData = System.Text.Encoding.UTF8.GetString(data);
-                    if (Regex.IsMatch(textData, @"\[UnsupportedVer\].*\r\n.*\<All\>.*\r\n", RegexOptions.IgnoreCase) && Regex.IsMatch(textData, @"\[UnsupportedVer\].*\r\n.*\<" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + @"\>.*\r\n", RegexOptions.IgnoreCase))
-                        return;//不继续检查
-                    
-                    string ver = Regex.Match(textData, @"(?<=\[LatestVer\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value;       //05-13 新版本检测的新字段。以区分旧版本的新版本检测方法。
-                    MatchCollection LocalVer = Regex.Matches(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, @"\d+(?($|\.))", RegexOptions.IgnoreCase);
-                    MatchCollection LatestVer = Regex.Matches(ver, @"\d+(?($|\.))", RegexOptions.IgnoreCase);
-
-                    //对比本地版本于新版本
-                    //05-13 主版本/次版本/生成版本/修订版本依个比较
-                    for (int i = 0; i < LocalVer.Count; i++)
+                    MatchCollection UpdateMc = Regex.Matches(e.Result, @"(?<="")[^,]+?(?="")");
+                    if(UpdateMc[0].Value == "T" && UpdateMc[1].Value == "T")
                     {
-                        if(Convert.ToInt32(LocalVer[i].Value) < Convert.ToInt32(LatestVer[i].Value)
-                            && MessageBox.Show("Current version:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "\r\nLastest version:" + ver + "\r\n\r\nWould you like to visit the download page now?", "New Version Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                            Process.Start(Regex.Match(textData, @"(?<=\[WebLink\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value);
+                        MessageBox.Show("当前版本：" + Regex.Match(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, @"\d+?\.\d+?\.\d+?(?=\.)") + "\r\n最新版本：" + UpdateMc[2].Value + "\r\n更新内容：" + UpdateMc[3].Value + "\r\n由于新版本包含安全及重大功能更新，旧版本不再可用。请立即下载新版本", "新版本可用", MessageBoxButtons.OK ,MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        Process.Start(UpdateMc[4].Value);
+                        Application.Exit();
                     }
-                    /*if (Convert.ToInt32(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion.Replace(@".", "")) < Convert.ToInt32(ver.Replace(@".", ""))
-                        && MessageBox.Show("Current version:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "\r\nLastest version:" + ver + "\r\n\r\nWould you like to visit the download page now?", "New Version Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                        Process.Start(Regex.Match(textData, @"(?<=\[WebLink\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value);*/
+                    else if(UpdateMc[0].Value == "T" && UpdateMc[1].Value == "F")
+                    {
+                        if(MessageBox.Show("当前版本：" + Regex.Match(FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, @"\d+?\.\d+?\.\d+?(?=\.)") + "\r\n最新版本：" + UpdateMc[2].Value + "\r\n更新内容：" + UpdateMc[3].Value + "\r\n请立即下载新版本", "新版本可用", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            Process.Start(UpdateMc[4].Value);
+                    }
+
+
+                            // MessageBox.Show("Current version:" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion + "\r\nLastest version:" + ver + "\r\n\r\nWould you like to visit the download page now?", "New Version Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            //Process.Start(Regex.Match(textData, @"(?<=\[WebLink\].*\r\n.*\<).*(?=\>.*\r\n)", RegexOptions.IgnoreCase).Value);
 
                 }
             }

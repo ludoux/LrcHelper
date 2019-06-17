@@ -47,6 +47,7 @@
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.ReviseRawcheckBox = new System.Windows.Forms.CheckBox();
             this.Savelabel = new System.Windows.Forms.Label();
             this.FilenamePatterncomboBox = new System.Windows.Forms.ComboBox();
             this.FilenamePatternLabel = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.needhelplabel = new System.Windows.Forms.Label();
-            this.ReviseRawcheckBox = new System.Windows.Forms.CheckBox();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -66,78 +66,86 @@
             // 
             // IDtextBox
             // 
-            this.IDtextBox.Location = new System.Drawing.Point(39, 6);
+            this.IDtextBox.Location = new System.Drawing.Point(58, 9);
+            this.IDtextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.IDtextBox.Name = "IDtextBox";
-            this.IDtextBox.Size = new System.Drawing.Size(100, 21);
+            this.IDtextBox.Size = new System.Drawing.Size(148, 28);
             this.IDtextBox.TabIndex = 0;
             // 
             // IDlabel
             // 
             this.IDlabel.AutoSize = true;
-            this.IDlabel.Location = new System.Drawing.Point(12, 9);
+            this.IDlabel.Location = new System.Drawing.Point(18, 14);
+            this.IDlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.IDlabel.Name = "IDlabel";
-            this.IDlabel.Size = new System.Drawing.Size(23, 12);
+            this.IDlabel.Size = new System.Drawing.Size(35, 18);
             this.IDlabel.TabIndex = 1;
             this.IDlabel.Text = "ID:";
             // 
             // Functionlabel
             // 
             this.Functionlabel.AutoSize = true;
-            this.Functionlabel.Location = new System.Drawing.Point(12, 39);
+            this.Functionlabel.Location = new System.Drawing.Point(18, 58);
+            this.Functionlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Functionlabel.Name = "Functionlabel";
-            this.Functionlabel.Size = new System.Drawing.Size(65, 12);
+            this.Functionlabel.Size = new System.Drawing.Size(71, 18);
             this.Functionlabel.TabIndex = 2;
-            this.Functionlabel.Text = "This is...";
+            this.Functionlabel.Text = "这是...";
             // 
             // MusicradioButton
             // 
             this.MusicradioButton.AutoSize = true;
-            this.MusicradioButton.Location = new System.Drawing.Point(83, 37);
+            this.MusicradioButton.Location = new System.Drawing.Point(124, 56);
+            this.MusicradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MusicradioButton.Name = "MusicradioButton";
-            this.MusicradioButton.Size = new System.Drawing.Size(53, 16);
+            this.MusicradioButton.Size = new System.Drawing.Size(69, 22);
             this.MusicradioButton.TabIndex = 3;
             this.MusicradioButton.TabStop = true;
-            this.MusicradioButton.Text = "Music";
+            this.MusicradioButton.Text = "单曲";
             this.MusicradioButton.UseVisualStyleBackColor = true;
             // 
             // PlaylistradioButton
             // 
             this.PlaylistradioButton.AutoSize = true;
-            this.PlaylistradioButton.Location = new System.Drawing.Point(142, 37);
+            this.PlaylistradioButton.Location = new System.Drawing.Point(213, 56);
+            this.PlaylistradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PlaylistradioButton.Name = "PlaylistradioButton";
-            this.PlaylistradioButton.Size = new System.Drawing.Size(71, 16);
+            this.PlaylistradioButton.Size = new System.Drawing.Size(69, 22);
             this.PlaylistradioButton.TabIndex = 4;
             this.PlaylistradioButton.TabStop = true;
-            this.PlaylistradioButton.Text = "Playlist";
+            this.PlaylistradioButton.Text = "歌单";
             this.PlaylistradioButton.UseVisualStyleBackColor = true;
             // 
             // GETbutton
             // 
-            this.GETbutton.Location = new System.Drawing.Point(145, 4);
+            this.GETbutton.Location = new System.Drawing.Point(218, 6);
+            this.GETbutton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.GETbutton.Name = "GETbutton";
-            this.GETbutton.Size = new System.Drawing.Size(75, 23);
+            this.GETbutton.Size = new System.Drawing.Size(112, 34);
             this.GETbutton.TabIndex = 5;
-            this.GETbutton.Text = "GET";
+            this.GETbutton.Text = "下载";
             this.GETbutton.UseVisualStyleBackColor = true;
             this.GETbutton.Click += new System.EventHandler(this.GETbutton_Click);
             // 
             // Copyrightlabel
             // 
             this.Copyrightlabel.AutoSize = true;
-            this.Copyrightlabel.Location = new System.Drawing.Point(303, 3);
+            this.Copyrightlabel.Location = new System.Drawing.Point(454, 4);
+            this.Copyrightlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Copyrightlabel.Name = "Copyrightlabel";
-            this.Copyrightlabel.Size = new System.Drawing.Size(167, 24);
+            this.Copyrightlabel.Size = new System.Drawing.Size(251, 36);
             this.Copyrightlabel.TabIndex = 6;
             this.Copyrightlabel.Text = "Email:hi@luu.moe\r\ngithub.com/ludoux/lrchelper";
             // 
             // Cancelbutton
             // 
             this.Cancelbutton.Enabled = false;
-            this.Cancelbutton.Location = new System.Drawing.Point(226, 4);
+            this.Cancelbutton.Location = new System.Drawing.Point(339, 6);
+            this.Cancelbutton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Cancelbutton.Name = "Cancelbutton";
-            this.Cancelbutton.Size = new System.Drawing.Size(75, 23);
+            this.Cancelbutton.Size = new System.Drawing.Size(112, 34);
             this.Cancelbutton.TabIndex = 7;
-            this.Cancelbutton.Text = "Cancel";
+            this.Cancelbutton.Text = "取消";
             this.Cancelbutton.UseVisualStyleBackColor = true;
             this.Cancelbutton.Click += new System.EventHandler(this.Cancelbutton_Click);
             // 
@@ -148,56 +156,63 @@
             this.StatusgroupBox.Controls.Add(this.StatusPDFinishedlabel);
             this.StatusgroupBox.Controls.Add(this.StatusPDTotallabel);
             this.StatusgroupBox.Controls.Add(this.StatusInfolabel);
-            this.StatusgroupBox.Location = new System.Drawing.Point(219, 59);
+            this.StatusgroupBox.Location = new System.Drawing.Point(328, 88);
+            this.StatusgroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.StatusgroupBox.Name = "StatusgroupBox";
-            this.StatusgroupBox.Size = new System.Drawing.Size(200, 100);
+            this.StatusgroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusgroupBox.Size = new System.Drawing.Size(300, 150);
             this.StatusgroupBox.TabIndex = 8;
             this.StatusgroupBox.TabStop = false;
-            this.StatusgroupBox.Text = "Status";
+            this.StatusgroupBox.Text = "状态";
             // 
             // StatusPDTotalCountlabel
             // 
             this.StatusPDTotalCountlabel.AutoSize = true;
-            this.StatusPDTotalCountlabel.Location = new System.Drawing.Point(88, 48);
+            this.StatusPDTotalCountlabel.Location = new System.Drawing.Point(132, 72);
+            this.StatusPDTotalCountlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusPDTotalCountlabel.Name = "StatusPDTotalCountlabel";
-            this.StatusPDTotalCountlabel.Size = new System.Drawing.Size(11, 12);
+            this.StatusPDTotalCountlabel.Size = new System.Drawing.Size(17, 18);
             this.StatusPDTotalCountlabel.TabIndex = 4;
             this.StatusPDTotalCountlabel.Text = "0";
             // 
             // StatusPDFinishedCountlabel
             // 
             this.StatusPDFinishedCountlabel.AutoSize = true;
-            this.StatusPDFinishedCountlabel.Location = new System.Drawing.Point(88, 60);
+            this.StatusPDFinishedCountlabel.Location = new System.Drawing.Point(132, 90);
+            this.StatusPDFinishedCountlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusPDFinishedCountlabel.Name = "StatusPDFinishedCountlabel";
-            this.StatusPDFinishedCountlabel.Size = new System.Drawing.Size(11, 12);
+            this.StatusPDFinishedCountlabel.Size = new System.Drawing.Size(17, 18);
             this.StatusPDFinishedCountlabel.TabIndex = 3;
             this.StatusPDFinishedCountlabel.Text = "0";
             // 
             // StatusPDFinishedlabel
             // 
             this.StatusPDFinishedlabel.AutoSize = true;
-            this.StatusPDFinishedlabel.Location = new System.Drawing.Point(23, 60);
+            this.StatusPDFinishedlabel.Location = new System.Drawing.Point(62, 90);
+            this.StatusPDFinishedlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusPDFinishedlabel.Name = "StatusPDFinishedlabel";
-            this.StatusPDFinishedlabel.Size = new System.Drawing.Size(59, 12);
+            this.StatusPDFinishedlabel.Size = new System.Drawing.Size(35, 18);
             this.StatusPDFinishedlabel.TabIndex = 2;
-            this.StatusPDFinishedlabel.Text = "Finished:";
+            this.StatusPDFinishedlabel.Text = "已:";
             // 
             // StatusPDTotallabel
             // 
             this.StatusPDTotallabel.AutoSize = true;
-            this.StatusPDTotallabel.Location = new System.Drawing.Point(41, 48);
+            this.StatusPDTotallabel.Location = new System.Drawing.Point(62, 72);
+            this.StatusPDTotallabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusPDTotallabel.Name = "StatusPDTotallabel";
-            this.StatusPDTotallabel.Size = new System.Drawing.Size(41, 12);
+            this.StatusPDTotallabel.Size = new System.Drawing.Size(35, 18);
             this.StatusPDTotallabel.TabIndex = 1;
-            this.StatusPDTotallabel.Text = "Total:";
+            this.StatusPDTotallabel.Text = "总:";
             // 
             // StatusInfolabel
             // 
-            this.StatusInfolabel.Location = new System.Drawing.Point(6, 17);
+            this.StatusInfolabel.Location = new System.Drawing.Point(9, 26);
+            this.StatusInfolabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusInfolabel.Name = "StatusInfolabel";
-            this.StatusInfolabel.Size = new System.Drawing.Size(188, 31);
+            this.StatusInfolabel.Size = new System.Drawing.Size(282, 46);
             this.StatusInfolabel.TabIndex = 0;
-            this.StatusInfolabel.Text = "StatusInfo";
+            this.StatusInfolabel.Text = "状态信息";
             this.StatusInfolabel.MouseHover += new System.EventHandler(this.StatusInfolabel_MouseHover);
             // 
             // AutoSetcheckBox
@@ -205,9 +220,10 @@
             this.AutoSetcheckBox.AutoSize = true;
             this.AutoSetcheckBox.Checked = true;
             this.AutoSetcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoSetcheckBox.Location = new System.Drawing.Point(278, 38);
+            this.AutoSetcheckBox.Location = new System.Drawing.Point(417, 57);
+            this.AutoSetcheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AutoSetcheckBox.Name = "AutoSetcheckBox";
-            this.AutoSetcheckBox.Size = new System.Drawing.Size(72, 16);
+            this.AutoSetcheckBox.Size = new System.Drawing.Size(106, 22);
             this.AutoSetcheckBox.TabIndex = 9;
             this.AutoSetcheckBox.Text = "Auto-Set";
             this.toolTip1.SetToolTip(this.AutoSetcheckBox, "To get  the song ID in URLs from clipboard");
@@ -216,12 +232,13 @@
             // AlbumradioButton
             // 
             this.AlbumradioButton.AutoSize = true;
-            this.AlbumradioButton.Location = new System.Drawing.Point(219, 37);
+            this.AlbumradioButton.Location = new System.Drawing.Point(328, 56);
+            this.AlbumradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AlbumradioButton.Name = "AlbumradioButton";
-            this.AlbumradioButton.Size = new System.Drawing.Size(53, 16);
+            this.AlbumradioButton.Size = new System.Drawing.Size(69, 22);
             this.AlbumradioButton.TabIndex = 10;
             this.AlbumradioButton.TabStop = true;
-            this.AlbumradioButton.Text = "Album";
+            this.AlbumradioButton.Text = "专辑";
             this.AlbumradioButton.UseVisualStyleBackColor = true;
             // 
             // AdvancedSettingsgroupBox
@@ -234,12 +251,26 @@
             this.AdvancedSettingsgroupBox.Controls.Add(this.DelayMseclabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylenumericUpDown);
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylelabel);
-            this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(12, 62);
+            this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(18, 93);
+            this.AdvancedSettingsgroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
-            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(200, 129);
+            this.AdvancedSettingsgroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(300, 194);
             this.AdvancedSettingsgroupBox.TabIndex = 11;
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
+            // 
+            // ReviseRawcheckBox
+            // 
+            this.ReviseRawcheckBox.AutoSize = true;
+            this.ReviseRawcheckBox.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.ReviseRawcheckBox.Location = new System.Drawing.Point(12, 160);
+            this.ReviseRawcheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ReviseRawcheckBox.Name = "ReviseRawcheckBox";
+            this.ReviseRawcheckBox.Size = new System.Drawing.Size(115, 22);
+            this.ReviseRawcheckBox.TabIndex = 20;
+            this.ReviseRawcheckBox.Text = "ReviseRaw";
+            this.ReviseRawcheckBox.UseVisualStyleBackColor = true;
             // 
             // Savelabel
             // 
@@ -247,11 +278,12 @@
             this.Savelabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Savelabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Savelabel.ForeColor = System.Drawing.Color.Blue;
-            this.Savelabel.Location = new System.Drawing.Point(155, 14);
+            this.Savelabel.Location = new System.Drawing.Point(232, 21);
+            this.Savelabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Savelabel.Name = "Savelabel";
-            this.Savelabel.Size = new System.Drawing.Size(29, 12);
+            this.Savelabel.Size = new System.Drawing.Size(44, 18);
             this.Savelabel.TabIndex = 19;
-            this.Savelabel.Text = "Save";
+            this.Savelabel.Text = "保存";
             this.toolTip1.SetToolTip(this.Savelabel, "Software will automatically use these saved advancedsettings when loading.");
             this.Savelabel.Click += new System.EventHandler(this.Savelabel_Click);
             // 
@@ -263,9 +295,10 @@
             "[track number]. [title].lrc",
             "[artist] - [title].lrc",
             "[title] - [artist].lrc"});
-            this.FilenamePatterncomboBox.Location = new System.Drawing.Point(8, 83);
+            this.FilenamePatterncomboBox.Location = new System.Drawing.Point(12, 124);
+            this.FilenamePatterncomboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.FilenamePatterncomboBox.Name = "FilenamePatterncomboBox";
-            this.FilenamePatterncomboBox.Size = new System.Drawing.Size(176, 20);
+            this.FilenamePatterncomboBox.Size = new System.Drawing.Size(262, 26);
             this.FilenamePatterncomboBox.TabIndex = 18;
             this.FilenamePatterncomboBox.Text = "[title].lrc";
             this.toolTip1.SetToolTip(this.FilenamePatterncomboBox, "Support:[title][track number][album][artist]");
@@ -273,11 +306,12 @@
             // FilenamePatternLabel
             // 
             this.FilenamePatternLabel.AutoSize = true;
-            this.FilenamePatternLabel.Location = new System.Drawing.Point(6, 68);
+            this.FilenamePatternLabel.Location = new System.Drawing.Point(9, 102);
+            this.FilenamePatternLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FilenamePatternLabel.Name = "FilenamePatternLabel";
-            this.FilenamePatternLabel.Size = new System.Drawing.Size(101, 12);
+            this.FilenamePatternLabel.Size = new System.Drawing.Size(107, 18);
             this.FilenamePatternLabel.TabIndex = 17;
-            this.FilenamePatternLabel.Text = "FilenamePattern:";
+            this.FilenamePatternLabel.Text = "文件名样式:";
             // 
             // DelayMsecnumericUpDown
             // 
@@ -286,7 +320,8 @@
             0,
             0,
             0});
-            this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(89, 39);
+            this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(134, 58);
+            this.DelayMsecnumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DelayMsecnumericUpDown.Maximum = new decimal(new int[] {
             400,
             0,
@@ -298,7 +333,7 @@
             0,
             -2147483648});
             this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
-            this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(38, 21);
+            this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(57, 28);
             this.DelayMsecnumericUpDown.TabIndex = 16;
             this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 is 1sec");
             this.DelayMsecnumericUpDown.Value = new decimal(new int[] {
@@ -310,23 +345,25 @@
             // DelayMseclabel
             // 
             this.DelayMseclabel.AutoSize = true;
-            this.DelayMseclabel.Location = new System.Drawing.Point(18, 41);
+            this.DelayMseclabel.Location = new System.Drawing.Point(27, 62);
+            this.DelayMseclabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DelayMseclabel.Name = "DelayMseclabel";
-            this.DelayMseclabel.Size = new System.Drawing.Size(65, 12);
+            this.DelayMseclabel.Size = new System.Drawing.Size(89, 18);
             this.DelayMseclabel.TabIndex = 15;
-            this.DelayMseclabel.Text = "DelayMsec:";
+            this.DelayMseclabel.Text = "延迟Msec:";
             this.toolTip1.SetToolTip(this.DelayMseclabel, "How long should the translyrics be delayed?");
             // 
             // LyricsStylenumericUpDown
             // 
-            this.LyricsStylenumericUpDown.Location = new System.Drawing.Point(89, 16);
+            this.LyricsStylenumericUpDown.Location = new System.Drawing.Point(134, 24);
+            this.LyricsStylenumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.LyricsStylenumericUpDown.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.LyricsStylenumericUpDown.Name = "LyricsStylenumericUpDown";
-            this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(30, 21);
+            this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(45, 28);
             this.LyricsStylenumericUpDown.TabIndex = 14;
             this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will be displayed in the different lines.\r\n1:OriLyric" +
         "s and TransLyrics will be displayed  in the same line if it can.");
@@ -334,21 +371,23 @@
             // LyricsStylelabel
             // 
             this.LyricsStylelabel.AutoSize = true;
-            this.LyricsStylelabel.Location = new System.Drawing.Point(6, 18);
+            this.LyricsStylelabel.Location = new System.Drawing.Point(9, 27);
+            this.LyricsStylelabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LyricsStylelabel.Name = "LyricsStylelabel";
-            this.LyricsStylelabel.Size = new System.Drawing.Size(77, 12);
+            this.LyricsStylelabel.Size = new System.Drawing.Size(89, 18);
             this.LyricsStylelabel.TabIndex = 13;
-            this.LyricsStylelabel.Text = "LyricsStyle:";
+            this.LyricsStylelabel.Text = "歌词样式:";
             this.toolTip1.SetToolTip(this.LyricsStylelabel, "Different styles for different environment.");
             // 
             // AdvancedSettingscheckBox
             // 
             this.AdvancedSettingscheckBox.AutoSize = true;
-            this.AdvancedSettingscheckBox.Location = new System.Drawing.Point(14, 60);
+            this.AdvancedSettingscheckBox.Location = new System.Drawing.Point(21, 90);
+            this.AdvancedSettingscheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AdvancedSettingscheckBox.Name = "AdvancedSettingscheckBox";
-            this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(120, 16);
+            this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(106, 22);
             this.AdvancedSettingscheckBox.TabIndex = 12;
-            this.AdvancedSettingscheckBox.Text = "AdvancedSettings";
+            this.AdvancedSettingscheckBox.Text = "高级设置";
             this.toolTip1.SetToolTip(this.AdvancedSettingscheckBox, "More features but less stable.");
             this.AdvancedSettingscheckBox.UseVisualStyleBackColor = true;
             this.AdvancedSettingscheckBox.CheckedChanged += new System.EventHandler(this.AdvancedSettingscheckBox_CheckedChanged);
@@ -367,29 +406,19 @@
             this.needhelplabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.needhelplabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.needhelplabel.ForeColor = System.Drawing.Color.Blue;
-            this.needhelplabel.Location = new System.Drawing.Point(405, 37);
+            this.needhelplabel.Location = new System.Drawing.Point(608, 56);
+            this.needhelplabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.needhelplabel.Name = "needhelplabel";
-            this.needhelplabel.Size = new System.Drawing.Size(65, 12);
+            this.needhelplabel.Size = new System.Drawing.Size(98, 18);
             this.needhelplabel.TabIndex = 19;
             this.needhelplabel.Text = "Need Help?";
             this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
             // 
-            // ReviseRawcheckBox
-            // 
-            this.ReviseRawcheckBox.AutoSize = true;
-            this.ReviseRawcheckBox.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.ReviseRawcheckBox.Location = new System.Drawing.Point(8, 107);
-            this.ReviseRawcheckBox.Name = "ReviseRawcheckBox";
-            this.ReviseRawcheckBox.Size = new System.Drawing.Size(78, 16);
-            this.ReviseRawcheckBox.TabIndex = 20;
-            this.ReviseRawcheckBox.Text = "ReviseRaw";
-            this.ReviseRawcheckBox.UseVisualStyleBackColor = true;
-            // 
             // LrcDownloader
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 201);
+            this.ClientSize = new System.Drawing.Size(714, 302);
             this.Controls.Add(this.needhelplabel);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);
@@ -406,10 +435,11 @@
             this.Controls.Add(this.IDtextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "LrcDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "LrcDownloader";
+            this.Text = "163lrc";
             this.Activated += new System.EventHandler(this.LrcDownloader_Activated);
             this.Load += new System.EventHandler(this.LrcDownloader_Load);
             this.StatusgroupBox.ResumeLayout(false);
