@@ -2,6 +2,7 @@
 ;ATTENTION
 ;Software will ask for this file and check the lastest version.
 ;DO NOT change the style of this file.
+;+2019-6-17: https://api.ludoux.com/163lrcwin/update switch to new channel.
 ;===================
 
 ;Software with these version WILL NOT check update.If <All> is existed, Software with ANY version WILL NOT check.
@@ -10,13 +11,13 @@
 ;Lastest Released Version
 ;Older Version Adapt
 [Ver]
-<1.0.12.0>
+<2.0.13.0>
 [LatestVer]
-<1.0.12.0>
+<2.0.13.0>
 
 ;WebLink, not software download link.
 [WebLink]
-<https://github.com/Ludoux/LrcHelper/releases>
+<https://github.com/ludoux/LrcHelper/releases/latest>
 
 
 ;=END=
