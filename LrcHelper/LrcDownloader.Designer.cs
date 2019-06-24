@@ -67,7 +67,7 @@
             // IDtextBox
             // 
             this.IDtextBox.Location = new System.Drawing.Point(58, 9);
-            this.IDtextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.IDtextBox.Margin = new System.Windows.Forms.Padding(4);
             this.IDtextBox.Name = "IDtextBox";
             this.IDtextBox.Size = new System.Drawing.Size(148, 28);
             this.IDtextBox.TabIndex = 0;
@@ -96,7 +96,7 @@
             // 
             this.MusicradioButton.AutoSize = true;
             this.MusicradioButton.Location = new System.Drawing.Point(124, 56);
-            this.MusicradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MusicradioButton.Margin = new System.Windows.Forms.Padding(4);
             this.MusicradioButton.Name = "MusicradioButton";
             this.MusicradioButton.Size = new System.Drawing.Size(69, 22);
             this.MusicradioButton.TabIndex = 3;
@@ -108,7 +108,7 @@
             // 
             this.PlaylistradioButton.AutoSize = true;
             this.PlaylistradioButton.Location = new System.Drawing.Point(213, 56);
-            this.PlaylistradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PlaylistradioButton.Margin = new System.Windows.Forms.Padding(4);
             this.PlaylistradioButton.Name = "PlaylistradioButton";
             this.PlaylistradioButton.Size = new System.Drawing.Size(69, 22);
             this.PlaylistradioButton.TabIndex = 4;
@@ -119,7 +119,7 @@
             // GETbutton
             // 
             this.GETbutton.Location = new System.Drawing.Point(218, 6);
-            this.GETbutton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GETbutton.Margin = new System.Windows.Forms.Padding(4);
             this.GETbutton.Name = "GETbutton";
             this.GETbutton.Size = new System.Drawing.Size(112, 34);
             this.GETbutton.TabIndex = 5;
@@ -141,7 +141,7 @@
             // 
             this.Cancelbutton.Enabled = false;
             this.Cancelbutton.Location = new System.Drawing.Point(339, 6);
-            this.Cancelbutton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Cancelbutton.Margin = new System.Windows.Forms.Padding(4);
             this.Cancelbutton.Name = "Cancelbutton";
             this.Cancelbutton.Size = new System.Drawing.Size(112, 34);
             this.Cancelbutton.TabIndex = 7;
@@ -157,9 +157,9 @@
             this.StatusgroupBox.Controls.Add(this.StatusPDTotallabel);
             this.StatusgroupBox.Controls.Add(this.StatusInfolabel);
             this.StatusgroupBox.Location = new System.Drawing.Point(328, 88);
-            this.StatusgroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusgroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.StatusgroupBox.Name = "StatusgroupBox";
-            this.StatusgroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusgroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.StatusgroupBox.Size = new System.Drawing.Size(300, 150);
             this.StatusgroupBox.TabIndex = 8;
             this.StatusgroupBox.TabStop = false;
@@ -221,19 +221,19 @@
             this.AutoSetcheckBox.Checked = true;
             this.AutoSetcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AutoSetcheckBox.Location = new System.Drawing.Point(417, 57);
-            this.AutoSetcheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AutoSetcheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.AutoSetcheckBox.Name = "AutoSetcheckBox";
             this.AutoSetcheckBox.Size = new System.Drawing.Size(106, 22);
             this.AutoSetcheckBox.TabIndex = 9;
             this.AutoSetcheckBox.Text = "Auto-Set";
-            this.toolTip1.SetToolTip(this.AutoSetcheckBox, "To get  the song ID in URLs from clipboard");
+            this.toolTip1.SetToolTip(this.AutoSetcheckBox, "从剪切板的链接中自动设置 ID");
             this.AutoSetcheckBox.UseVisualStyleBackColor = true;
             // 
             // AlbumradioButton
             // 
             this.AlbumradioButton.AutoSize = true;
             this.AlbumradioButton.Location = new System.Drawing.Point(328, 56);
-            this.AlbumradioButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AlbumradioButton.Margin = new System.Windows.Forms.Padding(4);
             this.AlbumradioButton.Name = "AlbumradioButton";
             this.AlbumradioButton.Size = new System.Drawing.Size(69, 22);
             this.AlbumradioButton.TabIndex = 10;
@@ -252,9 +252,9 @@
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylenumericUpDown);
             this.AdvancedSettingsgroupBox.Controls.Add(this.LyricsStylelabel);
             this.AdvancedSettingsgroupBox.Location = new System.Drawing.Point(18, 93);
-            this.AdvancedSettingsgroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AdvancedSettingsgroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
-            this.AdvancedSettingsgroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AdvancedSettingsgroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(300, 194);
             this.AdvancedSettingsgroupBox.TabIndex = 11;
             this.AdvancedSettingsgroupBox.TabStop = false;
@@ -265,7 +265,7 @@
             this.ReviseRawcheckBox.AutoSize = true;
             this.ReviseRawcheckBox.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.ReviseRawcheckBox.Location = new System.Drawing.Point(12, 160);
-            this.ReviseRawcheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ReviseRawcheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.ReviseRawcheckBox.Name = "ReviseRawcheckBox";
             this.ReviseRawcheckBox.Size = new System.Drawing.Size(115, 22);
             this.ReviseRawcheckBox.TabIndex = 20;
@@ -284,7 +284,7 @@
             this.Savelabel.Size = new System.Drawing.Size(44, 18);
             this.Savelabel.TabIndex = 19;
             this.Savelabel.Text = "保存";
-            this.toolTip1.SetToolTip(this.Savelabel, "Software will automatically use these saved advancedsettings when loading.");
+            this.toolTip1.SetToolTip(this.Savelabel, "软件将在下次启动时自动加载已保存的高级设置");
             this.Savelabel.Click += new System.EventHandler(this.Savelabel_Click);
             // 
             // FilenamePatterncomboBox
@@ -296,12 +296,12 @@
             "[artist] - [title].lrc",
             "[title] - [artist].lrc"});
             this.FilenamePatterncomboBox.Location = new System.Drawing.Point(12, 124);
-            this.FilenamePatterncomboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FilenamePatterncomboBox.Margin = new System.Windows.Forms.Padding(4);
             this.FilenamePatterncomboBox.Name = "FilenamePatterncomboBox";
             this.FilenamePatterncomboBox.Size = new System.Drawing.Size(262, 26);
             this.FilenamePatterncomboBox.TabIndex = 18;
             this.FilenamePatterncomboBox.Text = "[title].lrc";
-            this.toolTip1.SetToolTip(this.FilenamePatterncomboBox, "Support:[title][track number][album][artist]");
+            this.toolTip1.SetToolTip(this.FilenamePatterncomboBox, "支持：[title][track number][album][artist]");
             // 
             // FilenamePatternLabel
             // 
@@ -321,7 +321,7 @@
             0,
             0});
             this.DelayMsecnumericUpDown.Location = new System.Drawing.Point(134, 58);
-            this.DelayMsecnumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DelayMsecnumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.DelayMsecnumericUpDown.Maximum = new decimal(new int[] {
             400,
             0,
@@ -335,7 +335,7 @@
             this.DelayMsecnumericUpDown.Name = "DelayMsecnumericUpDown";
             this.DelayMsecnumericUpDown.Size = new System.Drawing.Size(57, 28);
             this.DelayMsecnumericUpDown.TabIndex = 16;
-            this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 is 1sec");
+            this.toolTip1.SetToolTip(this.DelayMsecnumericUpDown, "100 意味着 1sec");
             this.DelayMsecnumericUpDown.Value = new decimal(new int[] {
             100,
             0,
@@ -345,7 +345,7 @@
             // DelayMseclabel
             // 
             this.DelayMseclabel.AutoSize = true;
-            this.DelayMseclabel.Location = new System.Drawing.Point(27, 62);
+            this.DelayMseclabel.Location = new System.Drawing.Point(8, 60);
             this.DelayMseclabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DelayMseclabel.Name = "DelayMseclabel";
             this.DelayMseclabel.Size = new System.Drawing.Size(89, 18);
@@ -356,7 +356,7 @@
             // LyricsStylenumericUpDown
             // 
             this.LyricsStylenumericUpDown.Location = new System.Drawing.Point(134, 24);
-            this.LyricsStylenumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LyricsStylenumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.LyricsStylenumericUpDown.Maximum = new decimal(new int[] {
             1,
             0,
@@ -365,8 +365,7 @@
             this.LyricsStylenumericUpDown.Name = "LyricsStylenumericUpDown";
             this.LyricsStylenumericUpDown.Size = new System.Drawing.Size(45, 28);
             this.LyricsStylenumericUpDown.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:OriLyrics and TransLyrics will be displayed in the different lines.\r\n1:OriLyric" +
-        "s and TransLyrics will be displayed  in the same line if it can.");
+            this.toolTip1.SetToolTip(this.LyricsStylenumericUpDown, "0:歌词原文和翻译将分行\r\n1:歌词原文和翻译将尽可能同行");
             // 
             // LyricsStylelabel
             // 
@@ -383,7 +382,7 @@
             // 
             this.AdvancedSettingscheckBox.AutoSize = true;
             this.AdvancedSettingscheckBox.Location = new System.Drawing.Point(21, 90);
-            this.AdvancedSettingscheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AdvancedSettingscheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.AdvancedSettingscheckBox.Name = "AdvancedSettingscheckBox";
             this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(106, 22);
             this.AdvancedSettingscheckBox.TabIndex = 12;
@@ -435,7 +434,7 @@
             this.Controls.Add(this.IDtextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "LrcDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
