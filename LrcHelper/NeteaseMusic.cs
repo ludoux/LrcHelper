@@ -10,7 +10,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
 {
     class HttpRequest
     {
-        public string GetContent(string sURL)
+        public string GetContent(string sURL, string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0")
         {
             
             string sContent = ""; //Content
@@ -21,7 +21,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
 
                 wrGETURL.Referer= "https://music.163.com";
                 //wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");         //返回cheating
-                wrGETURL.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0";
+                wrGETURL.UserAgent = UserAgent;
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
                 while (sLine != null)
@@ -253,12 +253,12 @@ namespace ludoux.LrcHelper.NeteaseMusic
         {
             string sContent;
             HttpRequest hr = new HttpRequest();
-            sContent = hr.GetContent("https://music.163.com/api/playlist/detail?id=" + id);
-            MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=,""position)");//正则匹配歌曲的ID
+            sContent = hr.GetContent("https://music.163.com/api/v3/playlist/detail?id=" + id + @"&c=[{""id"":""" + id + @"""}]");
+            MatchCollection mc = Regex.Matches(sContent, @"(?<={""id"":)\d+(?=,""v"":)");//正则匹配歌曲的ID
             for (int i = 0; i < mc.Count; i++)
                 _songidInPlaylist.Add(Convert.ToInt64(mc[i].Value.ToString()));
 
-            _name = Regex.Match(sContent, @"(?<=,""name"":"").*?(?="",""id"")").Value;
+            _name = Regex.Match(Regex.Match(sContent, @"(?<=trackIds).+?(?=,""shareCount)" ).Value, @"(?<=name"":"").+?(?="",""id)").Value ;
         }
         public Playlist(long id)
         {

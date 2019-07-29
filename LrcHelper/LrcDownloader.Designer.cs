@@ -85,7 +85,7 @@
             // Functionlabel
             // 
             this.Functionlabel.AutoSize = true;
-            this.Functionlabel.Location = new System.Drawing.Point(18, 58);
+            this.Functionlabel.Location = new System.Drawing.Point(15, 58);
             this.Functionlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Functionlabel.Name = "Functionlabel";
             this.Functionlabel.Size = new System.Drawing.Size(71, 18);
@@ -107,7 +107,7 @@
             // PlaylistradioButton
             // 
             this.PlaylistradioButton.AutoSize = true;
-            this.PlaylistradioButton.Location = new System.Drawing.Point(213, 56);
+            this.PlaylistradioButton.Location = new System.Drawing.Point(201, 56);
             this.PlaylistradioButton.Margin = new System.Windows.Forms.Padding(4);
             this.PlaylistradioButton.Name = "PlaylistradioButton";
             this.PlaylistradioButton.Size = new System.Drawing.Size(69, 22);
@@ -130,7 +130,7 @@
             // Copyrightlabel
             // 
             this.Copyrightlabel.AutoSize = true;
-            this.Copyrightlabel.Location = new System.Drawing.Point(454, 4);
+            this.Copyrightlabel.Location = new System.Drawing.Point(337, 251);
             this.Copyrightlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Copyrightlabel.Name = "Copyrightlabel";
             this.Copyrightlabel.Size = new System.Drawing.Size(251, 36);
@@ -220,7 +220,7 @@
             this.AutoSetcheckBox.AutoSize = true;
             this.AutoSetcheckBox.Checked = true;
             this.AutoSetcheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoSetcheckBox.Location = new System.Drawing.Point(417, 57);
+            this.AutoSetcheckBox.Location = new System.Drawing.Point(511, 54);
             this.AutoSetcheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.AutoSetcheckBox.Name = "AutoSetcheckBox";
             this.AutoSetcheckBox.Size = new System.Drawing.Size(106, 22);
@@ -232,7 +232,7 @@
             // AlbumradioButton
             // 
             this.AlbumradioButton.AutoSize = true;
-            this.AlbumradioButton.Location = new System.Drawing.Point(328, 56);
+            this.AlbumradioButton.Location = new System.Drawing.Point(278, 56);
             this.AlbumradioButton.Margin = new System.Windows.Forms.Padding(4);
             this.AlbumradioButton.Name = "AlbumradioButton";
             this.AlbumradioButton.Size = new System.Drawing.Size(69, 22);
@@ -405,7 +405,7 @@
             this.needhelplabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.needhelplabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.needhelplabel.ForeColor = System.Drawing.Color.Blue;
-            this.needhelplabel.Location = new System.Drawing.Point(608, 56);
+            this.needhelplabel.Location = new System.Drawing.Point(508, 19);
             this.needhelplabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.needhelplabel.Name = "needhelplabel";
             this.needhelplabel.Size = new System.Drawing.Size(98, 18);
@@ -417,7 +417,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 302);
+            this.ClientSize = new System.Drawing.Size(647, 302);
             this.Controls.Add(this.needhelplabel);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);

@@ -2,7 +2,7 @@
 ;ATTENTION
 ;Software will ask for this file and check the lastest version.
 ;DO NOT change the style of this file.
-;+2019-6-17: https://api.ludoux.com/163lrcwin/update switch to new channel.
+;+2019-6-17: https://api.ludoux.com/163lrcwin/update switch to new channel. This file has been archived.
 ;===================
 
 ;Software with these version WILL NOT check update.If <All> is existed, Software with ANY version WILL NOT check.
