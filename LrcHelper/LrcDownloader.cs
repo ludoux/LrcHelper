@@ -24,7 +24,7 @@ namespace LrcHelper
         {
             string filenamePattern = FilenamePatterncomboBox.Text;
             GETbutton.Enabled = false;
-            StatusInfolabel.Text = "StatusInfo";
+            StatusInfolabel.Text = "状态信息";
             StatusPDFinishedCountlabel.Text = "0";
             StatusPDTotalCountlabel.Text = "0";
             Stopwatch sw = new Stopwatch();
@@ -56,9 +56,9 @@ namespace LrcHelper
                 }
                 sw.Stop();
                 if (Log == "")
-                    StatusInfolabel.Text = "Done Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
+                    StatusInfolabel.Text = "已完成 状态：" + status + "\r\n耗时：" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
                 else
-                    StatusInfolabel.Text = Log + " Status:" + status + "\r\nUsed Time:" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
+                    StatusInfolabel.Text = Log + " 状态：" + status + "\r\n耗时：" + Math.Round(sw.Elapsed.TotalSeconds, 3) + "sec";
                 GETbutton.Enabled = true;
                 IDtextBox.Clear();
             }
@@ -134,7 +134,7 @@ namespace LrcHelper
                     logWriter.WriteFIle();
                     this.Invoke((Action)delegate
                     {
-                        StatusInfolabel.Text = (cancelToken.IsCancellationRequested == true ? "Canceled" : "Finished") + "\r\nRead Log.txt to learn more.";
+                        StatusInfolabel.Text = (cancelToken.IsCancellationRequested == true ? "已取消" : "已完成") + "\r\n查看 Log.txt 以获得详细信息。";
                     });
                     cancelToken.Dispose();
                     pl = null;
@@ -290,10 +290,10 @@ namespace LrcHelper
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to save file.");
+                MessageBox.Show("保存配置文件失败。");
                 return;
             }
-            MessageBox.Show("These AdvancedSettings will be used in following loading.");
+            MessageBox.Show("这些高级设置将在下次启动后自动启用。");
         }
 
         private void LrcDownloader_Load(object sender, EventArgs e)

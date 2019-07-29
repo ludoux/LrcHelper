@@ -211,7 +211,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
             if (mc.Count > 0)
             {
                 for (int i = 0; i < (mc.Count - 1); i++)
-                    _artist += mc[i].Value + "/";
+                    _artist += mc[i].Value + ",";
                 _artist += mc[mc.Count - 1].Value;  //mc.Count = 0时可能产生越界
             }
             
