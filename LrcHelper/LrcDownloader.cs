@@ -23,6 +23,7 @@ namespace LrcHelper
         private void GETbutton_Click(object sender, EventArgs e)
         {
             string filenamePattern = FilenamePatterncomboBox.Text;
+            string enc = EncodingcomboBox.Text;
             GETbutton.Enabled = false;
             StatusInfolabel.Text = "状态信息";
             StatusPDFinishedCountlabel.Text = "0";
@@ -38,7 +39,9 @@ namespace LrcHelper
                 string Log = "";
                 LyricsStatus status = LyricsStatus.UNSURED;
                 if (ReviseRawcheckBox.Checked == false)
-                    Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath);//正常的自动化操作
+                {
+                        Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath, fileEncoding: enc);//正常的自动化操作
+                }
                 else
                 {
                     HttpRequest hr = new HttpRequest();
@@ -51,8 +54,7 @@ namespace LrcHelper
                     Clipboard.SetText(sContentTransLyrics, TextDataFormat.UnicodeText);
                     if (MessageBox.Show("TransLyrics raw text has been set is in the clipboard. Please follow these guide below." + Environment.NewLine + Environment.NewLine + "==========" + Environment.NewLine + @"1. Use Notepad++ to read(such as ""paste"") text from the clipboard." + Environment.NewLine + @"2. Try to revise the text. The most mistake we face is wrong typo. (You can search "".lrc guidance"" to learn more.)" + Environment.NewLine + @"3. After revising, please set revised text to the clipboard(such as ""copy"")" + Environment.NewLine + @"4. Click ""Yes"" button. Software will use the revised text instead of the raw text." + Environment.NewLine + "==========" + Environment.NewLine + Environment.NewLine + @"**If you don't know why you're seeing this messagebox now or you don't know what to do, just click ""No"" button. Don't worry, nothing wrong will happen.**" + Environment.NewLine + @"You can click the blue label ""Need Help?"" in the LrcDownloader Form to learn more about this function.", "TransLyrics raw text - ReviseRaw(Func)_Step 2", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                         sContentTransLyrics = Clipboard.GetText(TextDataFormat.UnicodeText);
-
-                    Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath,revisedsContentOriLyricsForUserReviseFunc: sContentOriLyrics, revisedsContentTransLyricsForUserReviseFunc: sContentTransLyrics);
+                    Log = DownloadLrc(".\\", filenamePattern, m, modelIndex, delayMsec, out status, out string filePath,revisedsContentOriLyricsForUserReviseFunc: sContentOriLyrics, revisedsContentTransLyricsForUserReviseFunc: sContentTransLyrics, fileEncoding: enc);
                 }
                 sw.Stop();
                 if (Log == "")
@@ -94,7 +96,7 @@ namespace LrcHelper
                              Music m = new Music(idList[i], i + 1);
                              try
                              {
-                                 ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(pl.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status,out filePath);
+                                 ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(pl.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status,out filePath, fileEncoding: enc);
                              }
                              catch(Exception ex)
                              {
@@ -172,7 +174,7 @@ namespace LrcHelper
                             string filePath = "";
                             try
                             {
-                                ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(a.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status, out filePath);
+                                ErrorLog = DownloadLrc(@".\\" + FormatFileName.CleanInvalidFileName(a.Name) + @"\", filenamePattern, m, modelIndex, delayMsec, out status, out filePath, fileEncoding: enc);
                             }
                             catch (Exception ex)
                             {
@@ -286,7 +288,7 @@ namespace LrcHelper
         {
             try
             {
-                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text), Encoding.UTF8);
+                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\nEncoding:{5}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text, EncodingcomboBox.Text), Encoding.UTF8);
             }
             catch (Exception)
             {
@@ -305,7 +307,7 @@ namespace LrcHelper
                 LyricsStylenumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=LyricsStyle:)\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
                 DelayMsecnumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=DelayMsec:)(-)*\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());  //05-13 修正数值为负数的时候无匹配(变成""),不能进行Convert.ToDecimal("")。
                 FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
-
+                EncodingcomboBox.Text = Regex.Match(settings, @"(?<=Encoding:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
             }
         }
 
