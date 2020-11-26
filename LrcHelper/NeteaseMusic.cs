@@ -301,7 +301,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
             for (int i = 0; i < mc.Count; i++)
                 _songidInAlbum.Add(Convert.ToInt64(mc[i].Value));
 
-            mc = Regex.Matches(sContent, @"(?<=""songs"":.*""name"":"")[^]]*?(?="",""id[^]]*?""info"")");
+            mc = Regex.Matches(sContent, @"(?<=""songs"":.*""name"":"")[^]]*?(?="","")");
             _name = mc[mc.Count - 1].Value;
         }
     }
