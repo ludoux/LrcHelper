@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: 163lrc_auto_build
-        path: bin\Release\
+        path: D:\a\LrcHelper\LrcHelper\LrcHelper\bin\Release\163lrc.exe
