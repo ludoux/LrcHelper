@@ -5,12 +5,20 @@ using System.Net;
 using System.IO;
 using ludoux.LrcHelper.SharedFramework;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace ludoux.LrcHelper.NeteaseMusic
 {
+    class NeedLoginException : Exception
+    {
+        public NeedLoginException(string message) : base(message)
+        {
+
+        }
+    }
     class HttpRequest
     {
-        public string GetContent(string sURL, string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0")
+        public string GetContent(string sURL, string cookie ="",string UserAgent = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36 Edg/96.0.1054.62")
         {
             
             string sContent = ""; //Content
@@ -20,7 +28,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
                 HttpWebRequest wrGETURL = WebRequest.CreateHttp(sURL);
 
                 wrGETURL.Referer= "https://music.163.com";
-                //wrGETURL.Headers.Set(HttpRequestHeader.Cookie, "appver=1.4.0; os=uwp; osver=10.0.15063.296");         //返回cheating
+                wrGETURL.Headers.Set(HttpRequestHeader.Cookie, cookie);
                 wrGETURL.UserAgent = UserAgent;
                 Stream objStream = wrGETURL.GetResponse().GetResponseStream();
                 StreamReader objReader = new StreamReader(objStream);
@@ -228,6 +236,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
     class Playlist
     {
         long id;
+        string cookie = "";
         List<long> _songidInPlaylist = new List<long>();
         internal List<long> SongidInPlaylist
         {
@@ -251,26 +260,39 @@ namespace ludoux.LrcHelper.NeteaseMusic
         }
         private void fetchInfo()
         {
+            PreCheck();
+        }
+        public void PreCheck()
+        {
             string sContent;
             HttpRequest hr = new HttpRequest();
-            sContent = hr.GetContent("https://music.163.com/api/v3/playlist/detail?id=" + id + @"&c=[{""id"":""" + id + @"""}]");
-            MatchCollection mc = Regex.Matches(sContent, @"(?<={""id"":)\d+(?=,""v"":)");//正则匹配歌曲的ID
-            for (int i = 0; i < mc.Count; i++)
-                _songidInPlaylist.Add(Convert.ToInt64(mc[i].Value.ToString()));
+            sContent = hr.GetContent("https://music.163.com/api/v3/playlist/detail?id=" + id + @"&c=[{""id"":""" + id + @"""}]", cookie);
+            var apiData = JsonConvert.DeserializeObject<dynamic>(sContent);
+            if (apiData.code != 200)
+                throw new NeedLoginException(Convert.ToString(apiData.message));
 
-            _name = Regex.Match(Regex.Match(sContent, @"(?<=trackIds).+?(?=,""shareCount)" ).Value, @"(?<=name"":"").+?(?="",""id)").Value ;
+            _songidInPlaylist.Clear();
+            foreach (var item in apiData.playlist.trackIds)
+            {
+                _songidInPlaylist.Add(Convert.ToInt64(item.id));
+            }
+            _name = apiData.playlist.name;
+            
         }
-        public Playlist(long id)
+        public Playlist(long id,string cookie = "")
         {
             this.id = id;
+            this.cookie = cookie;
         }
     }
     class Album
     {
         long id;
-        public Album(long id)
+        string cookie;
+        public Album(long id, string cookie = "")
         {
             this.id = id;
+            this.cookie = cookie;
         }
         List<long> _songidInAlbum = new List<long>();
         internal List<long> SongidInAlbum
@@ -294,15 +316,23 @@ namespace ludoux.LrcHelper.NeteaseMusic
         }
         private void fetchInfo()
         {
+            PreCheck();
+        }
+        public void PreCheck()
+        {
             string sContent;
             HttpRequest hr = new HttpRequest();
-            sContent = hr.GetContent("https://music.163.com/api/album/" + id);
-            MatchCollection mc = Regex.Matches(sContent, @"(?<=""id"":)\d*?(?=})");//正则匹配歌曲的ID
-            for (int i = 0; i < mc.Count; i++)
-                _songidInAlbum.Add(Convert.ToInt64(mc[i].Value));
+            sContent = hr.GetContent("https://music.163.com/api/album/" + id, cookie);
+            var apiData = JsonConvert.DeserializeObject<dynamic>(sContent);
+            if (apiData.code != 200)
+                throw new NeedLoginException(Convert.ToString(apiData.message));
 
-            mc = Regex.Matches(sContent, @"(?<=""songs"":.*""name"":"")[^]]*?(?="","")");
-            _name = mc[mc.Count - 1].Value;
+            _songidInAlbum.Clear();
+            foreach (var item in apiData.album.songs)
+            {
+                _songidInAlbum.Add(Convert.ToInt64(item.id));
+            }
+            _name = apiData.album.name;
         }
     }
 }

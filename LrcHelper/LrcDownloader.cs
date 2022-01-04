@@ -74,7 +74,24 @@ namespace LrcHelper
                 };
                 Task.Factory.StartNew(() =>
                 {
-                    Playlist pl = new Playlist(id);
+                    Playlist pl = new Playlist(id, CookietextBox.Text);
+                    try
+                    {
+                        pl.PreCheck();
+                    }
+                    catch (NeedLoginException ex)
+                    {
+                        
+                        MessageBox.Show(ex.Message,"请填写高级选项-登录cookie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
+                        this.Invoke((Action)delegate
+                        {
+                            StatusInfolabel.Text = "请填写高级选项-登录cookie后重试";
+                            GETbutton.Enabled = true;
+                            IDtextBox.Clear();
+                        });
+                        return;
+                    }
                     LogFileWriter logWriter = new LogFileWriter(@".\\" + FormatFileName.CleanInvalidFileName(pl.Name) + @"\");
                     List<long> idList = pl.SongidInPlaylist;
                     logWriter.AppendLyricsDownloadTaskDetail();
@@ -154,6 +171,23 @@ namespace LrcHelper
                 Task.Factory.StartNew(() =>
                 {
                     Album a = new Album(id);
+                    try
+                    {
+                        a.PreCheck();
+                    }
+                    catch (NeedLoginException ex)
+                    {
+
+                        MessageBox.Show(ex.Message, "请填写高级选项-登录cookie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        this.Invoke((Action)delegate
+                        {
+                            StatusInfolabel.Text = "请填写高级选项-登录cookie后重试";
+                            GETbutton.Enabled = true;
+                            IDtextBox.Clear();
+                        });
+                        return;
+                    }
                     LogFileWriter logWriter = new LogFileWriter(@".\\" + FormatFileName.CleanInvalidFileName(a.Name) + @"\");
                     List<long> idList = a.SongidInAlbum;
                     logWriter.AppendLyricsDownloadTaskDetail();
@@ -288,7 +322,7 @@ namespace LrcHelper
         {
             try
             {
-                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\nEncoding:{5}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text, EncodingcomboBox.Text), Encoding.UTF8);
+                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\nEncoding:{5}\r\nCookie:{6}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text, EncodingcomboBox.Text,CookietextBox.Text), Encoding.UTF8);
             }
             catch (Exception)
             {
@@ -308,6 +342,7 @@ namespace LrcHelper
                 DelayMsecnumericUpDown.Value = Convert.ToDecimal(Regex.Match(settings, @"(?<=DelayMsec:)(-)*\d+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());  //05-13 修正数值为负数的时候无匹配(变成""),不能进行Convert.ToDecimal("")。
                 FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
                 EncodingcomboBox.Text = Regex.Match(settings, @"(?<=Encoding:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
+                CookietextBox.Text = Regex.Match(settings, @"(?<=Cookie:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
             }
         }
 
@@ -315,5 +350,6 @@ namespace LrcHelper
         {
             toolTip1.SetToolTip(StatusInfolabel, StatusInfolabel.Text);//防止label显示不完文本，专门浮动出来
         }
+
     }
 }

@@ -47,6 +47,7 @@
             this.AutoSetcheckBox = new System.Windows.Forms.CheckBox();
             this.AlbumradioButton = new System.Windows.Forms.RadioButton();
             this.AdvancedSettingsgroupBox = new System.Windows.Forms.GroupBox();
+            this.EncodingcomboBox = new System.Windows.Forms.ComboBox();
             this.ReviseRawcheckBox = new System.Windows.Forms.CheckBox();
             this.Savelabel = new System.Windows.Forms.Label();
             this.FilenamePatterncomboBox = new System.Windows.Forms.ComboBox();
@@ -58,7 +59,8 @@
             this.AdvancedSettingscheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.needhelplabel = new System.Windows.Forms.Label();
-            this.EncodingcomboBox = new System.Windows.Forms.ComboBox();
+            this.CookieLabel = new System.Windows.Forms.Label();
+            this.CookietextBox = new System.Windows.Forms.TextBox();
             this.StatusgroupBox.SuspendLayout();
             this.AdvancedSettingsgroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DelayMsecnumericUpDown)).BeginInit();
@@ -99,7 +101,7 @@
             this.MusicradioButton.Location = new System.Drawing.Point(207, 93);
             this.MusicradioButton.Margin = new System.Windows.Forms.Padding(7);
             this.MusicradioButton.Name = "MusicradioButton";
-            this.MusicradioButton.Size = new System.Drawing.Size(110, 34);
+            this.MusicradioButton.Size = new System.Drawing.Size(94, 34);
             this.MusicradioButton.TabIndex = 3;
             this.MusicradioButton.TabStop = true;
             this.MusicradioButton.Text = "单曲";
@@ -111,7 +113,7 @@
             this.PlaylistradioButton.Location = new System.Drawing.Point(335, 93);
             this.PlaylistradioButton.Margin = new System.Windows.Forms.Padding(7);
             this.PlaylistradioButton.Name = "PlaylistradioButton";
-            this.PlaylistradioButton.Size = new System.Drawing.Size(110, 34);
+            this.PlaylistradioButton.Size = new System.Drawing.Size(94, 34);
             this.PlaylistradioButton.TabIndex = 4;
             this.PlaylistradioButton.TabStop = true;
             this.PlaylistradioButton.Text = "歌单";
@@ -224,7 +226,7 @@
             this.AutoSetcheckBox.Location = new System.Drawing.Point(852, 90);
             this.AutoSetcheckBox.Margin = new System.Windows.Forms.Padding(7);
             this.AutoSetcheckBox.Name = "AutoSetcheckBox";
-            this.AutoSetcheckBox.Size = new System.Drawing.Size(171, 34);
+            this.AutoSetcheckBox.Size = new System.Drawing.Size(155, 34);
             this.AutoSetcheckBox.TabIndex = 9;
             this.AutoSetcheckBox.Text = "Auto-Set";
             this.toolTip1.SetToolTip(this.AutoSetcheckBox, "从剪切板的链接中自动设置 ID");
@@ -236,7 +238,7 @@
             this.AlbumradioButton.Location = new System.Drawing.Point(463, 93);
             this.AlbumradioButton.Margin = new System.Windows.Forms.Padding(7);
             this.AlbumradioButton.Name = "AlbumradioButton";
-            this.AlbumradioButton.Size = new System.Drawing.Size(110, 34);
+            this.AlbumradioButton.Size = new System.Drawing.Size(94, 34);
             this.AlbumradioButton.TabIndex = 10;
             this.AlbumradioButton.TabStop = true;
             this.AlbumradioButton.Text = "专辑";
@@ -244,6 +246,8 @@
             // 
             // AdvancedSettingsgroupBox
             // 
+            this.AdvancedSettingsgroupBox.Controls.Add(this.CookietextBox);
+            this.AdvancedSettingsgroupBox.Controls.Add(this.CookieLabel);
             this.AdvancedSettingsgroupBox.Controls.Add(this.EncodingcomboBox);
             this.AdvancedSettingsgroupBox.Controls.Add(this.ReviseRawcheckBox);
             this.AdvancedSettingsgroupBox.Controls.Add(this.Savelabel);
@@ -257,19 +261,33 @@
             this.AdvancedSettingsgroupBox.Margin = new System.Windows.Forms.Padding(7);
             this.AdvancedSettingsgroupBox.Name = "AdvancedSettingsgroupBox";
             this.AdvancedSettingsgroupBox.Padding = new System.Windows.Forms.Padding(7);
-            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(500, 323);
+            this.AdvancedSettingsgroupBox.Size = new System.Drawing.Size(500, 382);
             this.AdvancedSettingsgroupBox.TabIndex = 11;
             this.AdvancedSettingsgroupBox.TabStop = false;
             this.AdvancedSettingsgroupBox.Visible = false;
+            // 
+            // EncodingcomboBox
+            // 
+            this.EncodingcomboBox.FormattingEnabled = true;
+            this.EncodingcomboBox.Items.AddRange(new object[] {
+            "UTF-8",
+            "GB2312"});
+            this.EncodingcomboBox.Location = new System.Drawing.Point(279, 330);
+            this.EncodingcomboBox.Margin = new System.Windows.Forms.Padding(7);
+            this.EncodingcomboBox.Name = "EncodingcomboBox";
+            this.EncodingcomboBox.Size = new System.Drawing.Size(175, 38);
+            this.EncodingcomboBox.TabIndex = 21;
+            this.EncodingcomboBox.Text = "UTF-8";
+            this.toolTip1.SetToolTip(this.EncodingcomboBox, "歌词文件的字符编码");
             // 
             // ReviseRawcheckBox
             // 
             this.ReviseRawcheckBox.AutoSize = true;
             this.ReviseRawcheckBox.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.ReviseRawcheckBox.Location = new System.Drawing.Point(20, 267);
+            this.ReviseRawcheckBox.Location = new System.Drawing.Point(20, 332);
             this.ReviseRawcheckBox.Margin = new System.Windows.Forms.Padding(7);
             this.ReviseRawcheckBox.Name = "ReviseRawcheckBox";
-            this.ReviseRawcheckBox.Size = new System.Drawing.Size(186, 34);
+            this.ReviseRawcheckBox.Size = new System.Drawing.Size(170, 34);
             this.ReviseRawcheckBox.TabIndex = 20;
             this.ReviseRawcheckBox.Text = "ReviseRaw";
             this.ReviseRawcheckBox.UseVisualStyleBackColor = true;
@@ -283,7 +301,7 @@
             this.Savelabel.Location = new System.Drawing.Point(387, 35);
             this.Savelabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.Savelabel.Name = "Savelabel";
-            this.Savelabel.Size = new System.Drawing.Size(73, 30);
+            this.Savelabel.Size = new System.Drawing.Size(37, 15);
             this.Savelabel.TabIndex = 19;
             this.Savelabel.Text = "保存";
             this.toolTip1.SetToolTip(this.Savelabel, "软件将在下次启动时自动加载已保存的高级设置");
@@ -386,7 +404,7 @@
             this.AdvancedSettingscheckBox.Location = new System.Drawing.Point(35, 150);
             this.AdvancedSettingscheckBox.Margin = new System.Windows.Forms.Padding(7);
             this.AdvancedSettingscheckBox.Name = "AdvancedSettingscheckBox";
-            this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(171, 34);
+            this.AdvancedSettingscheckBox.Size = new System.Drawing.Size(155, 34);
             this.AdvancedSettingscheckBox.TabIndex = 12;
             this.AdvancedSettingscheckBox.Text = "高级设置";
             this.toolTip1.SetToolTip(this.AdvancedSettingscheckBox, "More features but less stable.");
@@ -410,30 +428,33 @@
             this.needhelplabel.Location = new System.Drawing.Point(847, 32);
             this.needhelplabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.needhelplabel.Name = "needhelplabel";
-            this.needhelplabel.Size = new System.Drawing.Size(163, 30);
+            this.needhelplabel.Size = new System.Drawing.Size(87, 15);
             this.needhelplabel.TabIndex = 19;
             this.needhelplabel.Text = "Need Help?";
             this.needhelplabel.Click += new System.EventHandler(this.needhelplabel_Click);
             // 
-            // EncodingcomboBox
+            // CookieLabel
             // 
-            this.EncodingcomboBox.FormattingEnabled = true;
-            this.EncodingcomboBox.Items.AddRange(new object[] {
-            "UTF-8",
-            "GB2312"});
-            this.EncodingcomboBox.Location = new System.Drawing.Point(279, 265);
-            this.EncodingcomboBox.Margin = new System.Windows.Forms.Padding(7);
-            this.EncodingcomboBox.Name = "EncodingcomboBox";
-            this.EncodingcomboBox.Size = new System.Drawing.Size(175, 38);
-            this.EncodingcomboBox.TabIndex = 21;
-            this.EncodingcomboBox.Text = "UTF-8";
-            this.toolTip1.SetToolTip(this.EncodingcomboBox, "歌词文件的字符编码");
+            this.CookieLabel.AutoSize = true;
+            this.CookieLabel.Location = new System.Drawing.Point(15, 272);
+            this.CookieLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.CookieLabel.Name = "CookieLabel";
+            this.CookieLabel.Size = new System.Drawing.Size(178, 30);
+            this.CookieLabel.TabIndex = 22;
+            this.CookieLabel.Text = "登录Cookie:";
+            // 
+            // CookietextBox
+            // 
+            this.CookietextBox.Location = new System.Drawing.Point(198, 269);
+            this.CookietextBox.Name = "CookietextBox";
+            this.CookietextBox.Size = new System.Drawing.Size(256, 42);
+            this.CookietextBox.TabIndex = 23;
             // 
             // LrcDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1078, 503);
+            this.ClientSize = new System.Drawing.Size(1080, 553);
             this.Controls.Add(this.needhelplabel);
             this.Controls.Add(this.AdvancedSettingscheckBox);
             this.Controls.Add(this.AdvancedSettingsgroupBox);
@@ -499,5 +520,7 @@
         private System.Windows.Forms.Label Savelabel;
         private System.Windows.Forms.CheckBox ReviseRawcheckBox;
         private System.Windows.Forms.ComboBox EncodingcomboBox;
+        private System.Windows.Forms.TextBox CookietextBox;
+        private System.Windows.Forms.Label CookieLabel;
     }
 }
