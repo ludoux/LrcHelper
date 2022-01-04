@@ -18,7 +18,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
     }
     class HttpRequest
     {
-        public string GetContent(string sURL, string cookie ="",string UserAgent = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36 Edg/96.0.1054.62")
+        public string GetContent(string sURL, string cookie ="",string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62")
         {
             
             string sContent = ""; //Content
