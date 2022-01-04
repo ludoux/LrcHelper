@@ -62,6 +62,8 @@
 
 ## 更新信息（最近在上）
 
+- 2022.01.04 在检查更新时使用 tls1.2 协议。(v2.3.2 #Release)
+
 - 2022.01.04 [#15](https://github.com/ludoux/LrcHelper/issues/15) [#17](https://github.com/ludoux/LrcHelper/issues/17) 引入 Newtonsoft.Json 而不是正则表达式来判断专辑、歌单名字等。支持自定义 cookie 以规避登录限制。(v2.3.0 #Release)
 * 2020.11.26 [#14](https://github.com/ludoux/LrcHelper/issues/14)
 * 2019.07.29 [#3](https://github.com/ludoux/LrcHelper/issues/3) 试图“修复”一个远古 bug：现在最新的桌面版用英文半角`,`来在文件名区分不同歌手，但好像 UWP 版本只默认取第一个，这里软件遵循桌面版的逻辑。把提示一些文本改中文了。(v2.1.1 #Release)

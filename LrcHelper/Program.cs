@@ -22,6 +22,7 @@ namespace LrcHelper
                 
                 client.Headers["User-Agent"] = @"163lrc" + LocalVer[0] + "." + LocalVer[1] + "." + LocalVer[2];
                 client.Encoding = System.Text.Encoding.UTF8;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 client.DownloadStringAsync(new Uri("https://api.ludoux.com/163lrcwin/update?cver=" + LocalVer[0] + "." + LocalVer[1] + "." + LocalVer[2]));
                 client.DownloadStringCompleted += Client_DownloadStringCompleted;
                 
