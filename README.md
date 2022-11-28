@@ -4,7 +4,7 @@
 
 -----
 
-**运行要 .NET Framework 4.7.2 的支持**
+**运行要 .NET Framework 4.8 的支持**
 
 针对网易云音乐开发，根据提供的歌曲/歌单/专辑 ID，自动下载整理歌词（含翻译）的功能。
 
@@ -54,6 +54,8 @@
 
 ## 参考&感谢
 
+感谢 [@Initial-heart](https://github.com/Initial-heart-1) 的帮助！当服务器因为过于频繁请求而拒绝时，可以自动延迟并重试。 
+
 感谢 [@stevennight](https://github.com/stevennight) 的帮助！让本来没有时间维护（因为暂时没有电脑和捡到了一个女朋友）的工具起死回生……
 
 获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现思路，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
@@ -61,6 +63,8 @@
 感谢 Moonlib.com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html) 。
 
 ## 更新信息（最近在上）
+
+- 2022.11.28 [#18](https://github.com/ludoux/LrcHelper/issues/18) [#19](https://github.com/ludoux/LrcHelper/issues/19) 针对网易云对请求的限制进行修正。(v3.0.0 #Release)
 
 - 2022.01.04 在检查更新时使用 tls1.2 协议。(v2.3.2 #Release)
 
