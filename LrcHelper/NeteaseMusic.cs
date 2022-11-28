@@ -6,6 +6,7 @@ using System.IO;
 using ludoux.LrcHelper.SharedFramework;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace ludoux.LrcHelper.NeteaseMusic
 {
@@ -69,7 +70,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
         /// 从云端取得该对象的歌词信息并记录
         /// </summary>
         /// <param name="userReviseFunc">用户是否介入修改 sContent，当软件自动下载歌词报错后，才应该在启用此选项</param>
-        internal void FetchOnlineLyrics(string revisedsContentOriLyricsForUserReviseFunc, string revisedsContentTransLyricsForUserReviseFunc)
+        internal void FetchOnlineLyrics(string revisedsContentOriLyricsForUserReviseFunc, string revisedsContentTransLyricsForUserReviseFunc, bool LowDelaycheckBoxChecked)
         {
             bool userReviseFunc = false;
             if (revisedsContentOriLyricsForUserReviseFunc != null)
@@ -84,6 +85,7 @@ namespace ludoux.LrcHelper.NeteaseMusic
 
             try
             {
+                Start:
                 sContent = hr.GetContent("https://music.163.com/api/song/detail/?id=" + id + "&ids=[" + id + "]");//这个是仅对确定歌词状态有用的
                 if (Regex.IsMatch(sContent, @"^{""songs"":\[]") || Regex.IsMatch(sContent, @"^{""code"":400"))
                 { ErrorLog += "<STATUS_ERR>"; Status = LyricsStatus.ERROR; return; }
@@ -106,7 +108,13 @@ namespace ludoux.LrcHelper.NeteaseMusic
                     sContent = revisedsContentOriLyricsForUserReviseFunc;
 
                 if (!Regex.IsMatch(sContent, @"""lyric"""))
-                { ErrorLog += "<NO_LYRIC_LABEL>"; return; }
+                    if (Regex.IsMatch(sContent, @"""操作频繁，请稍候再试"""))
+                        if (!LowDelaycheckBoxChecked)
+                            { Thread.Sleep(10000);goto Start; }
+                        else
+                            { Thread.Sleep(500); goto Start; }
+                    else
+                    { ErrorLog += "<NO_LYRIC_LABEL>"; return; }
                 sLRC = Regex.Match(sContent, @"(?<=""lyric"":"").*?(?="",""code)").Value;
                 tempOriLyric.ArrangeLyrics(sLRC);
                 hasOriLyrics = true;

@@ -258,7 +258,7 @@ namespace LrcHelper
         private string DownloadLrc(string folderPath, string filenamePatern, Music music, int ModeIIndex, int DelayMsc, out LyricsStatus status,out string filePath, string fileEncoding = "UTF-8",string revisedsContentOriLyricsForUserReviseFunc = null, string revisedsContentTransLyricsForUserReviseFunc = null)
         {
             ExtendedLyrics l = new ExtendedLyrics(music.ID);
-            l.FetchOnlineLyrics(revisedsContentOriLyricsForUserReviseFunc, revisedsContentTransLyricsForUserReviseFunc);
+            l.FetchOnlineLyrics(revisedsContentOriLyricsForUserReviseFunc, revisedsContentTransLyricsForUserReviseFunc, LowDelaycheckBox.Checked);
             string lyricText = l.GetCustomLyric(ModeIIndex, DelayMsc);
             filePath = "";
             if (lyricText != "")
@@ -322,7 +322,7 @@ namespace LrcHelper
         {
             try
             {
-                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\nEncoding:{5}\r\nCookie:{6}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text, EncodingcomboBox.Text,CookietextBox.Text), Encoding.UTF8);
+                File.WriteAllText(".\\AdvancedSettings.txt", string.Format("Version:{0}\r\nTime:{1}\r\nLyricsStyle:{2}\r\nDelayMsec:{3}\r\nFilenamePattern:{4}\r\nEncoding:{5}\r\nCookie:{6}\r\nLowDelay:{7}\r\n***DO NOT CHANGE ANY TEXT AND/OR ENCODING***\r\n***If you don't want to use these settings ever, just delete this file.***", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion, DateTime.Now.ToString(), LyricsStylenumericUpDown.Value.ToString(), DelayMsecnumericUpDown.Value.ToString(), FilenamePatterncomboBox.Text, EncodingcomboBox.Text,CookietextBox.Text, LowDelaycheckBox.Checked), Encoding.UTF8);
             }
             catch (Exception)
             {
@@ -343,6 +343,7 @@ namespace LrcHelper
                 FilenamePatterncomboBox.Text = Regex.Match(settings, @"(?<=FilenamePattern:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
                 EncodingcomboBox.Text = Regex.Match(settings, @"(?<=Encoding:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
                 CookietextBox.Text = Regex.Match(settings, @"(?<=Cookie:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString();
+                LowDelaycheckBox.Checked = Convert.ToBoolean(Regex.Match(settings, @"(?<=LowDelay:).+?(?=\r\n)", RegexOptions.IgnoreCase).Value.ToString());
             }
         }
 
@@ -351,5 +352,19 @@ namespace LrcHelper
             toolTip1.SetToolTip(StatusInfolabel, StatusInfolabel.Text);//防止label显示不完文本，专门浮动出来
         }
 
+        private void AdvancedSettingsgroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReviseRawcheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LowDelaycheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
