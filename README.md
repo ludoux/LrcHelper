@@ -1,10 +1,10 @@
 学习目的~~~///(^v^)\\\~~~
 
-访问 [releases 页面](https://github.com/ludoux/LrcHelper/releases/latest) 来获得最新的发布版本。
+访问 [Releases 页面](../../releases/latest) 来获得最新的发布版本。
 
 -----
 
-**运行要 .NET Framework 4.8 的支持**
+**运行需要 .NET Framework 4.8 的支持**
 
 针对网易云音乐开发，根据提供的歌曲/歌单/专辑 ID，自动下载整理歌词（含翻译）的功能。
 
@@ -16,11 +16,11 @@
 
 ## Screenshots
 
-![LrcDownloader](https://raw.githubusercontent.com/Ludoux/LrcHelper/master/Pic/LrcDownloader.png)
+![LrcDownloader](Pic/LrcDownloader.png)
 
 ## 基本操作方法
 
-浏览 [wiki](https://github.com/Ludoux/LrcHelper/wiki) 页面了解更多
+浏览 [wiki](../../wiki) 页面了解更多
 
 `AUTO-SET`开启时，复制链接（网页端见地址栏，桌面应用轻敲分享-复制链接）后将软件切入前台，软件将自动填充信息。当然也可以自行填充 ID 并选择对应的类型。
 
@@ -54,23 +54,23 @@
 
 ## 参考&感谢
 
-感谢 [@Initial-heart](https://github.com/Initial-heart-1) 的帮助！当服务器因为过于频繁请求而拒绝时，可以自动延迟并重试。 
+感谢 [@Initial-heart](../../../../Initial-heart-1) 的帮助！当服务器因为过于频繁请求而拒绝时，可以自动延迟并重试。 
 
-感谢 [@stevennight](https://github.com/stevennight) 的帮助！让本来没有时间维护（因为暂时没有电脑和捡到了一个女朋友）的工具起死回生……
+感谢 [@stevennight](../../../../stevennight) 的帮助！让本来没有时间维护（因为暂时没有电脑和捡到了一个女朋友）的工具起死回生……
 
-获取外文歌词的代码基于 ituff 的 [163lyric项目](https://github.com/ituff/163lyric) 的实现思路，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
+获取外文歌词的代码基于 ituff 的 [163lyric项目](../../../../ituff/163lyric) 的实现思路，进行了修改。（但是 ituff 并没有指定那个项目的开源协议）
 
 感谢 Moonlib.com 的所有人 Moon 在这个博客上发表了 [自己整理的API](http://moonlib.com/606.html) 。
 
 ## 更新信息（最近在上）
 
-- 2022.11.28 [#18](https://github.com/ludoux/LrcHelper/issues/18) [#19](https://github.com/ludoux/LrcHelper/issues/19) 针对网易云对请求的限制进行修正。(v3.0.0 #Release)
+- 2022.11.28 [#18](../../issues/18) [#19](../../issues/19) 针对网易云对请求的限制进行修正。(v3.0.0 #Release)
 
 - 2022.01.04 在检查更新时使用 tls1.2 协议。(v2.3.2 #Release)
 
-- 2022.01.04 [#15](https://github.com/ludoux/LrcHelper/issues/15) [#17](https://github.com/ludoux/LrcHelper/issues/17) 引入 Newtonsoft.Json 而不是正则表达式来判断专辑、歌单名字等。支持自定义 cookie 以规避登录限制。(v2.3.0 #Release)
-* 2020.11.26 [#14](https://github.com/ludoux/LrcHelper/issues/14)
-* 2019.07.29 [#3](https://github.com/ludoux/LrcHelper/issues/3) 试图“修复”一个远古 bug：现在最新的桌面版用英文半角`,`来在文件名区分不同歌手，但好像 UWP 版本只默认取第一个，这里软件遵循桌面版的逻辑。把提示一些文本改中文了。(v2.1.1 #Release)
+- 2022.01.04 [#15](../../issues/15) [#17](../../issues/17) 引入 Newtonsoft.Json 而不是正则表达式来判断专辑、歌单名字等。支持自定义 cookie 以规避登录限制。(v2.3.0 #Release)
+* 2020.11.26 [#14](../../issues/14)
+* 2019.07.29 [#3](../../issues/3) 试图“修复”一个远古 bug：现在最新的桌面版用英文半角`,`来在文件名区分不同歌手，但好像 UWP 版本只默认取第一个，这里软件遵循桌面版的逻辑。把提示一些文本改中文了。(v2.1.1 #Release)
 * 2019.07.29 更改了歌单 API 接口以支持1k+歌曲的歌单。微调了界面。(v2.1.0 #Release)
 * 2019.06.17 修正获取歌曲信息时的错误。界面中文化。切换更新渠道。(v2.0.13 #Release)
 * 2018.05.13 修正获取歌曲信息时的错误。 修正长ID产生的错误。 修正原文翻译之间的延迟设置为负数时，不能正确从配置读入的问题。 (v1.0.12 #Release)
