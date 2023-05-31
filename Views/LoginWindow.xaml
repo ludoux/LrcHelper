@@ -1,0 +1,40 @@
+﻿<ui:UiWindow
+    x:Class="cloudlrc_win.Views.LoginWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:cloudlrc_win.Helpers"
+    xmlns:local="clr-namespace:cloudlrc_win.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="LoginWindow"
+    ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <ui:UiWindow.Resources>
+        <helpers:ImageConvert x:Key="ImageConvert" />
+    </ui:UiWindow.Resources>
+    <StackPanel>
+        <Border
+            Grid.ColumnSpan="2"
+            Width="150"
+            Height="150"
+            BorderBrush="Black"
+            BorderThickness="1">
+            <Image
+                Width="150"
+                Height="150"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="{Binding ImgPath, Converter={StaticResource ImageConvert}}" />
+        </Border>
+        <Label
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="使用 网易云音乐APP 扫码并确认登录&#13;确认后关闭此窗口即可。&#13;登录 Cookies 文件仅保存在本地&#13;本软件不会上传您的登录凭证" />
+
+    </StackPanel>
+
+</ui:UiWindow>
