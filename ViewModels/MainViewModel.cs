@@ -56,7 +56,8 @@ namespace cloudlrc_win.ViewModels
         public void InitializeViewModel()
         {
             _isInitialized = true;
-            
+            tokenSource = new CancellationTokenSource();
+            cancellationToken = tokenSource.Token;
             LoginService = new CloudlrcLoginService();
             LrcService = new CloudlrcLrcService();
             CheckLoginAsync();
