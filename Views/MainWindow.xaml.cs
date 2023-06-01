@@ -47,6 +47,12 @@ namespace cloudlrc_win.Views
   true                                   // Whether to change accents automatically
 );
             };
+            Closing += (sender, args) => {
+                //为了直接关闭主窗口时候，可以把 cloudlrc 的进程也给关闭
+                Hide();
+                viewModel.DownloadLrcCancel();
+                System.Threading.Thread.Sleep(2000);
+            };
         }
 
 

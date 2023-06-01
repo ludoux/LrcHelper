@@ -21,7 +21,7 @@ namespace cloudlrc_win.Services
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             //p.StartInfo.StandardInputEncoding = Encoding.UTF8;
-            p.StartInfo.UseShellExecute =false;//不使用操作系统外壳程序启动线程(一定为FALSE,详细的请看MSDN)
+            p.StartInfo.UseShellExecute =false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError =true;
             p.StartInfo.CreateNoWindow = true;
@@ -29,16 +29,16 @@ namespace cloudlrc_win.Services
             p.WaitForExit();
             if (p.ExitCode == 0)
             {
-                msg = p.StandardOutput.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardOutput.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return true;
             }
             else
             {
-                msg = p.StandardError.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardError.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return false;
             }
         }
@@ -53,7 +53,7 @@ namespace cloudlrc_win.Services
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             //p.StartInfo.StandardInputEncoding = Encoding.UTF8;
-            p.StartInfo.UseShellExecute = false;//不使用操作系统外壳程序启动线程(一定为FALSE,详细的请看MSDN)
+            p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;
             p.StartInfo.CreateNoWindow = true;
@@ -61,16 +61,16 @@ namespace cloudlrc_win.Services
             p.WaitForExit();
             if (p.ExitCode == 0)
             {
-                msg = p.StandardOutput.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardOutput.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return true;
             }
             else
             {
-                msg = p.StandardError.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardError.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return false;
             }
         }
@@ -85,7 +85,7 @@ namespace cloudlrc_win.Services
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             //p.StartInfo.StandardInputEncoding = Encoding.UTF8;
-            p.StartInfo.UseShellExecute = false;//不使用操作系统外壳程序启动线程(一定为FALSE,详细的请看MSDN)
+            p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;
             p.StartInfo.CreateNoWindow = true;
@@ -93,16 +93,16 @@ namespace cloudlrc_win.Services
             p.WaitForExit();
             if (p.ExitCode == 0)
             {
-                msg = p.StandardOutput.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardOutput.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return true;
             }
             else
             {
-                msg = p.StandardError.ReadToEnd();
-                p.Close();//关闭进程
-                p.Dispose();//释放资源
+                msg = p.StandardError.ReadToEnd().TrimEnd();
+                p.Close();
+                p.Dispose();
                 return false;
             }
         }

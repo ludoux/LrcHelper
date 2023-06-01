@@ -14,7 +14,7 @@ namespace cloudlrc_win.Services
     {
         public CloudlrcLrcService() { }
         public delegate void callback(string smg);
-        public bool DownloadLrc(string id, IDType idType, ref string msg, callback c)
+        public bool DownloadLrc(string id, IDType idType, ref string msg, callback c,ref CancellationToken cancellationToken)
         {
             if (idType == IDType.Single)
             {
@@ -22,7 +22,7 @@ namespace cloudlrc_win.Services
             }
             else
             {
-                return DownloadAlbumOrPlaylist(id, idType, ref msg, c);
+                return DownloadAlbumOrPlaylist(id, idType, ref msg, c, cancellationToken);
             }
             msg = "不支持的类型 " + idType.ToString();
             
@@ -39,7 +39,7 @@ namespace cloudlrc_win.Services
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             //p.StartInfo.StandardInputEncoding = Encoding.UTF8;
-            p.StartInfo.UseShellExecute =false;//不使用操作系统外壳程序启动线程(一定为FALSE,详细的请看MSDN)
+            p.StartInfo.UseShellExecute =false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError =true;
             p.StartInfo.CreateNoWindow = true;
@@ -49,20 +49,20 @@ namespace cloudlrc_win.Services
             string output = p.StandardOutput.ReadToEnd();
             string error = p.StandardError.ReadToEnd();
             int code = p.ExitCode;
-            p.Close();//关闭进程
-            p.Dispose();//释放资源
+            p.Close();
+            p.Dispose();
             if (code == 0)
             {
-                msg = output;
+                msg = output.TrimEnd();
                 return true;
             }
             else
             {
-                msg = error;
+                msg = error.TrimEnd();
                 return false;
             }
         }
-        private bool DownloadAlbumOrPlaylist(string id, IDType idType, ref string msg, callback c)
+        private bool DownloadAlbumOrPlaylist(string id, IDType idType, ref string msg, callback c, CancellationToken cancellationToken)
         {
             string argu;
             if (idType == IDType.Album) { argu = "lrc album "+id; } else { argu = "lrc playlist " + id; }
@@ -72,7 +72,7 @@ namespace cloudlrc_win.Services
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             //p.StartInfo.StandardInputEncoding = Encoding.UTF8;
-            p.StartInfo.UseShellExecute = false;//不使用操作系统外壳程序启动线程(一定为FALSE,详细的请看MSDN)
+            p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;
             p.StartInfo.CreateNoWindow = true;
@@ -80,7 +80,15 @@ namespace cloudlrc_win.Services
             StreamReader sr = p.StandardOutput;
             while (!sr.EndOfStream)
             {
-                c.Invoke(sr.ReadLine());
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    msg = "用户取消";
+                    p.Kill();
+                    p.Close();
+                    p.Dispose();
+                    return false;
+                }
+                c.Invoke(sr.ReadLine().TrimEnd());
             }
             p.WaitForExit();
             int code = p.ExitCode;

@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Wpf.Ui.Common;
@@ -30,15 +31,22 @@ namespace cloudlrc_win.ViewModels
             //歌单
             Playlist
         }
-
+        CancellationTokenSource tokenSource;
+        CancellationToken cancellationToken;
         [ObservableProperty]
-        private IDType _currentIDType = IDType.Single;
+        private IDType _currentIDType = IDType.Playlist;
         [ObservableProperty]
-        private string _id = "28151022";
+        private string _id = "799680399";
         [ObservableProperty]
         private string _loginStatusText = "点击查看登录状态";
         [ObservableProperty]
         private string _resultStatusText = "结果状态信息";
+        [ObservableProperty]
+        private int _totalCount = 0;
+        [ObservableProperty]
+        private int _finishedCount = 0;
+        [ObservableProperty]
+        private int _downloadProcess = 0;
 
         public MainViewModel()
         {
@@ -48,7 +56,7 @@ namespace cloudlrc_win.ViewModels
         public void InitializeViewModel()
         {
             _isInitialized = true;
-
+            
             LoginService = new CloudlrcLoginService();
             LrcService = new CloudlrcLrcService();
             CheckLoginAsync();
@@ -142,16 +150,37 @@ namespace cloudlrc_win.ViewModels
         private void callback(string msg)
         {
             ResultStatusText = msg;
+            if (msg.Contains("音乐总数"))
+            {
+                TotalCount = int.Parse(msg.Split(" ")[1]);
+            }
+            if (msg[0]=='第')
+            {
+                FinishedCount++;
+                DownloadProcess = 100*FinishedCount / TotalCount;
+            }
+        }
+        [RelayCommand]
+        internal void DownloadLrcCancel()
+        {
+            tokenSource.Cancel();
+            
         }
 
         [RelayCommand]
         private async Task DownloadLrcAsync()
         {
+            tokenSource = new CancellationTokenSource();
+            cancellationToken = tokenSource.Token;
+            TotalCount = 0;
+            FinishedCount = 0;
+            DownloadProcess = 0;
             //先把 snackbar 关了
             (Application.Current.MainWindow as MainWindow)?.RootSnackbar.HideAsync();
             string msg = "";
             bool ok = false;
-            await Task.Run(() => ok = LrcService.DownloadLrc(Id, CurrentIDType, ref msg, callback));
+            //callback 目前仅在歌单和专辑下载时被调用，cloudlrc每返回一行调用一次
+            await Task.Run(() => ok = LrcService.DownloadLrc(Id, CurrentIDType, ref msg, callback,ref cancellationToken));
             if (ok)
             {
                 (Application.Current.MainWindow as MainWindow)?.RootSnackbar.SetValue(Snackbar.CloseButtonEnabledProperty, false);
