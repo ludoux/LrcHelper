@@ -17,48 +17,54 @@
         <helpers:IDTypeEnumToBooleanConv x:Key="IDTypeEnumToBooleanConv" />
     </ui:UiWindow.Resources>
     <Grid>
-        <ui:TextBox
-            Margin="100,109,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Cursor="IBeam"
-            Text="{Binding Id, Mode=TwoWay}"
-            TextWrapping="Wrap" />
+        <DockPanel Margin="49,70,400,380" LastChildFill="False">
+            <Label
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="ID:" />
+            <ui:TextBox
+                MaxWidth="180"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Cursor="IBeam"
+                Text="{Binding Id, Mode=TwoWay}"
+                TextWrapping="Wrap" />
+            <ui:Button
+                VerticalAlignment="Center"
+                Command="{Binding DownloadLrcCancelCommand}"
+                Content="取消"
+                DockPanel.Dock="Right" />
+            <ui:Button
+                Margin="10"
+                VerticalAlignment="Center"
+                Command="{Binding DownloadLrcCommand}"
+                Content="下载"
+                DockPanel.Dock="Right" />
+
+        </DockPanel>
+
         <Label
-            Margin="49,170,0,0"
+            Margin="49,148,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="这是..." />
         <RadioButton
-            Margin="109,157,0,0"
+            Margin="109,135,0,0"
             VerticalAlignment="Top"
             Content="单曲"
             IsChecked="{Binding CurrentIDType, Converter={StaticResource IDTypeEnumToBooleanConv}, ConverterParameter=Single, Mode=TwoWay}" />
         <RadioButton
-            Margin="193,157,0,0"
+            Margin="193,135,0,0"
             VerticalAlignment="Top"
             Content="专辑"
             IsChecked="{Binding CurrentIDType, Converter={StaticResource IDTypeEnumToBooleanConv}, ConverterParameter=Album, Mode=TwoWay}" />
         <RadioButton
-            Margin="280,157,0,0"
+            Margin="280,135,0,0"
             VerticalAlignment="Top"
             Content="歌单"
             IsChecked="{Binding CurrentIDType, Converter={StaticResource IDTypeEnumToBooleanConv}, ConverterParameter=Playlist, Mode=TwoWay}" />
-        <Label
-            Margin="49,126,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Content="ID:" />
-        <ui:Button
-            Margin="288,114,0,0"
-            VerticalAlignment="Top"
-            Command="{Binding DownloadLrcCommand}"
-            Content="下载" />
-        <ui:Button
-            Margin="356,114,0,0"
-            VerticalAlignment="Top"
-            Command="{Binding DownloadLrcCancelCommand}"
-            Content="取消" />
+
+
         <DockPanel Margin="33,35,177,431" LastChildFill="False">
             <Label
                 HorizontalAlignment="Left"
@@ -87,7 +93,7 @@
             </ui:Badge>
         </DockPanel>
 
-        <GroupBox Margin="386,217,106,110" Header="GroupBox">
+        <GroupBox Margin="386,195,106,132" Header="GroupBox">
             <Grid>
                 <Label
                     Width="246"
@@ -109,14 +115,25 @@
                     Margin="39,120,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top">
-                    <TextBlock Text="{Binding FinishedCount, Mode=OneWay, StringFormat=已: {0}}" TextWrapping="Wrap" />
+                    <TextBlock TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="已: {0,-10} {1}%">
+                                <Binding Path="FinishedCount" />
+                                <Binding Path="DownloadProcess" />
+                                <Binding Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </Label>
 
             </Grid>
 
         </GroupBox>
 
-        <ui:Snackbar x:Name="RootSnackbar" CloseButtonEnabled="False" />
+        <ui:Snackbar
+            x:Name="RootSnackbar"
+            VerticalAlignment="Top"
+            CloseButtonEnabled="False" />
     </Grid>
 
 </ui:UiWindow>
