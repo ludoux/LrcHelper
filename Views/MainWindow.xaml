@@ -130,10 +130,7 @@
 
         </GroupBox>
 
-        <ui:Snackbar
-            x:Name="RootSnackbar"
-            VerticalAlignment="Top"
-            CloseButtonEnabled="False" />
+        <ui:Snackbar x:Name="RootSnackbar" CloseButtonEnabled="False" />
     </Grid>
 
 </ui:UiWindow>
